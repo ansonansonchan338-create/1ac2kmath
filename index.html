@@ -10,6 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <style>
         :root{--bg1:#FEF9F2;--bg2:#FFF3E4;--bgc:#FFF;--t1:#2C1810;--t2:#8B7355;--brd:rgba(44,24,16,.07);--pos:#2D9C4A;--pos-bg:rgba(45,156,74,.1);--neg:#D94040;--neg-bg:rgba(217,64,64,.1);--neu:#8B7355;--acc:#FF6B35;--acc-g:rgba(255,107,53,.25);--ov:rgba(30,20,10,.45);--sh:0 4px 16px rgba(44,24,16,.08);--shh:0 8px 28px rgba(44,24,16,.14);--board:linear-gradient(145deg,#2D5A16,#1E3D0F);--bt:#E8E4D0;--warn:#F59E0B;--info:#3B82F6}
         html.dark{--bg1:#141820;--bg2:#1C2230;--bgc:#222838;--t1:#E8E4D0;--t2:#7A8599;--brd:rgba(255,255,255,.06);--pos:#4ADE80;--pos-bg:rgba(74,222,128,.1);--neg:#F87171;--neg-bg:rgba(248,113,113,.1);--neu:#7A8599;--acc:#FF8555;--acc-g:rgba(255,133,85,.2);--ov:rgba(0,0,0,.6);--sh:0 4px 16px rgba(0,0,0,.25);--shh:0 8px 28px rgba(0,0,0,.4);--board:linear-gradient(145deg,#1B3A0F,#14290A);--bt:#B8C4A0;--warn:#FBBF24;--info:#60A5FA}
@@ -196,6 +197,39 @@
         .photo-prev img{width:100%;display:block}
         .photo-share-btn{width:100%;padding:14px;border:none;border-radius:14px;background:linear-gradient(135deg,#EF4444,#DC2626);color:#fff;font-family:'Fredoka',sans-serif;font-size:16px;font-weight:700;cursor:pointer;margin-top:10px;box-shadow:0 6px 24px rgba(239,68,68,.3);transition:transform .2s;display:flex;align-items:center;justify-content:center;gap:8px}
         .photo-share-btn:active{transform:scale(.97)}
+
+        /* PDF Navigation */
+        .wb-page-nav{display:flex;align-items:center;gap:8px;padding:8px 0;justify-content:center}
+        .wb-nav-btn{width:36px;height:36px;border:1.5px solid var(--brd);border-radius:10px;background:var(--bgc);color:var(--t2);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
+        .wb-nav-btn:hover{border-color:var(--acc);color:var(--acc)}
+        .wb-nav-btn:disabled{opacity:.3;cursor:default}
+        .wb-page-info{font-family:'Fredoka',sans-serif;font-size:14px;font-weight:600;color:var(--t1);min-width:60px;text-align:center}
+        .wb-nav-close{padding:6px 12px;border:1.5px solid var(--brd);border-radius:8px;background:var(--bgc);font-family:'Fredoka',sans-serif;font-size:12px;font-weight:600;cursor:pointer;color:var(--neg);margin-left:8px;display:flex;align-items:center;gap:4px;transition:all .15s}
+        .wb-nav-close:hover{border-color:var(--neg);background:var(--neg-bg)}
+        .wb-nav-close i{font-size:10px}
+
+        /* Collab Panel */
+        .wb-collab-panel{background:var(--bgc);border:1.5px solid var(--brd);border-radius:14px;padding:12px;margin-top:8px}
+        .wcp-head{font-family:'Fredoka',sans-serif;font-size:14px;font-weight:700;color:var(--t1);margin-bottom:8px;display:flex;align-items:center;justify-content:space-between}
+        .wcp-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:6px;max-height:200px;overflow-y:auto}
+        .wcp-item{display:flex;align-items:center;gap:6px;padding:6px 8px;border:1.5px solid var(--brd);border-radius:10px;cursor:pointer;transition:all .15s;font-size:12px}
+        .wcp-item:hover{border-color:var(--acc)}
+        .wcp-item.granted{border-color:var(--pos);background:var(--pos-bg)}
+        .wcp-item .wcp-e{font-size:16px}
+        .wcp-item .wcp-n{font-family:'Fredoka',sans-serif;font-weight:600;color:var(--t1);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+        .wcp-item .wcp-check{color:var(--pos);font-size:14px;display:none}
+        .wcp-item.granted .wcp-check{display:block}
+        .wcp-revoke{width:100%;padding:8px;border:1.5px solid var(--neg);border-radius:10px;background:none;font-family:'Fredoka',sans-serif;font-size:12px;font-weight:600;cursor:pointer;color:var(--neg);margin-top:8px;transition:all .15s}
+        .wcp-revoke:hover{background:var(--neg-bg)}
+        .wb-ctrl-info{padding:8px 12px;background:var(--pos-bg);border:1.5px solid var(--pos);border-radius:10px;font-family:'Fredoka',sans-serif;font-size:12px;font-weight:600;color:var(--pos);margin-top:6px;text-align:center}
+
+        /* Student Draw Mode */
+        .student-draw-banner{background:linear-gradient(135deg,var(--pos),#16A34A);color:#fff;padding:10px 14px;border-radius:12px;margin-bottom:10px;display:flex;align-items:center;gap:8px;font-family:'Fredoka',sans-serif;font-size:14px;font-weight:600;animation:sdp 2s infinite}
+        @keyframes sdp{0%,100%{box-shadow:0 0 0 0 rgba(45,156,74,.4)}50%{box-shadow:0 0 0 6px rgba(45,156,74,0)}}
+        .student-draw-banner i{font-size:18px}
+        .student-wb-wrap{position:relative;background:#fff;border-radius:14px;border:2px solid var(--pos);overflow:hidden}
+        .student-wb-canvas{display:block;width:100%;touch-action:none;cursor:crosshair}
+        .student-wb-bar{display:flex;align-items:center;gap:8px;padding:8px 0;flex-wrap:wrap}
 
         /* CHAT TAB */
         .chat-area{display:flex;flex-direction:column;height:calc(100vh - 140px);height:calc(100dvh - 140px)}
@@ -442,8 +476,22 @@
                             <button class="wb-t" id="wbEraser" title="Eraser"><i class="fas fa-eraser"></i></button>
                             <button class="wb-t" id="wbUndo" title="Undo"><i class="fas fa-undo"></i></button>
                             <button class="wb-t" id="wbClear" title="Clear"><i class="fas fa-trash-alt"></i></button>
+                            <button class="wb-t" id="wbPdf" title="Insert PDF"><i class="fas fa-file-pdf"></i></button>
+                            <button class="wb-t" id="wbCollab" title="Student Drawing"><i class="fas fa-users"></i></button>
                         </div>
                     </div>
+                    <div class="wb-page-nav" id="wbPageNav" style="display:none">
+                        <button class="wb-nav-btn" id="wbPrevPage"><i class="fas fa-chevron-left"></i></button>
+                        <span class="wb-page-info" id="wbPageInfo">1 / 1</span>
+                        <button class="wb-nav-btn" id="wbNextPage"><i class="fas fa-chevron-right"></i></button>
+                        <button class="wb-nav-close" id="wbClosePdf"><i class="fas fa-times"></i> Close PDF</button>
+                    </div>
+                    <div class="wb-collab-panel" id="wbCollabPanel" style="display:none">
+                        <div class="wcp-head"><span>✏️ Grant Drawing Permission</span><button class="wb-nav-close" id="wcpClose" style="margin-left:0"><i class="fas fa-times"></i></button></div>
+                        <div class="wcp-list" id="wcpList"></div>
+                        <button class="wcp-revoke" id="wcpRevokeAll"><i class="fas fa-ban"></i> Revoke All</button>
+                    </div>
+                    <div class="wb-ctrl-info" id="wbCtrlInfo" style="display:none"></div>
                     <button class="wb-live-btn off" id="wbLiveBtn">🔴 Go Live</button>
                 </div>
                 <!-- PHOTO MODE -->
@@ -476,6 +524,31 @@
             </div>
             <!-- STUDENT VIEW -->
             <div class="student-only" id="liveStudent">
+                <div id="studentDrawSection" style="display:none">
+                    <div class="student-draw-banner"><i class="fas fa-pencil-alt"></i> <span id="sDrawLabel">You have drawing control!</span></div>
+                    <div class="student-wb-wrap" id="sWbWrap">
+                        <canvas class="student-wb-canvas" id="sWbCanvas"></canvas>
+                    </div>
+                    <div class="student-wb-bar">
+                        <div class="wb-colors" id="sWbColors">
+                            <button class="wb-c active" data-c="#222" style="background:#222"></button>
+                            <button class="wb-c" data-c="#EF4444" style="background:#EF4444"></button>
+                            <button class="wb-c" data-c="#3B82F6" style="background:#3B82F6"></button>
+                            <button class="wb-c" data-c="#22C55E" style="background:#22C55E"></button>
+                            <button class="wb-c" data-c="#F97316" style="background:#F97316"></button>
+                            <button class="wb-c" data-c="#A855F7" style="background:#A855F7"></button>
+                        </div>
+                        <div class="wb-sizes" id="sWbSizes">
+                            <button class="wb-sz" data-sz="3">S</button>
+                            <button class="wb-sz active" data-sz="6">M</button>
+                            <button class="wb-sz" data-sz="12">L</button>
+                        </div>
+                        <div class="wb-tools">
+                            <button class="wb-t" id="sWbEraser" title="Eraser"><i class="fas fa-eraser"></i></button>
+                            <button class="wb-t" id="sWbUndo" title="Undo"><i class="fas fa-undo"></i></button>
+                        </div>
+                    </div>
+                </div>
                 <div class="screen-view" id="screenView">
                     <img class="screen-img" id="screenImg" style="display:none" alt="Teacher screen">
                     <div class="screen-waiting" id="screenWaiting">
@@ -550,6 +623,7 @@
 <input type="file" id="noteFileInput" accept=".pdf,image/*,.doc,.docx,.ppt,.pptx,.xls,.xlsx" style="display:none">
 <input type="file" id="chatFileInput" accept="image/*,.pdf" style="display:none">
 <input type="file" id="photoInput" accept="image/*" style="display:none">
+<input type="file" id="pdfInput" accept=".pdf" style="display:none">
 
 <script>
 /* ===== DARK MODE ===== */
@@ -655,7 +729,7 @@ document.querySelectorAll('.tab-btn').forEach(function(b){
         b.classList.add('active');
         currentTab=t;
         if(t==='tabChat'){chatUnread=0;document.getElementById('chatBadge').classList.remove('show');scrollChat()}
-        if(t==='tabLive')setTimeout(function(){if(!isStudent)initWhiteboard()},60);
+        if(t==='tabLive')setTimeout(function(){if(!isStudent)initWhiteboard();if(isStudent&&studentDrawMode&&!sWbInited)initStudentWb()},60);
     });
 });
 
@@ -882,7 +956,7 @@ function initWhiteboard(){
     var wrap=document.getElementById('wbWrap');
     if(!wrap||wrap.offsetWidth===0)return;
     var w=wrap.offsetWidth;
-    var h=Math.round(w*9/16);
+    var h=Math.round(w*3/4);
     var dpr=Math.min(window.devicePixelRatio||1,2);
     wbEl.width=w*dpr;wbEl.height=h*dpr;
     wbEl.style.height=h+'px';
@@ -992,6 +1066,166 @@ document.getElementById('wbClear').addEventListener('click',function(){
     wbCtx.fillStyle='#fff';wbCtx.fillRect(0,0,wbEl.width,wbEl.height);
     wbCtx.restore();
     saveWbState();scheduleWbUpload();
+});
+
+/* ===== PDF ON WHITEBOARD ===== */
+var pdfDoc2=null;
+var pdfCurrentPage=1;
+var pdfTotalPages=0;
+var pdfPageStates={};
+var pdfInput=document.getElementById('pdfInput');
+
+if(typeof pdfjsLib!=='undefined'){
+    pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+}
+
+document.getElementById('wbPdf').addEventListener('click',function(){pdfInput.click()});
+
+pdfInput.addEventListener('change',function(){
+    var file=pdfInput.files[0];if(!file)return;
+    if(file.size>20*1024*1024){toast('⚠️ PDF too large (max 20MB)',1);pdfInput.value='';return}
+    var reader=new FileReader();
+    reader.onload=function(){
+        if(typeof pdfjsLib==='undefined'){toast('PDF.js not loaded',1);return}
+        pdfjsLib.getDocument({data:new Uint8Array(reader.result)}).promise.then(function(doc){
+            pdfDoc2=doc;pdfTotalPages=doc.numPages;pdfCurrentPage=1;pdfPageStates={};
+            renderPdfPage(1);
+            document.getElementById('wbPageNav').style.display='';
+            updatePageInfo();
+        }).catch(function(){toast('Failed to load PDF',1)});
+    };
+    reader.readAsArrayBuffer(file);
+    pdfInput.value='';
+});
+
+function renderPdfPage(pageNum){
+    if(!pdfDoc2)return;
+    pdfDoc2.getPage(pageNum).then(function(page){
+        var dpr=Math.min(window.devicePixelRatio||1,2);
+        var canvasW=wbEl.width/dpr;
+        var vp=page.getViewport({scale:1});
+        var scale=canvasW/vp.width;
+        var pageH=Math.round(vp.height*scale);
+        wbEl.height=pageH*dpr;wbEl.style.height=pageH+'px';
+        wbCtx=wbEl.getContext('2d');
+        wbCtx.scale(dpr,dpr);wbCtx.lineCap='round';wbCtx.lineJoin='round';
+        wbCtx.fillStyle='#fff';wbCtx.fillRect(0,0,canvasW,pageH);
+        var oc=document.createElement('canvas');oc.width=canvasW*dpr;oc.height=pageH*dpr;
+        var sv=page.getViewport({scale:scale*dpr});
+        page.render({canvasContext:oc.getContext('2d'),viewport:sv}).promise.then(function(){
+            wbCtx.save();wbCtx.setTransform(1,0,0,1,0,0);
+            wbCtx.drawImage(oc,0,0);wbCtx.restore();
+            wbHistory=[];saveWbState();
+            if(wbLive)scheduleWbUpload();
+        });
+    });
+}
+
+function updatePageInfo(){
+    document.getElementById('wbPageInfo').textContent=pdfCurrentPage+' / '+pdfTotalPages;
+    document.getElementById('wbPrevPage').disabled=(pdfCurrentPage<=1);
+    document.getElementById('wbNextPage').disabled=(pdfCurrentPage>=pdfTotalPages);
+}
+
+document.getElementById('wbPrevPage').addEventListener('click',function(){
+    if(pdfCurrentPage<=1)return;
+    pdfPageStates[pdfCurrentPage]=wbCtx.getImageData(0,0,wbEl.width,wbEl.height);
+    pdfCurrentPage--;
+    if(pdfPageStates[pdfCurrentPage]){
+        var saved=pdfPageStates[pdfCurrentPage];
+        if(saved.width===wbEl.width&&saved.height===wbEl.height){
+            wbCtx.putImageData(saved,0,0);wbHistory=[];saveWbState();
+            if(wbLive)scheduleWbUpload();
+        }else{renderPdfPage(pdfCurrentPage)}
+    }else{renderPdfPage(pdfCurrentPage)}
+    updatePageInfo();
+});
+
+document.getElementById('wbNextPage').addEventListener('click',function(){
+    if(pdfCurrentPage>=pdfTotalPages)return;
+    pdfPageStates[pdfCurrentPage]=wbCtx.getImageData(0,0,wbEl.width,wbEl.height);
+    pdfCurrentPage++;
+    if(pdfPageStates[pdfCurrentPage]){
+        var saved=pdfPageStates[pdfCurrentPage];
+        if(saved.width===wbEl.width&&saved.height===wbEl.height){
+            wbCtx.putImageData(saved,0,0);wbHistory=[];saveWbState();
+            if(wbLive)scheduleWbUpload();
+        }else{renderPdfPage(pdfCurrentPage)}
+    }else{renderPdfPage(pdfCurrentPage)}
+    updatePageInfo();
+});
+
+document.getElementById('wbClosePdf').addEventListener('click',function(){
+    pdfDoc2=null;pdfTotalPages=0;pdfCurrentPage=1;pdfPageStates={};
+    document.getElementById('wbPageNav').style.display='none';
+    var dpr=Math.min(window.devicePixelRatio||1,2);
+    var wrap=document.getElementById('wbWrap');
+    var w=wrap.offsetWidth;var h=Math.round(w*3/4);
+    wbEl.width=w*dpr;wbEl.height=h*dpr;wbEl.style.height=h+'px';
+    wbCtx=wbEl.getContext('2d');wbCtx.scale(dpr,dpr);
+    wbCtx.lineCap='round';wbCtx.lineJoin='round';
+    wbCtx.fillStyle='#fff';wbCtx.fillRect(0,0,w,h);
+    wbHistory=[];saveWbState();
+    if(wbLive)scheduleWbUpload();
+});
+
+/* ===== COLLAB (TEACHER GRANTS DRAWING) ===== */
+var collabStudentId=null;
+var collabPanelOpen=false;
+
+document.getElementById('wbCollab').addEventListener('click',function(){
+    collabPanelOpen=!collabPanelOpen;
+    var panel=document.getElementById('wbCollabPanel');
+    if(collabPanelOpen){
+        buildCollabList();panel.style.display='';
+        this.classList.add('active');
+    }else{
+        panel.style.display='none';
+        this.classList.remove('active');
+    }
+});
+
+document.getElementById('wcpClose').addEventListener('click',function(){
+    document.getElementById('wbCollabPanel').style.display='none';
+    document.getElementById('wbCollab').classList.remove('active');
+    collabPanelOpen=false;
+});
+
+function buildCollabList(){
+    var list=document.getElementById('wcpList');list.innerHTML='';
+    students.forEach(function(s){
+        var item=document.createElement('div');
+        item.className='wcp-item'+(collabStudentId===s.id?' granted':'');
+        item.innerHTML='<span class="wcp-e">'+s.emoji+'</span><span class="wcp-n">'+escH(s.name)+'</span><i class="fas fa-check-circle wcp-check"></i>';
+        item.addEventListener('click',function(){
+            if(collabStudentId===s.id){
+                revokeCollab();
+            }else{
+                grantCollab(s.id,s.name);
+            }
+            buildCollabList();
+        });
+        list.appendChild(item);
+    });
+}
+
+function grantCollab(sid,name){
+    collabStudentId=sid;
+    fbPut('/wb-control/'+encodeURIComponent(CC),{sid:sid,name:name,ts:Date.now()});
+    document.getElementById('wbCtrlInfo').style.display='';
+    document.getElementById('wbCtrlInfo').textContent='✏️ '+name+' has drawing control';
+    toast('✏️ Drawing granted to '+name);
+}
+
+function revokeCollab(){
+    collabStudentId=null;
+    fbPut('/wb-control/'+encodeURIComponent(CC),null);
+    document.getElementById('wbCtrlInfo').style.display='none';
+    toast('🚫 Drawing permission revoked');
+}
+
+document.getElementById('wcpRevokeAll').addEventListener('click',function(){
+    revokeCollab();buildCollabList();
 });
 
 /* Whiteboard Go Live toggle */
@@ -1128,6 +1362,144 @@ function pollScreenFrame(){
         }
     });
 }
+
+/* ===== STUDENT DRAWING MODE ===== */
+var studentDrawMode=false;
+var sWbCtx=null;
+var sWbEl=null;
+var sWbDrawing=false;
+var sWbColor='#222';
+var sWbSize=6;
+var sWbErasing=false;
+var sWbHistory=[];
+var sWbUploadTimer=null;
+var sWbInited=false;
+
+function pollDrawControl(){
+    if(!isStudent||myId===null)return;
+    fbGet('/wb-control/'+encodeURIComponent(CC)).then(function(d){
+        var hasControl=!!(d&&d.sid===myId);
+        if(hasControl&&!studentDrawMode){
+            activateStudentDraw();
+        }else if(!hasControl&&studentDrawMode){
+            deactivateStudentDraw();
+        }
+    });
+}
+
+function activateStudentDraw(){
+    studentDrawMode=true;
+    document.getElementById('studentDrawSection').style.display='';
+    document.getElementById('screenView').style.display='none';
+    toast('✏️ You have drawing control!');
+    setTimeout(initStudentWb,80);
+}
+
+function deactivateStudentDraw(){
+    studentDrawMode=false;
+    if(sWbInited&&sWbEl){
+        sWbEl.removeEventListener('pointerdown',sWbDown);
+        sWbEl.removeEventListener('pointermove',sWbMoveH);
+        sWbEl.removeEventListener('pointerup',sWbUpH);
+        sWbEl.removeEventListener('pointercancel',sWbUpH);
+    }
+    sWbInited=false;sWbHistory=[];
+    document.getElementById('studentDrawSection').style.display='none';
+    document.getElementById('screenView').style.display='';
+    toast('Drawing control ended');
+}
+
+function initStudentWb(){
+    if(sWbInited)return;
+    sWbEl=document.getElementById('sWbCanvas');
+    var wrap=document.getElementById('sWbWrap');
+    if(!wrap||wrap.offsetWidth===0){return}
+    var w=wrap.offsetWidth;var h=Math.round(w*3/4);
+    var dpr=Math.min(window.devicePixelRatio||1,2);
+    sWbEl.width=w*dpr;sWbEl.height=h*dpr;sWbEl.style.height=h+'px';
+    sWbCtx=sWbEl.getContext('2d');sWbCtx.scale(dpr,dpr);
+    sWbCtx.fillStyle='#fff';sWbCtx.fillRect(0,0,w,h);
+    sWbCtx.lineCap='round';sWbCtx.lineJoin='round';
+    /* Load current shared frame as background */
+    var srcImg=document.getElementById('screenImg');
+    if(srcImg&&srcImg.src&&srcImg.style.display!=='none'&&srcImg.naturalWidth>0){
+        sWbCtx.drawImage(srcImg,0,0,w,h);
+    }else{
+        fbGet('/screenshare/'+encodeURIComponent(CC)+'/frame').then(function(d){
+            if(d&&d.data){
+                var bgImg=new Image();
+                bgImg.onload=function(){sWbCtx.drawImage(bgImg,0,0,w,h);sWbHistory=[];sWbHistory.push(sWbCtx.getImageData(0,0,sWbEl.width,sWbEl.height))};
+                bgImg.src=d.data;
+            }
+        });
+    }
+    sWbHistory=[];sWbHistory.push(sWbCtx.getImageData(0,0,sWbEl.width,sWbEl.height));
+    sWbEl.addEventListener('pointerdown',sWbDown);
+    sWbEl.addEventListener('pointermove',sWbMoveH);
+    sWbEl.addEventListener('pointerup',sWbUpH);
+    sWbEl.addEventListener('pointercancel',sWbUpH);
+    sWbInited=true;
+}
+
+function getSWbPos(e){var rect=sWbEl.getBoundingClientRect();return{x:e.clientX-rect.left,y:e.clientY-rect.top}}
+
+function sWbDown(e){
+    e.preventDefault();sWbDrawing=true;
+    sWbEl.setPointerCapture(e.pointerId);
+    var pos=getSWbPos(e);
+    sWbCtx.beginPath();sWbCtx.moveTo(pos.x,pos.y);
+    sWbCtx.strokeStyle=sWbErasing?'#fff':sWbColor;
+    sWbCtx.lineWidth=sWbErasing?sWbSize*3:sWbSize;
+}
+function sWbMoveH(e){
+    if(!sWbDrawing)return;e.preventDefault();
+    var pos=getSWbPos(e);
+    sWbCtx.lineTo(pos.x,pos.y);sWbCtx.stroke();
+    sWbCtx.beginPath();sWbCtx.moveTo(pos.x,pos.y);
+}
+function sWbUpH(){
+    if(!sWbDrawing)return;sWbDrawing=false;
+    sWbCtx.beginPath();
+    sWbHistory.push(sWbCtx.getImageData(0,0,sWbEl.width,sWbEl.height));
+    if(sWbHistory.length>15)sWbHistory.shift();
+    scheduleSWbUpload();
+}
+function scheduleSWbUpload(){
+    clearTimeout(sWbUploadTimer);
+    sWbUploadTimer=setTimeout(function(){
+        if(!sWbEl||!studentDrawMode)return;
+        var ec2=document.createElement('canvas');
+        var ew2=640,eh2=Math.round(640*sWbEl.height/sWbEl.width);
+        ec2.width=ew2;ec2.height=eh2;
+        ec2.getContext('2d').drawImage(sWbEl,0,0,ew2,eh2);
+        var du2=ec2.toDataURL('image/jpeg',0.6);
+        fbPut('/screenshare/'+encodeURIComponent(CC)+'/frame',{data:du2,ts:Date.now()});
+    },500);
+}
+
+/* Student drawing tools */
+document.getElementById('sWbColors').addEventListener('click',function(e){
+    var btn=e.target.closest('.wb-c');if(!btn)return;
+    sWbColor=btn.dataset.c;sWbErasing=false;
+    document.getElementById('sWbEraser').classList.remove('active');
+    document.querySelectorAll('#sWbColors .wb-c').forEach(function(b){b.classList.remove('active')});
+    btn.classList.add('active');
+});
+document.getElementById('sWbSizes').addEventListener('click',function(e){
+    var btn=e.target.closest('.wb-sz');if(!btn)return;
+    sWbSize=parseInt(btn.dataset.sz);
+    document.querySelectorAll('#sWbSizes .wb-sz').forEach(function(b){b.classList.remove('active')});
+    btn.classList.add('active');
+});
+document.getElementById('sWbEraser').addEventListener('click',function(){
+    sWbErasing=!sWbErasing;this.classList.toggle('active',sWbErasing);
+});
+document.getElementById('sWbUndo').addEventListener('click',function(){
+    if(sWbHistory.length<2)return;
+    sWbHistory.pop();
+    sWbCtx.putImageData(sWbHistory[sWbHistory.length-1],0,0);
+    scheduleSWbUpload();
+});
 
 /* ===== LIVE TEXT BOARD ===== */
 var liveEditor=document.getElementById('liveEditor');
@@ -1554,12 +1926,12 @@ function pollStatus(){
     setInterval(pollLive,1500);
     setInterval(pollChat,2500);
     setInterval(pollReactions,2500);
-    if(isStudent)setInterval(pollScreenStatus,2500);
+    if(isStudent){setInterval(pollScreenStatus,2500);setInterval(pollDrawControl,2000)}
     setTimeout(pollNotes,500);
     setTimeout(pollStatus,1000);
     setTimeout(pollLive,500);
     setTimeout(pollChat,1000);
-    if(isStudent)setTimeout(pollScreenStatus,800);
+    if(isStudent){setTimeout(pollScreenStatus,800);setTimeout(pollDrawControl,1200)}
 })();
 </script>
 </body>
