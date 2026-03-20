@@ -1,12 +1,14 @@
-<!DOCTYPE html><html lang="en"><head><meta name="x-poe-datastore-behavior" content="local_only"><meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com https://unpkg.com https://d3js.org https://threejs.org https://cdn.plot.ly https://stackpath.bootstrapcdn.com https://maps.googleapis.com https://cdn.tailwindcss.com https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com https://code.highcharts.com https://tako-static-assets-production.s3.amazonaws.com https://www.youtube.com https://fonts.googleapis.com https://fonts.gstatic.com https://pfst.cf2.poecdn.net https://puc.poecdn.net https://i.imgur.com https://wikimedia.org https://*.icons8.com https://*.giphy.com https://picsum.photos https://images.unsplash.com; frame-src 'self' https://www.youtube.com https://trytako.com; child-src 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests; block-all-mixed-content;">
+<!DOCTYPE html>
+<html lang="en">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="ClassBoard">
-    <title>ClassBoard — Seating &amp; Points</title>
+    <title>ClassBoard — Seating & Points</title>
     <link rel="manifest" href="manifest.json">
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&amp;family=Nunito:wght@400;600;700;800&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
     <style>
@@ -1293,7 +1295,7 @@ function startSSE() {
             firebaseUrl + '/classboard/' + encodeURIComponent(classCode) + '.json'
         );
     } catch (e) {
-        fallbackPolling();
+        /* SSE not supported, polling will handle it */
         return;
     }
 
@@ -1397,14 +1399,66 @@ function animateChangedCards() {
     prevPointsSnapshot = newSnap;
 }
 
-/* Fallback polling if SSE is not supported */
+/* Smart polling — always runs as backup alongside SSE */
 var pollTimer = null;
-function fallbackPolling() {
+var pollBusy = false;
+function startSmartPolling() {
     clearInterval(pollTimer);
     pollTimer = setInterval(function() {
+        if (pollBusy) return;
+        pollBusy = true;
         prevPointsSnapshot = snapshotPoints();
-        firebasePull();
-    }, 3000);
+        fetch(firebaseUrl + '/classboard/' + encodeURIComponent(classCode) + '.json')
+            .then(function(res) { return res.json(); })
+            .then(function(data) {
+                if (data && typeof data === 'object') {
+                    var changed = false;
+                    Object.keys(data).forEach(function(key) {
+                        var id = parseInt(key);
+                        if (isNaN(id)) return;
+                        var s = students.find(function(st) { return st.id === id; });
+                        if (s && data[key]) {
+                            if (data[key].name && data[key].name !== s.name) { s.name = data[key].name; changed = true; }
+                            if (typeof data[key].points === 'number' && data[key].points !== s.points) { s.points = data[key].points; changed = true; }
+                        }
+                    });
+                    if (changed) {
+                        animateChangedCards();
+                        saveLocal();
+                    }
+                    if (!sseConnected) {
+                        setSyncStatus('online');
+                        liveBadge.classList.add('active');
+                    }
+                }
+                pollBusy = false;
+            }).catch(function() {
+                pollBusy = false;
+                if (!sseConnected) setSyncStatus('offline');
+            });
+    }, 2000);
+}
+
+/* Also poll reactions for students if SSE reactions fail */
+var reactionPollTimer = null;
+var lastReactionCheck = Date.now();
+function startReactionPolling() {
+    clearInterval(reactionPollTimer);
+    reactionPollTimer = setInterval(function() {
+        fetch(firebaseUrl + '/reactions/' + encodeURIComponent(classCode) + '.json')
+            .then(function(res) { return res.json(); })
+            .then(function(data) {
+                if (!data || typeof data !== 'object') return;
+                var now = Date.now();
+                Object.keys(data).forEach(function(key) {
+                    var r = data[key];
+                    if (r && r.emoji && r.ts && r.ts > lastReactionCheck && (now - r.ts < 10000)) {
+                        showFloatingReaction(r.emoji);
+                    }
+                });
+                lastReactionCheck = now;
+            }).catch(function() {});
+    }, 2500);
 }
 
 /* =========================================================
@@ -1577,11 +1631,17 @@ shareOverlay.addEventListener('click', function(e) {
         prevPointsSnapshot = snapshotPoints();
     });
 
-    /* 3. Start real-time SSE listener */
+    /* 3. Start real-time SSE listener (instant updates when it works) */
     startSSE();
+
+    /* 4. Always start smart polling as guaranteed backup (2-second updates) */
+    startSmartPolling();
+
+    /* 5. Start reaction polling for students */
+    if (isStudentMode) {
+        startReactionPolling();
+    }
 })();
 </script>
-
-
-
-</body></html>
+</body>
+</html>
