@@ -382,7 +382,7 @@
                 <div class="share-start" id="shareStart">
                     <button class="share-start-btn" id="startShareBtn"><i class="fas fa-desktop"></i> Start Screen Share</button>
                     <div class="share-hint">Share your screen with students in real-time</div>
-                    <div class="share-hint" id="shareNotSupported" style="display:none;color:var(--neg)"><i class="fas fa-exclamation-triangle"></i> Screen sharing not supported in this browser. Use the text board below.</div>
+                    <div class="share-hint" id="shareNotSupported" style="display:none;color:var(--warn)"><i class="fas fa-info-circle"></i> Screen sharing is blocked inside this preview. It works when you open your <b>GitHub Pages URL</b> directly in Chrome.</div>
                 </div>
                 <div class="sharing-active" id="sharingActive">
                     <div class="share-status"><span class="ld"></span> LIVE — Sharing your screen to students</div>
@@ -777,7 +777,7 @@ if(!navigator.mediaDevices||!navigator.mediaDevices.getDisplayMedia){
 
 document.getElementById('startShareBtn').addEventListener('click',function(){
     if(!navigator.mediaDevices||!navigator.mediaDevices.getDisplayMedia){
-        toast('Screen sharing not supported',1);return;
+        toast('Open your GitHub Pages URL in Chrome to screen share',1);return;
     }
     navigator.mediaDevices.getDisplayMedia({video:{width:{ideal:1280},height:{ideal:720},frameRate:{ideal:5,max:10}},audio:false})
     .then(function(stream){
