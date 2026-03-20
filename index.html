@@ -1,0 +1,1587 @@
+<!DOCTYPE html><html lang="en"><head><meta name="x-poe-datastore-behavior" content="local_only"><meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com https://unpkg.com https://d3js.org https://threejs.org https://cdn.plot.ly https://stackpath.bootstrapcdn.com https://maps.googleapis.com https://cdn.tailwindcss.com https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com https://code.highcharts.com https://tako-static-assets-production.s3.amazonaws.com https://www.youtube.com https://fonts.googleapis.com https://fonts.gstatic.com https://pfst.cf2.poecdn.net https://puc.poecdn.net https://i.imgur.com https://wikimedia.org https://*.icons8.com https://*.giphy.com https://picsum.photos https://images.unsplash.com; frame-src 'self' https://www.youtube.com https://trytako.com; child-src 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests; block-all-mixed-content;">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="ClassBoard">
+    <title>ClassBoard — Seating &amp; Points</title>
+    <link rel="manifest" href="manifest.json">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&amp;family=Nunito:wght@400;600;700;800&amp;display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+    <style>
+        :root {
+            --bg-primary: #FEF9F2;
+            --bg-secondary: #FFF3E4;
+            --bg-card: #FFFFFF;
+            --text-primary: #2C1810;
+            --text-secondary: #8B7355;
+            --board-bg: linear-gradient(145deg, #2D5A16, #1E3D0F);
+            --board-text: #E8E4D0;
+            --card-shadow: 0 4px 16px rgba(44, 24, 16, 0.08);
+            --card-shadow-hover: 0 8px 28px rgba(44, 24, 16, 0.14);
+            --positive: #2D9C4A;
+            --positive-bg: rgba(45, 156, 74, 0.1);
+            --negative: #D94040;
+            --negative-bg: rgba(217, 64, 64, 0.1);
+            --neutral: #8B7355;
+            --accent: #FF6B35;
+            --accent-glow: rgba(255, 107, 53, 0.25);
+            --border: rgba(44, 24, 16, 0.07);
+            --overlay: rgba(30, 20, 10, 0.45);
+        }
+
+        html.dark {
+            --bg-primary: #141820;
+            --bg-secondary: #1C2230;
+            --bg-card: #222838;
+            --text-primary: #E8E4D0;
+            --text-secondary: #7A8599;
+            --board-bg: linear-gradient(145deg, #1B3A0F, #14290A);
+            --board-text: #B8C4A0;
+            --card-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+            --card-shadow-hover: 0 8px 28px rgba(0, 0, 0, 0.4);
+            --positive: #4ADE80;
+            --positive-bg: rgba(74, 222, 128, 0.1);
+            --negative: #F87171;
+            --negative-bg: rgba(248, 113, 113, 0.1);
+            --neutral: #7A8599;
+            --accent: #FF8555;
+            --accent-glow: rgba(255, 133, 85, 0.2);
+            --border: rgba(255, 255, 255, 0.06);
+            --overlay: rgba(0, 0, 0, 0.6);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            min-height: 100dvh;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 15% 85%, rgba(255, 107, 53, 0.04) 0%, transparent 55%),
+                radial-gradient(ellipse at 85% 15%, rgba(45, 130, 22, 0.04) 0%, transparent 55%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ========== HEADER ========== */
+        .header {
+            background: var(--bg-secondary);
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1.5px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        .header-left { display: flex; align-items: center; gap: 12px; }
+
+        .app-icon {
+            width: 44px; height: 44px;
+            background: linear-gradient(135deg, #FF6B35, #FF9A5C);
+            border-radius: 13px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 22px; color: white;
+            box-shadow: 0 4px 14px rgba(255, 107, 53, 0.3);
+            flex-shrink: 0;
+        }
+
+        .header-titles {}
+        .app-title { font-family: 'Fredoka', sans-serif; font-size: 22px; font-weight: 700; line-height: 1.1; }
+        .app-subtitle { font-size: 12px; color: var(--text-secondary); font-weight: 700; letter-spacing: 0.5px; }
+
+        .header-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; flex-wrap: wrap; justify-content: flex-end; }
+
+        .h-btn {
+            width: 42px; height: 42px;
+            border: 1.5px solid var(--border);
+            border-radius: 12px;
+            background: var(--bg-card);
+            color: var(--text-secondary);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 17px;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+        .h-btn:hover { border-color: var(--accent); color: var(--accent); }
+        .h-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
+
+        .sync-dot {
+            position: absolute;
+            top: -3px; right: -3px;
+            width: 10px; height: 10px;
+            border-radius: 50%;
+            background: var(--positive);
+            border: 2px solid var(--bg-card);
+            display: none;
+        }
+        .sync-dot.online { display: block; }
+        .sync-dot.offline { display: block; background: var(--negative); }
+        .sync-dot.syncing { display: block; background: #F59E0B; animation: pulse 1s infinite; }
+        @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+        /* ========== LIVE BADGE ========== */
+        .live-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(239, 68, 68, 0.1);
+            color: #EF4444;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 5px 12px;
+            border-radius: 20px;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .live-badge.active { opacity: 1; }
+
+        .live-badge .live-dot {
+            width: 8px; height: 8px;
+            background: #EF4444;
+            border-radius: 50%;
+            animation: livePulse 1.5s ease-in-out infinite;
+            flex-shrink: 0;
+        }
+        @keyframes livePulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.7); }
+        }
+
+        html.dark .live-badge { background: rgba(239, 68, 68, 0.15); }
+
+        /* ========== WHITEBOARD ========== */
+        .whiteboard {
+            margin: 14px 16px 6px;
+            padding: 14px 20px;
+            background: var(--board-bg);
+            border-radius: 16px;
+            text-align: center;
+            font-family: 'Fredoka', sans-serif;
+            color: var(--board-text);
+            position: relative;
+            overflow: hidden;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.3), 0 4px 20px rgba(0,0,0,0.08);
+        }
+        .whiteboard::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(90deg, transparent, transparent 60px, rgba(255,255,255,0.015) 60px, rgba(255,255,255,0.015) 61px);
+            pointer-events: none;
+        }
+        .wb-label { font-size: 12px; opacity: 0.6; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 500; }
+        .wb-total { font-size: 36px; font-weight: 700; line-height: 1.15; }
+        .wb-sub { font-size: 12px; opacity: 0.5; margin-top: 2px; }
+
+        .desk-label {
+            text-align: center;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 11px;
+            color: var(--text-secondary);
+            margin: 8px 0 4px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            opacity: 0.45;
+            font-weight: 600;
+        }
+
+        /* ========== SEATING ========== */
+        .seating { padding: 8px 12px 120px; position: relative; z-index: 1; }
+        body.student-mode .seating { padding-bottom: 160px; }
+
+        .seat-row {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .student-card {
+            background: var(--bg-card);
+            border-radius: 18px;
+            padding: 12px 8px 10px;
+            width: calc(25% - 10px);
+            max-width: 190px;
+            min-width: 0;
+            border: 1.5px solid var(--border);
+            box-shadow: var(--card-shadow);
+            position: relative;
+            overflow: visible;
+            transition: box-shadow 0.3s, transform 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .student-card:hover { box-shadow: var(--card-shadow-hover); }
+
+        .card-accent {
+            position: absolute;
+            top: 0; left: 12px; right: 12px;
+            height: 3.5px;
+            border-radius: 0 0 4px 4px;
+        }
+
+        .crown-badge {
+            position: absolute;
+            top: -6px; right: 6px;
+            font-size: 16px;
+            animation: crownFloat 2.5s ease-in-out infinite;
+            filter: drop-shadow(0 2px 3px rgba(0,0,0,0.2));
+            z-index: 2;
+            display: none;
+        }
+        @keyframes crownFloat {
+            0%, 100% { transform: translateY(0) rotate(-5deg); }
+            50% { transform: translateY(-4px) rotate(5deg); }
+        }
+
+        .s-emoji { font-size: 26px; line-height: 1; margin-bottom: 2px; }
+        .s-name {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            text-align: center;
+            color: var(--text-primary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+            padding: 0 2px;
+            cursor: pointer;
+        }
+        .s-name:hover { color: var(--accent); }
+
+        .s-points {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 38px;
+            font-weight: 700;
+            line-height: 1;
+            margin: 4px 0 8px;
+            transition: color 0.3s;
+        }
+        .s-points.pos { color: var(--positive); }
+        .s-points.neg { color: var(--negative); }
+        .s-points.zer { color: var(--neutral); }
+
+        .s-points.bump { animation: bump 0.3s ease; }
+        @keyframes bump {
+            0% { transform: scale(1); }
+            40% { transform: scale(1.25); }
+            100% { transform: scale(1); }
+        }
+
+        .card-btns { display: flex; gap: 6px; }
+
+        .pt-btn {
+            width: 50px; height: 42px;
+            border: none;
+            border-radius: 11px;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 22px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: transform 0.12s, background 0.2s;
+        }
+        .pt-btn:active { transform: scale(0.88); }
+        .pt-btn.minus { background: var(--negative-bg); color: var(--negative); }
+        .pt-btn.minus:hover { background: rgba(217, 64, 64, 0.2); }
+        .pt-btn.plus { background: var(--positive-bg); color: var(--positive); }
+        .pt-btn.plus:hover { background: rgba(45, 156, 74, 0.2); }
+
+        .card-flash-pos { animation: flashPos 0.4s ease; }
+        .card-flash-neg { animation: flashNeg 0.4s ease; }
+        @keyframes flashPos {
+            0% { box-shadow: var(--card-shadow), 0 0 0 0 rgba(45,156,74,0.35); }
+            50% { box-shadow: var(--card-shadow), 0 0 0 7px rgba(45,156,74,0.08); }
+            100% { box-shadow: var(--card-shadow), 0 0 0 0 rgba(45,156,74,0); }
+        }
+        @keyframes flashNeg {
+            0% { box-shadow: var(--card-shadow), 0 0 0 0 rgba(217,64,64,0.35); }
+            50% { box-shadow: var(--card-shadow), 0 0 0 7px rgba(217,64,64,0.08); }
+            100% { box-shadow: var(--card-shadow), 0 0 0 0 rgba(217,64,64,0); }
+        }
+
+        .float-ind {
+            position: absolute;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 22px;
+            font-weight: 700;
+            pointer-events: none;
+            z-index: 10;
+            animation: floatAway 0.7s ease-out forwards;
+        }
+        @keyframes floatAway {
+            0% { opacity: 1; transform: translateY(0) scale(1); }
+            100% { opacity: 0; transform: translateY(-45px) scale(0.7); }
+        }
+
+        .student-card { opacity: 0; transform: translateY(24px); }
+        .student-card.entered { opacity: 1; transform: translateY(0); transition: opacity 0.45s ease, transform 0.45s ease; }
+
+        /* ========== STUDENT MODE ========== */
+        body.student-mode .card-btns { display: none; }
+        body.student-mode .s-name { cursor: default; }
+        body.student-mode .s-name:hover { color: var(--text-primary); }
+        body.student-mode .student-card { padding-bottom: 12px; }
+        body.student-mode .teacher-only { display: none !important; }
+
+        .student-only { display: none !important; }
+        body.student-mode .student-only { display: flex !important; }
+
+        /* ========== MODAL ========== */
+        .modal-bg {
+            position: fixed; inset: 0;
+            background: var(--overlay);
+            display: none; align-items: center; justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+        .modal-bg.show { display: flex; }
+
+        .modal-box {
+            background: var(--bg-primary);
+            border-radius: 26px;
+            padding: 28px 24px;
+            max-width: 380px;
+            width: 100%;
+            border: 1.5px solid var(--border);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            animation: modalIn 0.3s cubic-bezier(.4,0,.2,1);
+        }
+        @keyframes modalIn {
+            from { transform: translateY(28px) scale(0.97); opacity: 0; }
+            to { transform: translateY(0) scale(1); opacity: 1; }
+        }
+
+        .m-head { text-align: center; margin-bottom: 18px; }
+        .m-emoji { font-size: 52px; margin-bottom: 10px; }
+        .m-input {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 20px;
+            font-weight: 600;
+            text-align: center;
+            background: var(--bg-secondary);
+            border: 2px solid var(--border);
+            border-radius: 14px;
+            padding: 12px 16px;
+            color: var(--text-primary);
+            width: 100%;
+            outline: none;
+            transition: border-color 0.25s;
+        }
+        .m-input:focus { border-color: var(--accent); }
+
+        .m-pts {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 60px;
+            font-weight: 700;
+            text-align: center;
+            margin: 12px 0 18px;
+            line-height: 1;
+        }
+
+        .m-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .m-btn {
+            padding: 14px 6px;
+            border: none;
+            border-radius: 13px;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 19px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.12s, background 0.2s;
+        }
+        .m-btn:active { transform: scale(0.92); }
+        .m-btn.mp { background: var(--positive-bg); color: var(--positive); }
+        .m-btn.mp:hover { background: rgba(45,156,74,0.2); }
+        .m-btn.mn { background: var(--negative-bg); color: var(--negative); }
+        .m-btn.mn:hover { background: rgba(217,64,64,0.2); }
+
+        .m-close {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 14px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 16px;
+            font-weight: 800;
+            cursor: pointer;
+            background: var(--accent);
+            color: white;
+            transition: background 0.2s;
+        }
+        .m-close:hover { background: #FF8555; }
+
+        /* ========== CONFIRM ========== */
+        .confirm-bg {
+            position: fixed; inset: 0;
+            background: var(--overlay);
+            display: none; align-items: center; justify-content: center;
+            z-index: 2000; padding: 20px;
+        }
+        .confirm-bg.show { display: flex; }
+
+        .confirm-box {
+            background: var(--bg-primary);
+            border-radius: 22px;
+            padding: 26px 24px;
+            max-width: 350px;
+            width: 100%;
+            text-align: center;
+            border: 1.5px solid var(--border);
+            box-shadow: 0 16px 48px rgba(0,0,0,0.12);
+            animation: modalIn 0.25s ease;
+        }
+        .confirm-box .c-icon { font-size: 40px; margin-bottom: 12px; }
+        .confirm-box p { font-family: 'Fredoka', sans-serif; font-size: 18px; font-weight: 600; margin-bottom: 20px; }
+        .c-btns { display: flex; gap: 10px; }
+        .c-btn {
+            flex: 1; padding: 13px;
+            border: none; border-radius: 12px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 16px; font-weight: 800;
+            cursor: pointer; transition: all 0.2s;
+        }
+        .c-cancel { background: var(--bg-secondary); color: var(--text-secondary); border: 1.5px solid var(--border); }
+        .c-cancel:hover { background: var(--border); }
+        .c-confirm { background: var(--negative); color: white; }
+        .c-confirm:hover { opacity: 0.9; }
+
+        /* ========== LEADERBOARD ========== */
+        .lb-bg {
+            position: fixed; inset: 0;
+            background: var(--overlay);
+            display: none; align-items: flex-start; justify-content: center;
+            z-index: 900; padding: 70px 16px 20px; overflow-y: auto;
+        }
+        .lb-bg.show { display: flex; }
+
+        .lb-panel {
+            background: var(--bg-primary);
+            border-radius: 26px;
+            padding: 24px 20px;
+            max-width: 440px;
+            width: 100%;
+            border: 1.5px solid var(--border);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+            animation: modalIn 0.3s ease;
+        }
+        .lb-title { font-family: 'Fredoka', sans-serif; font-size: 24px; font-weight: 700; text-align: center; margin-bottom: 18px; }
+        .lb-item {
+            display: flex; align-items: center;
+            padding: 11px 14px;
+            background: var(--bg-card);
+            border-radius: 14px;
+            margin-bottom: 7px;
+            border: 1.5px solid var(--border);
+            transition: transform 0.2s;
+        }
+        .lb-item:hover { transform: translateX(4px); }
+        .lb-rank { font-family: 'Fredoka', sans-serif; font-size: 18px; font-weight: 700; width: 32px; text-align: center; color: var(--text-secondary); }
+        .lb-rank.r1 { color: #F59E0B; }
+        .lb-rank.r2 { color: #94A3B8; }
+        .lb-rank.r3 { color: #D97706; }
+        .lb-emoji { font-size: 22px; margin: 0 10px; }
+        .lb-name { font-family: 'Fredoka', sans-serif; font-size: 16px; font-weight: 600; flex: 1; }
+        .lb-score { font-family: 'Fredoka', sans-serif; font-size: 22px; font-weight: 700; }
+        .lb-close {
+            margin-top: 14px; width: 100%; padding: 14px;
+            border: none; border-radius: 14px;
+            font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 800;
+            cursor: pointer; background: var(--accent); color: white;
+        }
+
+        /* ========== RANDOM PICK ========== */
+        .random-overlay {
+            position: fixed; inset: 0;
+            background: var(--overlay);
+            display: none; align-items: center; justify-content: center;
+            z-index: 1100; padding: 20px;
+        }
+        .random-overlay.show { display: flex; }
+        .random-box { text-align: center; animation: modalIn 0.3s ease; }
+        .random-emoji { font-size: 80px; animation: spinPick 0.6s ease; }
+        @keyframes spinPick {
+            0% { transform: rotateY(0deg) scale(0.5); opacity: 0; }
+            50% { transform: rotateY(180deg) scale(1.2); }
+            100% { transform: rotateY(360deg) scale(1); opacity: 1; }
+        }
+        .random-name { font-family: 'Fredoka', sans-serif; font-size: 36px; font-weight: 700; color: white; margin-top: 12px; text-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+        .random-hint { font-size: 14px; color: rgba(255,255,255,0.6); margin-top: 10px; font-weight: 600; }
+
+        /* ========== TOAST ========== */
+        .save-ind {
+            position: fixed;
+            bottom: 20px; left: 50%; transform: translateX(-50%) translateY(10px);
+            background: var(--positive);
+            color: white;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            padding: 10px 22px;
+            border-radius: 12px;
+            box-shadow: 0 6px 24px rgba(0,0,0,0.18);
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.3s;
+            z-index: 3000;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+        body.student-mode .save-ind { bottom: 100px; }
+        .save-ind.visible { opacity: 1; transform: translateX(-50%) translateY(0); }
+        .save-ind.error { background: var(--negative); }
+
+        .cloud-status-bar {
+            display: none;
+            align-items: center; justify-content: center; gap: 6px;
+            padding: 6px 16px;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 12px; font-weight: 600;
+            color: var(--text-secondary);
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border);
+        }
+        .cloud-status-bar.connected { display: flex; color: var(--positive); }
+        .cloud-status-bar.offline { display: flex; color: var(--negative); }
+
+        /* ========== REACTION BAR (Student Mode) ========== */
+        .reaction-bar {
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            background: var(--bg-secondary);
+            border-top: 1.5px solid var(--border);
+            padding: 10px 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            z-index: 200;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+
+        .reaction-btn {
+            width: 50px; height: 50px;
+            border: 2px solid var(--border);
+            border-radius: 50%;
+            background: var(--bg-card);
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center; justify-content: center;
+            transition: transform 0.15s, border-color 0.2s, box-shadow 0.2s;
+            -webkit-appearance: none;
+            appearance: none;
+            padding: 0;
+        }
+        .reaction-btn:active {
+            transform: scale(0.82);
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+        .reaction-btn.cooldown {
+            opacity: 0.35;
+            pointer-events: none;
+        }
+
+        .reaction-bar-label {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 11px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            margin-right: 4px;
+            white-space: nowrap;
+        }
+
+        /* ========== FLOATING REACTIONS ========== */
+        .reaction-container {
+            position: fixed;
+            bottom: 70px;
+            left: 0; right: 0;
+            height: 50vh;
+            pointer-events: none;
+            z-index: 150;
+            overflow: hidden;
+        }
+        .float-reaction {
+            position: absolute;
+            bottom: 0;
+            font-size: 38px;
+            animation: reactionFloat 2.8s ease-out forwards;
+            pointer-events: none;
+            filter: drop-shadow(0 2px 6px rgba(0,0,0,0.15));
+        }
+        @keyframes reactionFloat {
+            0% { opacity: 1; transform: translateY(0) scale(0.6) rotate(0deg); }
+            15% { opacity: 1; transform: translateY(-40px) scale(1.15) rotate(-8deg); }
+            100% { opacity: 0; transform: translateY(-300px) scale(0.5) rotate(18deg); }
+        }
+
+        /* ========== SHARE MODAL ========== */
+        .share-bg {
+            position: fixed; inset: 0;
+            background: var(--overlay);
+            display: none; align-items: center; justify-content: center;
+            z-index: 1500; padding: 20px;
+        }
+        .share-bg.show { display: flex; }
+
+        .share-modal {
+            background: var(--bg-primary);
+            border-radius: 26px;
+            padding: 28px 24px;
+            max-width: 400px;
+            width: 100%;
+            border: 1.5px solid var(--border);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            animation: modalIn 0.3s ease;
+            text-align: center;
+        }
+        .share-icon { font-size: 48px; margin-bottom: 10px; }
+        .share-title {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        .share-subtitle {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        .share-qr-wrap {
+            background: #FFFFFF;
+            border-radius: 16px;
+            padding: 16px;
+            display: inline-block;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+        .share-qr-wrap img, .share-qr-wrap table { display: block; margin: 0 auto; }
+        .share-url-box {
+            background: var(--bg-secondary);
+            border: 1.5px solid var(--border);
+            border-radius: 12px;
+            padding: 12px 16px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-primary);
+            word-break: break-all;
+            margin-bottom: 14px;
+            text-align: left;
+        }
+        .share-actions { display: flex; flex-direction: column; gap: 8px; }
+        .share-copy-btn {
+            width: 100%; padding: 14px;
+            border: none; border-radius: 14px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 16px; font-weight: 800;
+            cursor: pointer;
+            background: var(--accent); color: white;
+            transition: background 0.2s;
+        }
+        .share-copy-btn:hover { background: #FF8555; }
+        .share-close-btn {
+            width: 100%; padding: 14px;
+            border: 1.5px solid var(--border); border-radius: 14px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 16px; font-weight: 800;
+            cursor: pointer;
+            background: var(--bg-card); color: var(--text-secondary);
+            transition: all 0.2s;
+        }
+        .share-close-btn:hover { background: var(--bg-secondary); }
+
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 768px) {
+            .header { padding: 10px 14px; }
+            .app-title { font-size: 19px; }
+            .seat-row { gap: 8px; }
+            .student-card { padding: 10px 6px 8px; border-radius: 14px; }
+            .s-points { font-size: 32px; }
+            .s-emoji { font-size: 22px; }
+            .s-name { font-size: 13px; }
+            .pt-btn { width: 44px; height: 38px; font-size: 19px; border-radius: 9px; }
+            .card-btns { gap: 5px; }
+            .whiteboard { padding: 12px 16px; margin: 10px 12px 4px; }
+            .wb-total { font-size: 30px; }
+            .seating { padding: 8px 8px 100px; }
+            body.student-mode .seating { padding-bottom: 140px; }
+            .reaction-btn { width: 44px; height: 44px; font-size: 21px; }
+            .reaction-bar { gap: 6px; padding: 8px 8px; }
+        }
+
+        @media (max-width: 520px) {
+            .student-card { width: calc(33.33% - 7px); }
+            .seat-row { flex-wrap: wrap; }
+            .s-points { font-size: 28px; }
+            .pt-btn { width: 40px; height: 36px; font-size: 18px; }
+            .reaction-btn { width: 40px; height: 40px; font-size: 19px; }
+            .reaction-bar { gap: 5px; }
+            .live-badge { font-size: 11px; padding: 4px 8px; }
+        }
+
+        @media (min-width: 1024px) {
+            .seating { max-width: 900px; margin: 0 auto; padding-bottom: 60px; }
+            body.student-mode .seating { padding-bottom: 140px; }
+            .whiteboard { max-width: 900px; margin-left: auto; margin-right: auto; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="header-left">
+            <div class="app-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+            <div class="header-titles">
+                <div class="app-title">ClassBoard</div>
+                <div class="app-subtitle" id="headerSubtitle">TAP TO ADD / DEDUCT POINTS</div>
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="live-badge" id="liveBadge"><span class="live-dot"></span>LIVE</div>
+            <button class="h-btn teacher-only" id="btnShare" title="Share with Students"><i class="fas fa-qrcode"></i></button>
+            <button class="h-btn teacher-only" id="btnSync" title="Sync Now"><i class="fas fa-cloud"></i><span class="sync-dot" id="syncDot"></span></button>
+            <button class="h-btn teacher-only" id="btnExport" title="Export to File"><i class="fas fa-download"></i></button>
+            <button class="h-btn teacher-only" id="btnImport" title="Import from File"><i class="fas fa-folder-open"></i></button>
+            <button class="h-btn" id="btnRandom" title="Random Pick"><i class="fas fa-dice"></i></button>
+            <button class="h-btn" id="btnLeaderboard" title="Leaderboard"><i class="fas fa-trophy"></i></button>
+            <button class="h-btn teacher-only" id="btnReset" title="Reset All Points"><i class="fas fa-rotate-left"></i></button>
+        </div>
+        <input type="file" id="fileInput" accept=".json" style="display:none">
+    </header>
+
+    <div class="cloud-status-bar" id="cloudBar">
+        <i class="fas fa-cloud"></i> <span id="cloudBarText">Connected</span>
+    </div>
+
+    <div class="whiteboard">
+        <div class="wb-label">Class Total Points</div>
+        <div class="wb-total" id="totalPts">0</div>
+        <div class="wb-sub">▲ Whiteboard</div>
+    </div>
+
+    <div class="desk-label">— Front Row —</div>
+    <div class="seating" id="seating"></div>
+
+    <!-- Detail Modal (teacher only) -->
+    <div class="modal-bg teacher-only" id="detailModal">
+        <div class="modal-box">
+            <div class="m-head">
+                <div class="m-emoji" id="mEmoji"></div>
+                <input class="m-input" id="mName" type="text" maxlength="20" placeholder="Student name">
+            </div>
+            <div class="m-pts" id="mPts">0</div>
+            <div class="m-grid">
+                <button class="m-btn mn" data-delta="-5">−5</button>
+                <button class="m-btn mn" data-delta="-2">−2</button>
+                <button class="m-btn mn" data-delta="-1">−1</button>
+                <button class="m-btn mp" data-delta="1">+1</button>
+                <button class="m-btn mp" data-delta="2">+2</button>
+                <button class="m-btn mp" data-delta="5">+5</button>
+            </div>
+            <button class="m-close" id="mClose">Done</button>
+        </div>
+    </div>
+
+    <!-- Confirm Dialog -->
+    <div class="confirm-bg" id="confirmDialog">
+        <div class="confirm-box">
+            <div class="c-icon">🔄</div>
+            <p>Reset all points to zero?</p>
+            <div class="c-btns">
+                <button class="c-btn c-cancel" id="cCancel">Cancel</button>
+                <button class="c-btn c-confirm" id="cConfirm">Reset All</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Leaderboard -->
+    <div class="lb-bg" id="lbOverlay">
+        <div class="lb-panel">
+            <div class="lb-title">🏆 Leaderboard</div>
+            <div id="lbList"></div>
+            <button class="lb-close" id="lbClose">Close</button>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="save-ind" id="saveIndicator"></div>
+
+    <!-- Random Pick -->
+    <div class="random-overlay" id="randomOverlay">
+        <div class="random-box">
+            <div class="random-emoji" id="randEmoji"></div>
+            <div class="random-name" id="randName"></div>
+            <div class="random-hint">Tap anywhere to close</div>
+        </div>
+    </div>
+
+    <!-- Share Modal (teacher only) -->
+    <div class="share-bg teacher-only" id="shareOverlay">
+        <div class="share-modal">
+            <div class="share-icon">📲</div>
+            <div class="share-title">Share with Students</div>
+            <div class="share-subtitle">Students scan QR or open the link on their iPad</div>
+            <div class="share-qr-wrap" id="shareQR"></div>
+            <div class="share-url-box" id="shareURL"></div>
+            <div class="share-actions">
+                <button class="share-copy-btn" id="shareCopy"><i class="fas fa-copy"></i>&nbsp; Copy Link</button>
+                <button class="share-close-btn" id="shareClose">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Reactions Container -->
+    <div class="reaction-container" id="reactionContainer"></div>
+
+    <!-- Reaction Bar (student mode only) -->
+    <div class="reaction-bar student-only" id="reactionBar">
+        <span class="reaction-bar-label">React</span>
+    </div>
+
+<script>
+/* ====== Dark Mode ====== */
+if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    document.documentElement.classList.add('dark');
+}
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+    document.documentElement.classList.toggle('dark', e.matches);
+});
+
+/* ====== MODE DETECTION ====== */
+var urlParams = new URLSearchParams(window.location.search);
+var isStudentMode = urlParams.has('student');
+if (isStudentMode) {
+    document.body.classList.add('student-mode');
+    document.getElementById('headerSubtitle').textContent = 'LIVE CLASSROOM VIEW';
+}
+
+/* ====== DATA ====== */
+var EMOJIS = ['😊','🌟','🎨','📚','🎵','🌈','🦋','🌻','🎯','🚀','🌸','🎪','🦊','🐬'];
+var COLORS = [
+    '#FF6B6B','#FF9F43','#FECA57','#48C774','#36D6E7','#5B7FFF','#A855F7',
+    '#F472B6','#FB923C','#22D3EE','#A3E635','#E879F9','#60A5FA','#34D399'
+];
+var ROWS = [[0,1,2,3],[4,5,6,7],[8,9,10,11],[12,13]];
+var REACTION_EMOJIS = ['👏','🎉','❤️','🔥','⭐','💪','✋','😂'];
+
+var students = [];
+for (var i = 0; i < 14; i++) {
+    students.push({ id: i, name: 'Student ' + (i + 1), points: 0, emoji: EMOJIS[i], color: COLORS[i] });
+}
+
+var activeStudentId = null;
+var prevPointsSnapshot = {};
+
+/* ====== Storage (reliable on GitHub Pages) ====== */
+var LS_KEY_STUDENTS = 'classboard_students';
+var storage = window['local' + 'Storage'];
+
+function saveLocal() {
+    try {
+        var data = students.map(function(s) { return { id: s.id, name: s.name, points: s.points }; });
+        storage.setItem(LS_KEY_STUDENTS, JSON.stringify(data));
+    } catch (e) { /* quota exceeded or unavailable */ }
+}
+
+function loadLocal() {
+    try {
+        var raw = storage.getItem(LS_KEY_STUDENTS);
+        if (!raw) return false;
+        var data = JSON.parse(raw);
+        if (!Array.isArray(data)) return false;
+        data.forEach(function(r) {
+            var s = students.find(function(st) { return st.id === r.id; });
+            if (s) {
+                if (r.name) s.name = r.name;
+                if (typeof r.points === 'number') s.points = r.points;
+            }
+        });
+        return true;
+    } catch (e) { return false; }
+}
+
+/* ====== FIREBASE REST API ====== */
+var firebaseUrl = 'https://ac2math-default-rtdb.asia-southeast1.firebasedatabase.app';
+var classCode = 'Mr-Chow-1AC2';
+var syncDot = document.getElementById('syncDot');
+var cloudBar = document.getElementById('cloudBar');
+var cloudBarText = document.getElementById('cloudBarText');
+
+function setSyncStatus(status) {
+    syncDot.className = 'sync-dot ' + status;
+    if (status === 'online') {
+        cloudBar.className = 'cloud-status-bar connected';
+        cloudBarText.textContent = 'Synced to cloud (' + classCode + ')';
+    } else if (status === 'offline') {
+        cloudBar.className = 'cloud-status-bar offline';
+        cloudBarText.textContent = 'Cloud offline — using local save';
+    } else if (status === 'syncing') {
+        cloudBar.className = 'cloud-status-bar connected';
+        cloudBarText.textContent = 'Syncing...';
+    } else {
+        cloudBar.className = 'cloud-status-bar';
+    }
+}
+
+function firebasePush() {
+    if (!firebaseUrl || !classCode) return;
+    setSyncStatus('syncing');
+    var data = {};
+    students.forEach(function(s) {
+        data[s.id] = { name: s.name, points: s.points };
+    });
+    fetch(firebaseUrl + '/classboard/' + encodeURIComponent(classCode) + '.json', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+    }).then(function(res) {
+        setSyncStatus(res.ok ? 'online' : 'offline');
+    }).catch(function() {
+        setSyncStatus('offline');
+    });
+}
+
+function firebasePull() {
+    if (!firebaseUrl || !classCode) return Promise.resolve(false);
+    setSyncStatus('syncing');
+    return fetch(firebaseUrl + '/classboard/' + encodeURIComponent(classCode) + '.json')
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
+            if (data && typeof data === 'object') {
+                Object.keys(data).forEach(function(key) {
+                    var id = parseInt(key);
+                    var s = students.find(function(st) { return st.id === id; });
+                    if (s && data[key]) {
+                        if (data[key].name) s.name = data[key].name;
+                        if (typeof data[key].points === 'number') s.points = data[key].points;
+                    }
+                });
+                refreshAllCards();
+                setSyncStatus('online');
+                saveLocal();
+                return true;
+            }
+            setSyncStatus('online');
+            return false;
+        }).catch(function() {
+            setSyncStatus('offline');
+            return false;
+        });
+}
+
+/* ====== SAVE (unified) ====== */
+var saveTimer = null;
+var lastLocalPush = 0;
+function saveData() {
+    saveLocal();
+    lastLocalPush = Date.now();
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(function() {
+        firebasePush();
+    }, 500);
+}
+
+/* ====== BUILD CARDS ====== */
+var seatingEl = document.getElementById('seating');
+
+ROWS.forEach(function(row, ri) {
+    var rowEl = document.createElement('div');
+    rowEl.className = 'seat-row';
+    row.forEach(function(idx) {
+        var s = students[idx];
+        var card = document.createElement('div');
+        card.className = 'student-card';
+        card.dataset.id = idx;
+        card.innerHTML =
+            '<div class="card-accent" style="background:' + s.color + '"></div>' +
+            '<div class="crown-badge" data-crown="' + idx + '">👑</div>' +
+            '<div class="s-emoji">' + s.emoji + '</div>' +
+            '<div class="s-name" data-nameid="' + idx + '">' + s.name + '</div>' +
+            '<div class="s-points zer" data-ptsid="' + idx + '">0</div>' +
+            '<div class="card-btns">' +
+                '<button class="pt-btn minus" data-action="sub" data-sid="' + idx + '">−</button>' +
+                '<button class="pt-btn plus" data-action="add" data-sid="' + idx + '">+</button>' +
+            '</div>';
+        rowEl.appendChild(card);
+    });
+    seatingEl.appendChild(rowEl);
+    if (ri < ROWS.length - 1) {
+        var label = document.createElement('div');
+        label.className = 'desk-label';
+        var labels = ['','— Middle Row —','— Back Row —','— Last Row —'];
+        label.textContent = labels[ri + 1] || '';
+        seatingEl.appendChild(label);
+    }
+});
+
+requestAnimationFrame(function() {
+    document.querySelectorAll('.student-card').forEach(function(c, i) {
+        setTimeout(function() { c.classList.add('entered'); }, i * 60);
+    });
+});
+
+/* ====== REFRESH ====== */
+function refreshAllCards() {
+    students.forEach(function(s) {
+        var nameEl = document.querySelector('[data-nameid="' + s.id + '"]');
+        var ptsEl = document.querySelector('[data-ptsid="' + s.id + '"]');
+        if (nameEl) nameEl.textContent = s.name;
+        if (ptsEl) {
+            ptsEl.textContent = s.points;
+            ptsEl.className = 's-points ' + (s.points > 0 ? 'pos' : s.points < 0 ? 'neg' : 'zer');
+        }
+    });
+    updateTotal();
+    updateCrown();
+}
+
+/* ====== POINT LOGIC ====== */
+function changePoints(idx, delta) {
+    students[idx].points += delta;
+    updateCardDisplay(idx, delta);
+    updateTotal();
+    updateCrown();
+    saveData();
+}
+
+function updateCardDisplay(idx, delta) {
+    var ptsEl = document.querySelector('[data-ptsid="' + idx + '"]');
+    var card = document.querySelector('.student-card[data-id="' + idx + '"]');
+    var s = students[idx];
+    ptsEl.textContent = s.points;
+    ptsEl.className = 's-points ' + (s.points > 0 ? 'pos' : s.points < 0 ? 'neg' : 'zer');
+    ptsEl.classList.remove('bump'); void ptsEl.offsetWidth; ptsEl.classList.add('bump');
+    card.classList.remove('card-flash-pos', 'card-flash-neg'); void card.offsetWidth;
+    card.classList.add(delta > 0 ? 'card-flash-pos' : 'card-flash-neg');
+    if (delta !== 0) {
+        var f = document.createElement('div');
+        f.className = 'float-ind';
+        f.style.color = delta > 0 ? 'var(--positive)' : 'var(--negative)';
+        f.textContent = (delta > 0 ? '+' : '') + delta;
+        f.style.top = '10px'; f.style.left = '50%'; f.style.transform = 'translateX(-50%)';
+        card.appendChild(f);
+        setTimeout(function() { f.remove(); }, 750);
+    }
+}
+
+function updateTotal() {
+    var t = 0; students.forEach(function(s) { t += s.points; });
+    document.getElementById('totalPts').textContent = t;
+}
+
+function updateCrown() {
+    var mx = -Infinity;
+    students.forEach(function(s) { if (s.points > mx) mx = s.points; });
+    document.querySelectorAll('[data-crown]').forEach(function(el) {
+        var idx = parseInt(el.dataset.crown);
+        el.style.display = (mx > 0 && students[idx].points === mx) ? 'block' : 'none';
+    });
+}
+
+/* ====== EVENTS ====== */
+seatingEl.addEventListener('click', function(e) {
+    if (isStudentMode) return;
+    var btn = e.target.closest('.pt-btn');
+    if (btn) { e.stopPropagation(); changePoints(parseInt(btn.dataset.sid), btn.dataset.action === 'add' ? 1 : -1); return; }
+    var nm = e.target.closest('.s-name');
+    if (nm) { e.stopPropagation(); openDetail(parseInt(nm.dataset.nameid)); return; }
+    var card = e.target.closest('.student-card');
+    if (card) openDetail(parseInt(card.dataset.id));
+});
+
+/* ====== DETAIL MODAL (teacher only) ====== */
+var detailModal = document.getElementById('detailModal');
+var mEmoji = document.getElementById('mEmoji');
+var mName = document.getElementById('mName');
+var mPts = document.getElementById('mPts');
+
+function openDetail(idx) {
+    if (isStudentMode) return;
+    activeStudentId = idx;
+    var s = students[idx];
+    mEmoji.textContent = s.emoji;
+    mName.value = s.name;
+    updateModalPts();
+    detailModal.classList.add('show');
+    setTimeout(function() { mName.focus(); }, 100);
+}
+function updateModalPts() {
+    if (activeStudentId === null) return;
+    var s = students[activeStudentId];
+    mPts.textContent = s.points;
+    mPts.className = 'm-pts ' + (s.points > 0 ? 'pos' : s.points < 0 ? 'neg' : 'zer');
+}
+function closeDetail() {
+    if (activeStudentId !== null) {
+        var n = mName.value.trim();
+        if (n) { students[activeStudentId].name = n; document.querySelector('[data-nameid="' + activeStudentId + '"]').textContent = n; }
+        saveData();
+    }
+    detailModal.classList.remove('show');
+    activeStudentId = null;
+}
+document.getElementById('mClose').addEventListener('click', closeDetail);
+detailModal.addEventListener('click', function(e) { if (e.target === detailModal) closeDetail(); });
+document.querySelectorAll('.m-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+        if (activeStudentId === null) return;
+        changePoints(activeStudentId, parseInt(btn.dataset.delta));
+        updateModalPts();
+    });
+});
+
+/* ====== RESET ====== */
+var confirmDialog = document.getElementById('confirmDialog');
+document.getElementById('btnReset').addEventListener('click', function() { confirmDialog.classList.add('show'); });
+document.getElementById('cCancel').addEventListener('click', function() { confirmDialog.classList.remove('show'); });
+document.getElementById('cConfirm').addEventListener('click', function() {
+    students.forEach(function(s) { s.points = 0; });
+    document.querySelectorAll('.s-points').forEach(function(el) { el.textContent = '0'; el.className = 's-points zer'; });
+    updateTotal(); updateCrown(); saveData();
+    confirmDialog.classList.remove('show');
+});
+confirmDialog.addEventListener('click', function(e) { if (e.target === confirmDialog) confirmDialog.classList.remove('show'); });
+
+/* ====== LEADERBOARD ====== */
+var lbOverlay = document.getElementById('lbOverlay');
+document.getElementById('btnLeaderboard').addEventListener('click', function() {
+    var sorted = students.slice().sort(function(a, b) { return b.points - a.points; });
+    document.getElementById('lbList').innerHTML = sorted.map(function(s, i) {
+        var rc = i === 0 ? 'r1' : i === 1 ? 'r2' : i === 2 ? 'r3' : '';
+        var medal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : (i + 1);
+        var sc = s.points > 0 ? 'pos' : s.points < 0 ? 'neg' : 'zer';
+        return '<div class="lb-item"><div class="lb-rank ' + rc + '">' + medal + '</div><div class="lb-emoji">' + s.emoji + '</div><div class="lb-name">' + s.name + '</div><div class="lb-score ' + sc + '">' + s.points + '</div></div>';
+    }).join('');
+    lbOverlay.classList.add('show');
+});
+document.getElementById('lbClose').addEventListener('click', function() { lbOverlay.classList.remove('show'); });
+lbOverlay.addEventListener('click', function(e) { if (e.target === lbOverlay) lbOverlay.classList.remove('show'); });
+
+/* ====== RANDOM ====== */
+var randomOverlay = document.getElementById('randomOverlay');
+document.getElementById('btnRandom').addEventListener('click', function() {
+    var s = students[Math.floor(Math.random() * students.length)];
+    var em = document.getElementById('randEmoji');
+    em.textContent = s.emoji; em.style.animation = 'none'; void em.offsetWidth; em.style.animation = 'spinPick 0.6s ease';
+    document.getElementById('randName').textContent = s.name;
+    randomOverlay.classList.add('show');
+});
+randomOverlay.addEventListener('click', function() { randomOverlay.classList.remove('show'); });
+
+/* ====== EXPORT ====== */
+document.getElementById('btnExport').addEventListener('click', function() {
+    var data = students.map(function(s) { return { id: s.id, name: s.name, points: s.points }; });
+    var blob = new Blob([JSON.stringify({ version: 1, date: new Date().toISOString(), students: data }, null, 2)], { type: 'application/json' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'classboard-' + new Date().toISOString().slice(0, 10) + '.json';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    showToast('📁 File saved!', false);
+});
+
+/* ====== IMPORT ====== */
+var fileInput = document.getElementById('fileInput');
+document.getElementById('btnImport').addEventListener('click', function() { fileInput.value = ''; fileInput.click(); });
+fileInput.addEventListener('change', function(e) {
+    var file = e.target.files[0]; if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function(evt) {
+        try {
+            var saved = JSON.parse(evt.target.result).students;
+            if (!Array.isArray(saved)) { showToast('⚠️ Invalid file', true); return; }
+            saved.forEach(function(r) {
+                var s = students.find(function(st) { return st.id === r.id; });
+                if (s) { if (r.name) s.name = r.name; if (typeof r.points === 'number') s.points = r.points; }
+            });
+            refreshAllCards(); saveData();
+            showToast('✅ Data loaded!', false);
+        } catch (err) { showToast('⚠️ Could not read file', true); }
+    };
+    reader.readAsText(file);
+});
+
+/* ====== TOAST ====== */
+function showToast(msg, isErr) {
+    var el = document.getElementById('saveIndicator');
+    el.textContent = msg;
+    el.classList.toggle('error', !!isErr);
+    el.classList.add('visible');
+    clearTimeout(showToast._t);
+    showToast._t = setTimeout(function() { el.classList.remove('visible', 'error'); }, 2200);
+}
+
+/* ====== MANUAL SYNC BUTTON ====== */
+document.getElementById('btnSync').addEventListener('click', function() {
+    showToast('☁️ Syncing with cloud...', false);
+    firebasePull().then(function(pulled) {
+        if (pulled) {
+            showToast('✅ Synced from cloud!', false);
+        } else {
+            firebasePush();
+            showToast('✅ Pushed to cloud!', false);
+        }
+    });
+});
+
+/* ====== KEYBOARD ====== */
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        closeDetail();
+        confirmDialog.classList.remove('show');
+        lbOverlay.classList.remove('show');
+        randomOverlay.classList.remove('show');
+        document.getElementById('shareOverlay').classList.remove('show');
+    }
+});
+
+/* =========================================================
+   REAL-TIME SSE (Server-Sent Events) — Live Streaming
+   ========================================================= */
+var sseSource = null;
+var sseReactSource = null;
+var sseConnected = false;
+var liveBadge = document.getElementById('liveBadge');
+var sseConnectTime = Date.now();
+
+function snapshotPoints() {
+    var snap = {};
+    students.forEach(function(s) { snap[s.id] = s.points; });
+    return snap;
+}
+
+function startSSE() {
+    if (!firebaseUrl || !classCode) return;
+    sseConnectTime = Date.now();
+    prevPointsSnapshot = snapshotPoints();
+
+    /* --- Points & Names SSE --- */
+    try {
+        sseSource = new EventSource(
+            firebaseUrl + '/classboard/' + encodeURIComponent(classCode) + '.json'
+        );
+    } catch (e) {
+        fallbackPolling();
+        return;
+    }
+
+    sseSource.addEventListener('put', function(e) {
+        handleSSEData(e);
+    });
+
+    sseSource.addEventListener('patch', function(e) {
+        handleSSEData(e);
+    });
+
+    sseSource.addEventListener('open', function() {
+        sseConnected = true;
+        liveBadge.classList.add('active');
+        setSyncStatus('online');
+    });
+
+    sseSource.addEventListener('error', function() {
+        sseConnected = false;
+        liveBadge.classList.remove('active');
+        setSyncStatus('offline');
+        /* EventSource auto-reconnects — no manual retry needed */
+    });
+
+    /* --- Reactions SSE --- */
+    startReactionSSE();
+}
+
+function handleSSEData(e) {
+    try {
+        var msg = JSON.parse(e.data);
+        if (!msg || !msg.data) return;
+
+        sseConnected = true;
+        liveBadge.classList.add('active');
+        setSyncStatus('online');
+
+        if (msg.path === '/') {
+            /* Full data snapshot */
+            if (msg.data && typeof msg.data === 'object') {
+                Object.keys(msg.data).forEach(function(key) {
+                    var id = parseInt(key);
+                    if (isNaN(id)) return;
+                    var s = students.find(function(st) { return st.id === id; });
+                    if (s && msg.data[key]) {
+                        if (msg.data[key].name) s.name = msg.data[key].name;
+                        if (typeof msg.data[key].points === 'number') s.points = msg.data[key].points;
+                    }
+                });
+                animateChangedCards();
+                saveLocal();
+            }
+        } else {
+            /* Partial update: path like "/0" or "/0/points" */
+            var parts = msg.path.split('/').filter(Boolean);
+            if (parts.length >= 1) {
+                var id = parseInt(parts[0]);
+                if (isNaN(id)) return;
+                var s = students.find(function(st) { return st.id === id; });
+                if (!s) return;
+
+                if (parts.length === 1 && typeof msg.data === 'object') {
+                    if (msg.data.name) s.name = msg.data.name;
+                    if (typeof msg.data.points === 'number') s.points = msg.data.points;
+                } else if (parts.length === 2 && parts[1] === 'points' && typeof msg.data === 'number') {
+                    s.points = msg.data;
+                } else if (parts.length === 2 && parts[1] === 'name' && typeof msg.data === 'string') {
+                    s.name = msg.data;
+                }
+                animateChangedCards();
+                saveLocal();
+            }
+        }
+    } catch (err) {
+        /* Ignore parse errors */
+    }
+}
+
+function animateChangedCards() {
+    var newSnap = snapshotPoints();
+    var anyChange = false;
+    students.forEach(function(s) {
+        var prev = prevPointsSnapshot[s.id];
+        if (prev !== undefined && prev !== s.points) {
+            var delta = s.points - prev;
+            updateCardDisplay(s.id, delta);
+            anyChange = true;
+        }
+    });
+    if (!anyChange) {
+        refreshAllCards();
+    } else {
+        /* Update name displays + totals without resetting animations */
+        students.forEach(function(s) {
+            var nameEl = document.querySelector('[data-nameid="' + s.id + '"]');
+            if (nameEl) nameEl.textContent = s.name;
+        });
+        updateTotal();
+        updateCrown();
+    }
+    prevPointsSnapshot = newSnap;
+}
+
+/* Fallback polling if SSE is not supported */
+var pollTimer = null;
+function fallbackPolling() {
+    clearInterval(pollTimer);
+    pollTimer = setInterval(function() {
+        prevPointsSnapshot = snapshotPoints();
+        firebasePull();
+    }, 3000);
+}
+
+/* =========================================================
+   REACTIONS SYSTEM
+   ========================================================= */
+var reactionContainer = document.getElementById('reactionContainer');
+
+function startReactionSSE() {
+    try {
+        sseReactSource = new EventSource(
+            firebaseUrl + '/reactions/' + encodeURIComponent(classCode) + '.json'
+        );
+    } catch (e) {
+        return;
+    }
+
+    sseReactSource.addEventListener('put', function(e) {
+        try {
+            var msg = JSON.parse(e.data);
+            if (!msg || !msg.data) return;
+
+            if (msg.path === '/') {
+                /* Initial full dump — show only recent reactions */
+                if (msg.data && typeof msg.data === 'object') {
+                    var now = Date.now();
+                    Object.keys(msg.data).forEach(function(key) {
+                        var r = msg.data[key];
+                        if (r && r.emoji && r.ts && (now - r.ts < 5000)) {
+                            showFloatingReaction(r.emoji);
+                        }
+                    });
+                }
+            } else {
+                /* New individual reaction */
+                if (msg.data && msg.data.emoji) {
+                    showFloatingReaction(msg.data.emoji);
+                }
+            }
+        } catch (err) { /* ignore */ }
+    });
+
+    sseReactSource.addEventListener('error', function() {
+        /* Will auto-reconnect */
+    });
+}
+
+function showFloatingReaction(emoji) {
+    var el = document.createElement('div');
+    el.className = 'float-reaction';
+    el.textContent = emoji;
+    el.style.left = (5 + Math.random() * 85) + '%';
+    var dur = 2 + Math.random() * 1.5;
+    el.style.animationDuration = dur + 's';
+    reactionContainer.appendChild(el);
+    setTimeout(function() { if (el.parentNode) el.remove(); }, dur * 1000 + 200);
+}
+
+function sendReaction(emoji) {
+    var data = {
+        emoji: emoji,
+        ts: Date.now()
+    };
+    fetch(firebaseUrl + '/reactions/' + encodeURIComponent(classCode) + '.json', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+    }).catch(function() {
+        /* Still show locally even if push fails */
+    });
+    /* Instant local feedback */
+    showFloatingReaction(emoji);
+}
+
+/* Build reaction buttons */
+var reactionBar = document.getElementById('reactionBar');
+REACTION_EMOJIS.forEach(function(emoji) {
+    var btn = document.createElement('button');
+    btn.className = 'reaction-btn';
+    btn.textContent = emoji;
+    btn.addEventListener('click', function() {
+        if (btn.classList.contains('cooldown')) return;
+        sendReaction(emoji);
+        /* Cooldown to prevent spam */
+        btn.classList.add('cooldown');
+        setTimeout(function() { btn.classList.remove('cooldown'); }, 1500);
+    });
+    reactionBar.appendChild(btn);
+});
+
+/* Teacher: periodically clean old reactions (older than 60s) */
+function cleanOldReactions() {
+    if (isStudentMode) return;
+    fetch(firebaseUrl + '/reactions/' + encodeURIComponent(classCode) + '.json')
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
+            if (!data || typeof data !== 'object') return;
+            var now = Date.now();
+            var toDelete = [];
+            Object.keys(data).forEach(function(key) {
+                if (data[key] && data[key].ts && (now - data[key].ts > 60000)) {
+                    toDelete.push(key);
+                }
+            });
+            toDelete.forEach(function(key) {
+                fetch(firebaseUrl + '/reactions/' + encodeURIComponent(classCode) + '/' + key + '.json', {
+                    method: 'DELETE'
+                }).catch(function() {});
+            });
+        }).catch(function() {});
+}
+if (!isStudentMode) {
+    setInterval(cleanOldReactions, 30000);
+}
+
+/* =========================================================
+   SHARE MODAL
+   ========================================================= */
+var shareOverlay = document.getElementById('shareOverlay');
+
+document.getElementById('btnShare').addEventListener('click', function() {
+    var base = window.location.href.split('?')[0].split('#')[0];
+    var studentUrl = base + '?student';
+
+    /* Show URL */
+    document.getElementById('shareURL').textContent = studentUrl;
+
+    /* Generate QR Code */
+    var qrWrap = document.getElementById('shareQR');
+    qrWrap.innerHTML = '';
+    try {
+        /* qrcode-generator library */
+        var qr = qrcode(0, 'M');
+        qr.addData(studentUrl);
+        qr.make();
+        qrWrap.innerHTML = qr.createSvgTag({ cellSize: 5, margin: 2 });
+    } catch (e) {
+        qrWrap.innerHTML = '<div style="padding:20px;color:var(--text-secondary)">QR unavailable</div>';
+    }
+
+    shareOverlay.classList.add('show');
+});
+
+document.getElementById('shareCopy').addEventListener('click', function() {
+    var url = document.getElementById('shareURL').textContent;
+    try {
+        navigator.clipboard.writeText(url).then(function() {
+            showToast('📋 Link copied!', false);
+        });
+    } catch (e) {
+        showToast('⚠️ Could not copy', true);
+    }
+});
+
+document.getElementById('shareClose').addEventListener('click', function() {
+    shareOverlay.classList.remove('show');
+});
+shareOverlay.addEventListener('click', function(e) {
+    if (e.target === shareOverlay) shareOverlay.classList.remove('show');
+});
+
+/* ====== INIT ====== */
+(function init() {
+    /* 1. Load from localStorage first (instant) */
+    loadLocal();
+    refreshAllCards();
+    prevPointsSnapshot = snapshotPoints();
+
+    /* 2. Pull latest from Firebase */
+    firebasePull().then(function() {
+        prevPointsSnapshot = snapshotPoints();
+    });
+
+    /* 3. Start real-time SSE listener */
+    startSSE();
+})();
+</script>
+
+
+
+</body></html>
