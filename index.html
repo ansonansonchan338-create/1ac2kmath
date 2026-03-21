@@ -260,6 +260,18 @@
         .cwv-bar .wb-sz{padding:4px 8px;font-size:11px}
         .cwv-bar .wb-t{width:32px;height:32px;font-size:13px}
         .cwv-clear-marks{padding:5px 10px;border:1.5px solid var(--warn);border-radius:8px;background:rgba(245,158,11,.1);color:var(--warn);font-family:'Fredoka',sans-serif;font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:4px}
+        .cwv-save{padding:6px 12px;border:none;border-radius:8px;background:linear-gradient(135deg,var(--info),#2563EB);color:#fff;font-family:'Fredoka',sans-serif;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:5px}
+        .cwv-save:active{transform:scale(.95)}
+
+        /* MARKED WORK (Student) */
+        .cw-marked{margin-top:10px;padding:12px;background:rgba(59,130,246,.06);border:1.5px solid var(--info);border-radius:14px}
+        .cw-marked-head{font-family:'Fredoka',sans-serif;font-size:14px;font-weight:700;color:var(--info);display:flex;align-items:center;gap:8px;margin-bottom:4px}
+        .cw-marked-head i{font-size:18px}
+        .cw-marked-title{font-size:12px;color:var(--t2);font-weight:600;margin-bottom:8px}
+        .cw-marked-actions{display:flex;gap:8px}
+        .cw-marked-btn{flex:1;padding:10px;border:1.5px solid var(--brd);border-radius:10px;background:var(--bgc);font-family:'Fredoka',sans-serif;font-size:13px;font-weight:600;cursor:pointer;color:var(--t1);display:flex;align-items:center;justify-content:center;gap:6px;transition:all .2s}
+        .cw-marked-btn:hover{border-color:var(--info);color:var(--info)}
+        .cw-marked-btn.dl:hover{border-color:var(--pos);color:var(--pos)}
 
         /* PHOTO MODE */
         .photo-area{text-align:center;padding:20px 0}
@@ -505,6 +517,14 @@
                 </div>
             </div>
             <div class="cw-empty" id="cwStudentEmpty">No active classwork right now.</div>
+            <div class="cw-marked" id="cwMarkedSection" style="display:none">
+                <div class="cw-marked-head"><i class="fas fa-check-double"></i> Teacher has marked your work!</div>
+                <div class="cw-marked-title" id="cwMarkedTitle"></div>
+                <div class="cw-marked-actions">
+                    <button class="cw-marked-btn" id="cwMarkedView"><i class="fas fa-eye"></i> View</button>
+                    <button class="cw-marked-btn dl" id="cwMarkedDl"><i class="fas fa-download"></i> Download</button>
+                </div>
+            </div>
         </div>
         <div class="react-bar student-only-flex" id="reactBar">
             <span class="react-bar-l">React</span>
@@ -692,6 +712,7 @@
         <div class="cwv-head">
             <div class="cwv-name" id="cwvName"></div>
             <div class="cwv-tools">
+                <button class="cwv-save" id="cwvSave"><i class="fas fa-save"></i> Save to Student</button>
                 <button class="cwv-share" id="cwvShare"><i class="fas fa-broadcast-tower"></i> Share Live</button>
                 <button class="cwv-close" id="cwvClose"><i class="fas fa-times"></i></button>
             </div>
@@ -2191,6 +2212,51 @@ document.getElementById('cwvShare').addEventListener('click',function(){
     toast('📺 Sharing marked work live!');
 });
 
+/* Viewer: Save to student */
+document.getElementById('cwvSave').addEventListener('click',function(){
+    if(!cwViewerEl||!cwViewerCtx||cwViewingSid===null)return;
+    var ec=document.createElement('canvas');
+    var ew=1280,eh=Math.round(1280*cwViewerEl.height/cwViewerEl.width);
+    ec.width=ew;ec.height=eh;
+    ec.getContext('2d').drawImage(cwViewerEl,0,0,ew,eh);
+    var dataUrl=ec.toDataURL('image/jpeg',0.8);
+    var taskTitle=cwActive?cwActive.title:'Classwork';
+    fbPut('/marked-work/'+encodeURIComponent(CC)+'/'+cwViewingSid,{data:dataUrl,title:taskTitle,ts:Date.now()});
+    toast('💾 Marked work saved to '+students[cwViewingSid].name+"'s account");
+});
+
+/* ===== MARKED WORK (Student) ===== */
+var myMarkedWork=null;
+
+function pollMarkedWork(){
+    if(!isStudent||myId===null)return;
+    fbGet('/marked-work/'+encodeURIComponent(CC)+'/'+myId).then(function(d){
+        if(d&&d.data){
+            var isNew=!myMarkedWork||(myMarkedWork.ts!==d.ts);
+            myMarkedWork=d;
+            document.getElementById('cwMarkedSection').style.display='';
+            var dt=new Date(d.ts);
+            var timeStr=dt.getDate()+'/'+(dt.getMonth()+1)+' '+dt.getHours()+':'+(dt.getMinutes()<10?'0':'')+dt.getMinutes();
+            document.getElementById('cwMarkedTitle').textContent=(d.title||'Classwork')+' — marked '+timeStr;
+            if(isNew&&myMarkedWork)toast('📝 Teacher marked your work! Check Classwork section.');
+        }else{
+            myMarkedWork=null;
+            document.getElementById('cwMarkedSection').style.display='none';
+        }
+    });
+}
+
+document.getElementById('cwMarkedView').addEventListener('click',function(){
+    if(!myMarkedWork||!myMarkedWork.data)return;
+    openImgViewer(myMarkedWork.data);
+});
+
+document.getElementById('cwMarkedDl').addEventListener('click',function(){
+    if(!myMarkedWork||!myMarkedWork.data)return;
+    var title=myMarkedWork.title||'Marked Work';
+    downloadDataURL(myMarkedWork.data,title+' - Marked.jpg');
+});
+
 /* ===== SMART POLLING ===== */
 function pollData(){
     fbGet(P).then(function(d){
@@ -2241,13 +2307,13 @@ function pollStatus(){
     setInterval(pollChat,2500);
     setInterval(pollReactions,2500);
     setInterval(pollClasswork,3000);
-    if(isStudent){setInterval(pollScreenStatus,2500);setInterval(pollDrawControl,2000)}
+    if(isStudent){setInterval(pollScreenStatus,2500);setInterval(pollDrawControl,2000);setInterval(pollMarkedWork,5000)}
     setTimeout(pollNotes,500);
     setTimeout(pollStatus,1000);
     setTimeout(pollLive,500);
     setTimeout(pollChat,1000);
     setTimeout(pollClasswork,800);
-    if(isStudent){setTimeout(pollScreenStatus,800);setTimeout(pollDrawControl,1000)}
+    if(isStudent){setTimeout(pollScreenStatus,800);setTimeout(pollDrawControl,1000);setTimeout(pollMarkedWork,1200)}
 })();
 </script>
 </body>
