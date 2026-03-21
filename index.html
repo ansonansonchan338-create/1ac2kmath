@@ -204,6 +204,63 @@
         .student-wb-canvas{display:block;width:100%;touch-action:none;cursor:crosshair}
         .student-wb-bar{display:flex;align-items:center;gap:8px;padding:8px 0;flex-wrap:wrap}
 
+        /* CLASSWORK */
+        .cw-section{margin:10px 12px;padding:14px;background:var(--bgc);border-radius:16px;border:1.5px solid var(--brd)}
+        .cw-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+        .cw-title{font-family:'Fredoka',sans-serif;font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px}
+        .cw-title i{color:var(--acc)}
+        .cw-create-btn{padding:6px 14px;border:1.5px solid var(--acc);border-radius:10px;background:var(--acc-g);color:var(--acc);font-family:'Fredoka',sans-serif;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:5px;transition:all .2s}
+        .cw-create-btn:hover{background:var(--acc);color:#fff}
+        .cw-create{display:none;gap:6px;margin-bottom:10px;align-items:center}
+        .cw-create.open{display:flex}
+        .cw-create-input{flex:1;padding:10px 14px;border:2px solid var(--brd);border-radius:10px;font-family:'Nunito',sans-serif;font-size:16px;color:var(--t1);background:var(--bg2);outline:none}
+        .cw-create-input:focus{border-color:var(--acc)}
+        .cw-create-go{width:40px;height:40px;border:none;border-radius:10px;background:var(--pos);color:#fff;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+        .cw-create-x{width:40px;height:40px;border:1.5px solid var(--brd);border-radius:10px;background:var(--bgc);color:var(--t2);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+        .cw-task-bar{display:flex;align-items:center;padding:8px 12px;background:linear-gradient(135deg,var(--acc),#e5592a);border-radius:10px;margin-bottom:10px}
+        .cw-task-name{font-family:'Fredoka',sans-serif;font-size:15px;font-weight:700;color:#fff;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+        .cw-end-btn{padding:4px 10px;border:1.5px solid rgba(255,255,255,.4);border-radius:8px;background:rgba(255,255,255,.15);color:#fff;font-family:'Fredoka',sans-serif;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;flex-shrink:0;margin-left:8px}
+        .cw-end-btn:hover{background:rgba(255,255,255,.3)}
+        .cw-progress-wrap{height:6px;background:var(--bg2);border-radius:3px;overflow:hidden;margin-bottom:6px}
+        .cw-progress-fill{height:100%;background:var(--pos);border-radius:3px;transition:width .4s}
+        .cw-sub-count{font-family:'Fredoka',sans-serif;font-size:12px;font-weight:600;color:var(--t2);margin-bottom:8px}
+        .cw-sub-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(70px,1fr));gap:6px}
+        .cw-sub-item{display:flex;flex-direction:column;align-items:center;padding:8px 4px;border:1.5px solid var(--brd);border-radius:10px;background:var(--bg2);position:relative;transition:all .2s;opacity:.4}
+        .cw-sub-item.submitted{opacity:1;border-color:var(--pos);background:var(--pos-bg);cursor:pointer}
+        .cw-sub-item.submitted:hover{box-shadow:var(--shh);transform:scale(1.02)}
+        .cw-sub-emoji{font-size:22px}
+        .cw-sub-name{font-family:'Fredoka',sans-serif;font-size:10px;font-weight:600;color:var(--t1);margin-top:2px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+        .cw-sub-check{position:absolute;top:-4px;right:-4px;color:var(--pos);font-size:14px;background:var(--bgc);border-radius:50%}
+        .cw-empty{text-align:center;padding:12px;color:var(--t2);font-style:italic;font-size:13px}
+        .cw-student-task{display:flex;align-items:center;gap:8px;padding:10px 14px;background:linear-gradient(135deg,var(--acc),#e5592a);border-radius:12px;color:#fff;font-family:'Fredoka',sans-serif;font-size:15px;font-weight:700;margin-bottom:10px}
+        .cw-student-task i{font-size:20px}
+        .cw-submit-btn{width:100%;padding:16px;border:2px dashed var(--brd);border-radius:14px;background:var(--bgc);font-family:'Fredoka',sans-serif;font-size:16px;font-weight:700;cursor:pointer;color:var(--t2);display:flex;align-items:center;justify-content:center;gap:10px;transition:all .2s}
+        .cw-submit-btn:hover{border-color:var(--pos);color:var(--pos)}
+        .cw-submit-btn i{font-size:22px}
+        .cw-submitted-badge{display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px;background:var(--pos-bg);border:1.5px solid var(--pos);border-radius:14px;font-family:'Fredoka',sans-serif;font-size:16px;font-weight:700;color:var(--pos)}
+        .cw-submitted-badge i{font-size:32px}
+        .cw-resubmit-btn{padding:8px 16px;border:1.5px solid var(--brd);border-radius:10px;background:var(--bgc);font-family:'Fredoka',sans-serif;font-size:13px;font-weight:600;cursor:pointer;color:var(--t2);margin-top:4px;display:inline-flex;align-items:center;gap:5px}
+        .cw-resubmit-btn:hover{border-color:var(--acc);color:var(--acc)}
+
+        /* CLASSWORK VIEWER */
+        .cwv-bg{position:fixed;inset:0;background:var(--ov);display:none;flex-direction:column;z-index:2000;padding:0}
+        .cwv-bg.show{display:flex}
+        .cwv-panel{background:var(--bg1);display:flex;flex-direction:column;height:100%;overflow:hidden}
+        .cwv-head{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--bg2);border-bottom:1.5px solid var(--brd);flex-shrink:0}
+        .cwv-name{font-family:'Fredoka',sans-serif;font-size:16px;font-weight:700;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-right:8px}
+        .cwv-tools{display:flex;gap:6px;flex-shrink:0}
+        .cwv-share{padding:6px 12px;border:none;border-radius:8px;background:linear-gradient(135deg,#EF4444,#DC2626);color:#fff;font-family:'Fredoka',sans-serif;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:5px}
+        .cwv-share:active{transform:scale(.95)}
+        .cwv-close{width:36px;height:36px;border:1.5px solid var(--brd);border-radius:10px;background:var(--bgc);color:var(--t2);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+        .cwv-wrap{flex:1;overflow:auto;display:flex;align-items:center;justify-content:center;padding:10px;background:#1a1a1a}
+        .cwv-canvas{display:block;max-width:100%;touch-action:none;cursor:crosshair;border-radius:6px}
+        .cwv-loading{color:#999;font-family:'Fredoka',sans-serif;font-size:15px;text-align:center;padding:40px}
+        .cwv-bar{display:flex;align-items:center;gap:6px;padding:10px 12px;background:var(--bg2);border-top:1.5px solid var(--brd);flex-shrink:0;flex-wrap:wrap}
+        .cwv-bar .wb-c{width:26px;height:26px}
+        .cwv-bar .wb-sz{padding:4px 8px;font-size:11px}
+        .cwv-bar .wb-t{width:32px;height:32px;font-size:13px}
+        .cwv-clear-marks{padding:5px 10px;border:1.5px solid var(--warn);border-radius:8px;background:rgba(245,158,11,.1);color:var(--warn);font-family:'Fredoka',sans-serif;font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:4px}
+
         /* PHOTO MODE */
         .photo-area{text-align:center;padding:20px 0}
         .photo-btn{padding:16px 20px;border:2px dashed var(--brd);border-radius:16px;background:var(--bgc);font-family:'Fredoka',sans-serif;font-size:16px;font-weight:700;cursor:pointer;color:var(--t2);display:flex;align-items:center;justify-content:center;gap:10px;transition:all .2s;width:100%}
@@ -401,6 +458,27 @@
             <div class="ps-item"><div class="ps-dot" style="background:var(--neg)"></div><span id="psHelp">0</span> Help</div>
             <button class="clear-st-btn" id="clearAllStatus"><i class="fas fa-eraser"></i> Clear</button>
         </div>
+        <div class="cw-section teacher-only" id="cwTeacher">
+            <div class="cw-header">
+                <div class="cw-title"><i class="fas fa-clipboard-list"></i> Classwork</div>
+                <button class="cw-create-btn" id="cwCreateBtn"><i class="fas fa-plus"></i> New Task</button>
+            </div>
+            <div class="cw-create" id="cwCreate">
+                <input class="cw-create-input" id="cwCreateInput" placeholder="Task title..." maxlength="100">
+                <button class="cw-create-go" id="cwCreateGo"><i class="fas fa-check"></i></button>
+                <button class="cw-create-x" id="cwCreateCancel"><i class="fas fa-times"></i></button>
+            </div>
+            <div id="cwActiveSection" style="display:none">
+                <div class="cw-task-bar">
+                    <span class="cw-task-name" id="cwTaskName"></span>
+                    <button class="cw-end-btn" id="cwEndBtn"><i class="fas fa-stop"></i> End</button>
+                </div>
+                <div class="cw-progress-wrap"><div class="cw-progress-fill" id="cwProgressFill" style="width:0"></div></div>
+                <div class="cw-sub-count" id="cwSubCount">0 / 14 submitted</div>
+                <div class="cw-sub-grid" id="cwSubGrid"></div>
+            </div>
+            <div class="cw-empty" id="cwEmpty">No active classwork. Tap <b>+ New Task</b> to start.</div>
+        </div>
         <div class="my-card-wrap student-only" id="myCardWrap">
             <div class="my-card-top">
                 <div class="mc-emoji" id="mcEmoji"></div>
@@ -414,6 +492,19 @@
                 <button class="st-btn" data-st="done"><i class="fas fa-check-circle"></i>Done</button>
                 <button class="st-btn" data-st="help"><i class="fas fa-hand-paper"></i>Help</button>
             </div>
+        </div>
+        <div class="cw-section student-only" id="cwStudent">
+            <div id="cwStudentActive" style="display:none">
+                <div class="cw-student-task"><i class="fas fa-clipboard-list"></i> <span id="cwStudentTaskName"></span></div>
+                <div id="cwSubmitArea">
+                    <button class="cw-submit-btn" id="cwSubmitBtn"><i class="fas fa-camera"></i> Submit Photo of Work</button>
+                </div>
+                <div class="cw-submitted-badge" id="cwSubmittedBadge" style="display:none">
+                    <i class="fas fa-check-circle"></i> Work submitted!
+                    <button class="cw-resubmit-btn" id="cwResubmitBtn"><i class="fas fa-redo"></i> Resubmit</button>
+                </div>
+            </div>
+            <div class="cw-empty" id="cwStudentEmpty">No active classwork right now.</div>
         </div>
         <div class="react-bar student-only-flex" id="reactBar">
             <span class="react-bar-l">React</span>
@@ -595,11 +686,49 @@
 <!-- Image viewer -->
 <div class="img-viewer" id="imgViewer"><img id="imgViewerImg" alt="Full size"></div>
 
+<!-- Classwork Viewer -->
+<div class="cwv-bg" id="cwViewerBg">
+    <div class="cwv-panel">
+        <div class="cwv-head">
+            <div class="cwv-name" id="cwvName"></div>
+            <div class="cwv-tools">
+                <button class="cwv-share" id="cwvShare"><i class="fas fa-broadcast-tower"></i> Share Live</button>
+                <button class="cwv-close" id="cwvClose"><i class="fas fa-times"></i></button>
+            </div>
+        </div>
+        <div class="cwv-wrap" id="cwvWrap">
+            <div class="cwv-loading" id="cwvLoading"><i class="fas fa-spinner fa-spin"></i> Loading submission...</div>
+            <canvas class="cwv-canvas" id="cwvCanvas" style="display:none"></canvas>
+        </div>
+        <div class="cwv-bar">
+            <div class="wb-colors" id="cwvColors">
+                <button class="wb-c active" data-c="#EF4444" style="background:#EF4444"></button>
+                <button class="wb-c" data-c="#222" style="background:#222"></button>
+                <button class="wb-c" data-c="#3B82F6" style="background:#3B82F6"></button>
+                <button class="wb-c" data-c="#22C55E" style="background:#22C55E"></button>
+                <button class="wb-c" data-c="#F97316" style="background:#F97316"></button>
+                <button class="wb-c" data-c="#A855F7" style="background:#A855F7"></button>
+            </div>
+            <div class="wb-sizes" id="cwvSizes">
+                <button class="wb-sz" data-sz="3">S</button>
+                <button class="wb-sz active" data-sz="5">M</button>
+                <button class="wb-sz" data-sz="10">L</button>
+            </div>
+            <div class="wb-tools">
+                <button class="wb-t" id="cwvEraser" title="Eraser"><i class="fas fa-eraser"></i></button>
+                <button class="wb-t" id="cwvUndo" title="Undo"><i class="fas fa-undo"></i></button>
+                <button class="cwv-clear-marks" id="cwvClearMarks" title="Clear marks"><i class="fas fa-broom"></i> Clear Marks</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="toast" id="toast"></div>
 <div class="react-con" id="reactCon"></div>
 <input type="file" id="noteFileInput" accept=".pdf,image/*,.doc,.docx,.ppt,.pptx,.xls,.xlsx" style="display:none">
 <input type="file" id="chatFileInput" accept="image/*,.pdf" style="display:none">
 <input type="file" id="photoInput" accept="image/*" style="display:none">
+<input type="file" id="cwSubmitInput" accept="image/*" style="display:none">
 
 <script>
 /* ===== DARK MODE ===== */
@@ -848,7 +977,7 @@ document.getElementById('shareCl').addEventListener('click',function(){shareOv.c
 shareOv.addEventListener('click',function(e){if(e.target===shareOv)shareOv.classList.remove('show')});
 
 /* ===== KEYBOARD ===== */
-document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeDetail();confD.classList.remove('show');lbOv.classList.remove('show');randOv.classList.remove('show');shareOv.classList.remove('show');document.getElementById('noteModal').classList.remove('show');document.getElementById('imgViewer').classList.remove('show')}});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){if(cwViewerOpen){closeCwViewer();return}closeDetail();confD.classList.remove('show');lbOv.classList.remove('show');randOv.classList.remove('show');shareOv.classList.remove('show');document.getElementById('noteModal').classList.remove('show');document.getElementById('imgViewer').classList.remove('show')}});
 
 /* ===== STATUS SYSTEM ===== */
 document.getElementById('statusBtns').addEventListener('click',function(e){
@@ -1765,6 +1894,303 @@ if(isStudent){
     });
 }
 
+/* ===== CLASSWORK SUBMISSION ===== */
+var cwActive=null;
+var cwSubmissions={};
+var cwViewerOpen=false;
+var cwViewerCtx=null;
+var cwViewerEl=null;
+var cwVDrawing=false;
+var cwVColor='#EF4444';
+var cwVSize=5;
+var cwVErasing=false;
+var cwVHistory=[];
+var cwViewingSid=null;
+var cwSubmitInput=document.getElementById('cwSubmitInput');
+var cwLastNotifiedTask='';
+
+/* Custom confirm helper */
+function showCwConfirm(message,onConfirm){
+    var bg=document.createElement('div');
+    bg.className='confirm-bg show';bg.style.zIndex='2500';
+    bg.innerHTML='<div class="confirm-box"><div class="ci">📋</div><p>'+escH(message)+'</p><div class="cb"><button class="cbtn cc">Cancel</button><button class="cbtn cd">Confirm</button></div></div>';
+    document.body.appendChild(bg);
+    bg.querySelector('.cc').addEventListener('click',function(){bg.remove()});
+    bg.querySelector('.cd').addEventListener('click',function(){bg.remove();onConfirm()});
+    bg.addEventListener('click',function(e){if(e.target===bg)bg.remove()});
+}
+
+/* Teacher: Create task */
+document.getElementById('cwCreateBtn').addEventListener('click',function(){
+    document.getElementById('cwCreate').classList.add('open');
+    document.getElementById('cwCreateInput').focus();
+});
+document.getElementById('cwCreateCancel').addEventListener('click',function(){
+    document.getElementById('cwCreate').classList.remove('open');
+    document.getElementById('cwCreateInput').value='';
+});
+document.getElementById('cwCreateGo').addEventListener('click',createClasswork);
+document.getElementById('cwCreateInput').addEventListener('keydown',function(e){if(e.key==='Enter')createClasswork()});
+
+function createClasswork(){
+    var title=document.getElementById('cwCreateInput').value.trim();
+    if(!title){toast('Please enter a task title',1);return}
+    cwActive={title:title,ts:Date.now(),active:true};
+    fbPut('/classwork/'+encodeURIComponent(CC),cwActive);
+    fbDel('/submissions/'+encodeURIComponent(CC));
+    fbDel('/sub-files/'+encodeURIComponent(CC));
+    cwSubmissions={};
+    document.getElementById('cwCreate').classList.remove('open');
+    document.getElementById('cwCreateInput').value='';
+    renderCwTeacher();
+    toast('📋 Task created!');
+}
+
+/* Teacher: End task */
+document.getElementById('cwEndBtn').addEventListener('click',function(){
+    showCwConfirm('End this classwork task?',function(){
+        cwActive=null;
+        fbDel('/classwork/'+encodeURIComponent(CC));
+        cwSubmissions={};
+        renderCwTeacher();
+        toast('Task ended');
+    });
+});
+
+/* Teacher: Render classwork panel */
+function renderCwTeacher(){
+    if(!cwActive||!cwActive.active){
+        document.getElementById('cwActiveSection').style.display='none';
+        document.getElementById('cwEmpty').style.display='';
+        document.getElementById('cwCreateBtn').style.display='';
+        return;
+    }
+    document.getElementById('cwActiveSection').style.display='';
+    document.getElementById('cwEmpty').style.display='none';
+    document.getElementById('cwCreateBtn').style.display='none';
+    document.getElementById('cwTaskName').textContent=cwActive.title;
+    var subCount=Object.keys(cwSubmissions).length;
+    document.getElementById('cwSubCount').textContent=subCount+' / 14 submitted';
+    var pct=Math.round(subCount/14*100);
+    document.getElementById('cwProgressFill').style.width=pct+'%';
+    var grid=document.getElementById('cwSubGrid');grid.innerHTML='';
+    students.forEach(function(s){
+        var hasSub=!!cwSubmissions[s.id];
+        var item=document.createElement('div');
+        item.className='cw-sub-item'+(hasSub?' submitted':'');
+        item.innerHTML='<span class="cw-sub-emoji">'+s.emoji+'</span><span class="cw-sub-name">'+escH(s.name.split(' ')[0])+'</span>'+(hasSub?'<i class="fas fa-check-circle cw-sub-check"></i>':'');
+        if(hasSub){
+            item.addEventListener('click',(function(sid){return function(){openCwViewer(sid)}})(s.id));
+        }
+        grid.appendChild(item);
+    });
+}
+
+/* Student: Render classwork section */
+function renderCwStudent(){
+    if(!cwActive||!cwActive.active){
+        document.getElementById('cwStudentActive').style.display='none';
+        document.getElementById('cwStudentEmpty').style.display='';
+        return;
+    }
+    document.getElementById('cwStudentActive').style.display='';
+    document.getElementById('cwStudentEmpty').style.display='none';
+    document.getElementById('cwStudentTaskName').textContent=cwActive.title;
+    var hasSub=myId!==null&&cwSubmissions[myId];
+    document.getElementById('cwSubmitArea').style.display=hasSub?'none':'';
+    document.getElementById('cwSubmittedBadge').style.display=hasSub?'':'none';
+    /* Notify student of new task */
+    if(cwActive.title&&cwActive.title!==cwLastNotifiedTask){
+        cwLastNotifiedTask=cwActive.title;
+        toast('📋 New task: '+cwActive.title);
+    }
+}
+
+/* Student: Submit work */
+document.getElementById('cwSubmitBtn').addEventListener('click',function(){cwSubmitInput.click()});
+document.getElementById('cwResubmitBtn').addEventListener('click',function(){cwSubmitInput.click()});
+
+cwSubmitInput.addEventListener('change',function(){
+    var file=cwSubmitInput.files[0];if(!file)return;
+    if(myId===null){toast('Please log in first',1);cwSubmitInput.value='';return}
+    toast('📤 Uploading...');
+    compressImage(file,1600,1200,0.7,function(dataUrl){
+        var s=students[myId];
+        fbPut('/sub-files/'+encodeURIComponent(CC)+'/'+myId,{data:dataUrl});
+        fbPut('/submissions/'+encodeURIComponent(CC)+'/'+myId,{name:s.name,ts:Date.now()});
+        cwSubmissions[myId]={name:s.name,ts:Date.now()};
+        renderCwStudent();
+        toast('✅ Work submitted!');
+    });
+    cwSubmitInput.value='';
+});
+
+/* Poll classwork */
+function pollClasswork(){
+    fbGet('/classwork/'+encodeURIComponent(CC)).then(function(d){
+        if(d&&d.active){
+            cwActive=d;
+        }else{
+            cwActive=null;
+        }
+        fbGet('/submissions/'+encodeURIComponent(CC)).then(function(subs){
+            cwSubmissions=(subs&&typeof subs==='object')?subs:{};
+            if(isStudent)renderCwStudent();
+            else renderCwTeacher();
+        });
+    });
+}
+
+/* ===== CLASSWORK VIEWER (Teacher) ===== */
+function openCwViewer(sid){
+    cwViewingSid=sid;
+    var s=students[sid];
+    document.getElementById('cwvName').textContent=s.emoji+' '+s.name+"'s Work";
+    document.getElementById('cwViewerBg').classList.add('show');
+    document.getElementById('cwvCanvas').style.display='none';
+    document.getElementById('cwvLoading').style.display='';
+    cwViewerOpen=true;
+    cwVColor='#EF4444';cwVSize=5;cwVErasing=false;
+    document.querySelectorAll('#cwvColors .wb-c').forEach(function(b){b.classList.remove('active')});
+    document.querySelector('#cwvColors .wb-c[data-c="#EF4444"]').classList.add('active');
+    document.getElementById('cwvEraser').classList.remove('active');
+
+    var cachedKey='sub_'+sid;
+    if(fileCache[cachedKey]){
+        loadCwViewerImage(fileCache[cachedKey]);
+    }else{
+        fbGet('/sub-files/'+encodeURIComponent(CC)+'/'+sid).then(function(d){
+            if(d&&d.data){
+                fileCache[cachedKey]=d.data;
+                loadCwViewerImage(d.data);
+            }else{
+                document.getElementById('cwvLoading').innerHTML='<i class="fas fa-exclamation-triangle"></i> Submission not found';
+            }
+        });
+    }
+}
+
+function loadCwViewerImage(dataUrl){
+    var img=new Image();
+    img.onload=function(){
+        document.getElementById('cwvLoading').style.display='none';
+        document.getElementById('cwvCanvas').style.display='';
+        initCwViewerCanvas(img);
+    };
+    img.onerror=function(){
+        document.getElementById('cwvLoading').innerHTML='<i class="fas fa-exclamation-triangle"></i> Failed to load image';
+    };
+    img.src=dataUrl;
+}
+
+function initCwViewerCanvas(img){
+    cwViewerEl=document.getElementById('cwvCanvas');
+    var wrap=document.getElementById('cwvWrap');
+    var w=wrap.offsetWidth-20;
+    var aspectRatio=img.height/img.width;
+    var h=Math.round(w*aspectRatio);
+    var maxH=window.innerHeight*0.55;
+    if(h>maxH){w=Math.round(maxH/aspectRatio);h=maxH}
+    var dpr=Math.min(window.devicePixelRatio||1,3);
+    cwViewerEl.width=w*dpr;cwViewerEl.height=h*dpr;
+    cwViewerEl.style.width=w+'px';cwViewerEl.style.height=h+'px';
+    cwViewerCtx=cwViewerEl.getContext('2d');
+    cwViewerCtx.scale(dpr,dpr);
+    cwViewerCtx.drawImage(img,0,0,w,h);
+    cwViewerCtx.lineCap='round';cwViewerCtx.lineJoin='round';
+    cwVHistory=[];
+    cwVHistory.push(cwViewerCtx.getImageData(0,0,cwViewerEl.width,cwViewerEl.height));
+    cwViewerEl.removeEventListener('pointerdown',cwvDown);
+    cwViewerEl.removeEventListener('pointermove',cwvMoveH);
+    cwViewerEl.removeEventListener('pointerup',cwvUpH);
+    cwViewerEl.removeEventListener('pointercancel',cwvUpH);
+    cwViewerEl.addEventListener('pointerdown',cwvDown);
+    cwViewerEl.addEventListener('pointermove',cwvMoveH);
+    cwViewerEl.addEventListener('pointerup',cwvUpH);
+    cwViewerEl.addEventListener('pointercancel',cwvUpH);
+}
+
+function getCwvPos(e){var rect=cwViewerEl.getBoundingClientRect();return{x:e.clientX-rect.left,y:e.clientY-rect.top}}
+
+function cwvDown(e){
+    e.preventDefault();cwVDrawing=true;
+    cwViewerEl.setPointerCapture(e.pointerId);
+    var pos=getCwvPos(e);
+    cwViewerCtx.beginPath();cwViewerCtx.moveTo(pos.x,pos.y);
+    cwViewerCtx.strokeStyle=cwVErasing?'#fff':cwVColor;
+    cwViewerCtx.lineWidth=cwVErasing?cwVSize*3:cwVSize;
+}
+
+function cwvMoveH(e){
+    if(!cwVDrawing)return;e.preventDefault();
+    var pos=getCwvPos(e);
+    cwViewerCtx.lineTo(pos.x,pos.y);cwViewerCtx.stroke();
+    cwViewerCtx.beginPath();cwViewerCtx.moveTo(pos.x,pos.y);
+}
+
+function cwvUpH(){
+    if(!cwVDrawing)return;cwVDrawing=false;cwViewerCtx.beginPath();
+    cwVHistory.push(cwViewerCtx.getImageData(0,0,cwViewerEl.width,cwViewerEl.height));
+    if(cwVHistory.length>20)cwVHistory.shift();
+}
+
+/* Viewer: close */
+document.getElementById('cwvClose').addEventListener('click',closeCwViewer);
+
+function closeCwViewer(){
+    document.getElementById('cwViewerBg').classList.remove('show');
+    cwViewerOpen=false;
+    if(cwViewerEl){
+        cwViewerEl.removeEventListener('pointerdown',cwvDown);
+        cwViewerEl.removeEventListener('pointermove',cwvMoveH);
+        cwViewerEl.removeEventListener('pointerup',cwvUpH);
+        cwViewerEl.removeEventListener('pointercancel',cwvUpH);
+    }
+    cwViewerCtx=null;cwVHistory=[];
+}
+
+/* Viewer: tools */
+document.getElementById('cwvColors').addEventListener('click',function(e){
+    var btn=e.target.closest('.wb-c');if(!btn)return;
+    cwVColor=btn.dataset.c;cwVErasing=false;
+    document.getElementById('cwvEraser').classList.remove('active');
+    document.querySelectorAll('#cwvColors .wb-c').forEach(function(b){b.classList.remove('active')});
+    btn.classList.add('active');
+});
+document.getElementById('cwvSizes').addEventListener('click',function(e){
+    var btn=e.target.closest('.wb-sz');if(!btn)return;
+    cwVSize=parseInt(btn.dataset.sz);
+    document.querySelectorAll('#cwvSizes .wb-sz').forEach(function(b){b.classList.remove('active')});
+    btn.classList.add('active');
+});
+document.getElementById('cwvEraser').addEventListener('click',function(){
+    cwVErasing=!cwVErasing;this.classList.toggle('active',cwVErasing);
+});
+document.getElementById('cwvUndo').addEventListener('click',function(){
+    if(!cwViewerCtx||cwVHistory.length<2)return;
+    cwVHistory.pop();
+    cwViewerCtx.putImageData(cwVHistory[cwVHistory.length-1],0,0);
+});
+document.getElementById('cwvClearMarks').addEventListener('click',function(){
+    if(!cwViewerCtx||cwVHistory.length<2)return;
+    cwViewerCtx.putImageData(cwVHistory[0],0,0);
+    cwVHistory=[cwVHistory[0]];
+});
+
+/* Viewer: Share live */
+document.getElementById('cwvShare').addEventListener('click',function(){
+    if(!cwViewerEl||!cwViewerCtx)return;
+    var ec=document.createElement('canvas');
+    var ew=1280,eh=Math.round(1280*cwViewerEl.height/cwViewerEl.width);
+    ec.width=ew;ec.height=eh;
+    ec.getContext('2d').drawImage(cwViewerEl,0,0,ew,eh);
+    var dataUrl=ec.toDataURL('image/jpeg',0.75);
+    fbPut('/screenshare/'+encodeURIComponent(CC)+'/status',{live:true,ts:Date.now()});
+    fbPut('/screenshare/'+encodeURIComponent(CC)+'/frame',{data:dataUrl,ts:Date.now()});
+    document.getElementById('liveB').classList.add('on');
+    toast('📺 Sharing marked work live!');
+});
+
 /* ===== SMART POLLING ===== */
 function pollData(){
     fbGet(P).then(function(d){
@@ -1814,11 +2240,13 @@ function pollStatus(){
     setInterval(pollLive,1500);
     setInterval(pollChat,2500);
     setInterval(pollReactions,2500);
+    setInterval(pollClasswork,3000);
     if(isStudent){setInterval(pollScreenStatus,2500);setInterval(pollDrawControl,2000)}
     setTimeout(pollNotes,500);
     setTimeout(pollStatus,1000);
     setTimeout(pollLive,500);
     setTimeout(pollChat,1000);
+    setTimeout(pollClasswork,800);
     if(isStudent){setTimeout(pollScreenStatus,800);setTimeout(pollDrawControl,1000)}
 })();
 </script>
