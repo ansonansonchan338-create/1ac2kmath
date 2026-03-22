@@ -258,10 +258,21 @@
         .cw-submit-btn{width:100%;padding:16px;border:2px dashed var(--brd);border-radius:14px;background:var(--bgc);font-family:'Fredoka',sans-serif;font-size:16px;font-weight:700;cursor:pointer;color:var(--t2);display:flex;align-items:center;justify-content:center;gap:10px;transition:all .2s}
         .cw-submit-btn:hover{border-color:var(--pos);color:var(--pos)}
         .cw-submit-btn i{font-size:22px}
-        .cw-submitted-badge{display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px;background:var(--pos-bg);border:1.5px solid var(--pos);border-radius:14px;font-family:'Fredoka',sans-serif;font-size:16px;font-weight:700;color:var(--pos)}
-        .cw-submitted-badge i{font-size:32px}
+        .cw-submitted-badge{display:flex;flex-direction:column;align-items:center;gap:8px;padding:14px;background:var(--pos-bg);border:1.5px solid var(--pos);border-radius:14px;font-family:'Fredoka',sans-serif;font-size:15px;font-weight:700;color:var(--pos)}
+        .cw-submitted-badge i.fa-check-circle{font-size:26px}
+        .cw-sub-thumbs{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin:8px 0 4px}
+        .cw-sub-thumb{width:56px;height:56px;border-radius:8px;object-fit:cover;border:2px solid var(--pos);cursor:pointer;transition:all .15s}
+        .cw-sub-thumb:hover{transform:scale(1.08);box-shadow:var(--shh)}
+        .cw-add-more-btn{padding:10px 18px;border:2px dashed var(--acc);border-radius:12px;background:var(--bgc);font-family:'Fredoka',sans-serif;font-size:14px;font-weight:700;cursor:pointer;color:var(--acc);display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s;margin-top:4px;width:100%}
+        .cw-add-more-btn:hover{background:var(--acc-g);border-style:solid}
         .cw-resubmit-btn{padding:8px 16px;border:1.5px solid var(--brd);border-radius:10px;background:var(--bgc);font-family:'Fredoka',sans-serif;font-size:13px;font-weight:600;cursor:pointer;color:var(--t2);margin-top:4px;display:inline-flex;align-items:center;gap:5px}
         .cw-resubmit-btn:hover{border-color:var(--acc);color:var(--acc)}
+        .cw-page-count{font-size:10px;font-weight:700;background:var(--acc);color:#fff;border-radius:5px;padding:1px 5px;position:absolute;bottom:-3px;right:-3px;font-family:'Fredoka',sans-serif}
+        .cwv-pager{display:flex;align-items:center;justify-content:center;gap:10px;padding:6px 0}
+        .cwv-pager-btn{width:36px;height:36px;border:1.5px solid var(--brd);border-radius:10px;background:var(--bgc);color:var(--t1);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
+        .cwv-pager-btn:hover{border-color:var(--acc);color:var(--acc)}
+        .cwv-pager-btn:disabled{opacity:.3;cursor:default}
+        .cwv-pager-label{font-family:'Fredoka',sans-serif;font-size:13px;font-weight:700;color:var(--t1)}
 
         /* CLASSWORK VIEWER */
         .cwv-bg{position:fixed;inset:0;background:var(--ov);display:none;flex-direction:column;z-index:2000;padding:0}
@@ -539,8 +550,9 @@
                     <button class="cw-submit-btn" id="cwSubmitBtn"><i class="fas fa-camera"></i> Submit Photo of Work</button>
                 </div>
                 <div class="cw-submitted-badge" id="cwSubmittedBadge" style="display:none">
-                    <i class="fas fa-check-circle"></i> Work submitted!
-                    <button class="cw-resubmit-btn" id="cwResubmitBtn"><i class="fas fa-redo"></i> Resubmit</button>
+                    <i class="fas fa-check-circle"></i> <span id="cwSubPageLabel">Work submitted!</span>
+                    <div class="cw-sub-thumbs" id="cwSubThumbs"></div>
+                    <button class="cw-add-more-btn" id="cwAddMoreBtn"><i class="fas fa-plus-circle"></i> Add Another Page</button>
                 </div>
             </div>
             <div class="cw-empty" id="cwStudentEmpty">No active classwork right now.</div>
@@ -756,6 +768,11 @@
                 <button class="cwv-close" id="cwvClose"><i class="fas fa-times"></i></button>
             </div>
         </div>
+        <div class="cwv-pager" id="cwvPager" style="display:none">
+            <button class="cwv-pager-btn" id="cwvPrev" title="Previous page"><i class="fas fa-chevron-left"></i></button>
+            <span class="cwv-pager-label" id="cwvPageLabel">1 / 1</span>
+            <button class="cwv-pager-btn" id="cwvNext" title="Next page"><i class="fas fa-chevron-right"></i></button>
+        </div>
         <div class="cwv-wrap" id="cwvWrap">
             <div class="cwv-loading" id="cwvLoading"><i class="fas fa-spinner fa-spin"></i> Loading submission...</div>
             <canvas class="cwv-canvas" id="cwvCanvas" style="display:none"></canvas>
@@ -796,7 +813,7 @@
 <input type="file" id="noteFileInput" accept=".pdf,image/*,.doc,.docx,.ppt,.pptx,.xls,.xlsx" style="display:none">
 <input type="file" id="chatFileInput" accept="image/*,.pdf" style="display:none">
 <input type="file" id="photoInput" accept="image/*" style="display:none">
-<input type="file" id="cwSubmitInput" accept="image/*" style="display:none">
+<input type="file" id="cwSubmitInput" accept="image/*" multiple style="display:none">
 
 <script>
 /* ===== DARK MODE ===== */
@@ -1132,11 +1149,12 @@ function initWhiteboard(){
     if(!wrap||wrap.offsetWidth===0)return;
     var w=wrap.offsetWidth;
     var h=Math.round(w*3/4);
-    var dpr=Math.min(window.devicePixelRatio||1,3);
+    var dpr=Math.min(window.devicePixelRatio||1,4);
     wbEl.width=w*dpr;wbEl.height=h*dpr;
     wbEl.style.height=h+'px';
     wbCtx=wbEl.getContext('2d');
     wbCtx.scale(dpr,dpr);
+    wbCtx.imageSmoothingEnabled=true;wbCtx.imageSmoothingQuality='high';
     wbCtx.fillStyle='#fff';
     wbCtx.fillRect(0,0,w,h);
     wbCtx.lineCap='round';wbCtx.lineJoin='round';
@@ -1205,10 +1223,11 @@ function uploadWbFrame(){
     if(!wbEl||!wbLive)return;
     var ec=document.createElement('canvas');
     var ow=wbEl.width,oh=wbEl.height;
-    var ew=1280,eh=Math.round(1280*oh/ow);
+    var ew=1920,eh=Math.round(1920*oh/ow);
     ec.width=ew;ec.height=eh;
-    ec.getContext('2d').drawImage(wbEl,0,0,ew,eh);
-    var dataUrl=ec.toDataURL('image/jpeg',0.75);
+    var ectx=ec.getContext('2d');ectx.imageSmoothingEnabled=true;ectx.imageSmoothingQuality='high';
+    ectx.drawImage(wbEl,0,0,ew,eh);
+    var dataUrl=ec.toDataURL('image/jpeg',0.88);
     fbPut('/screenshare/'+encodeURIComponent(CC)+'/frame',{data:dataUrl,ts:Date.now()});
 }
 
@@ -1355,10 +1374,11 @@ document.getElementById('startShareBtn').addEventListener('click',function(){
 function captureAndUpload(){
     if(!shareVideo.videoWidth)return;
     var vw=shareVideo.videoWidth,vh=shareVideo.videoHeight;
-    var cw=1280,ch=Math.round(1280*vh/vw)||720;
+    var cw=1920,ch=Math.round(1920*vh/vw)||1080;
     shareCanvas.width=cw;shareCanvas.height=ch;
+    shareCtx.imageSmoothingEnabled=true;shareCtx.imageSmoothingQuality='high';
     shareCtx.drawImage(shareVideo,0,0,cw,ch);
-    var dataUrl=shareCanvas.toDataURL('image/jpeg',0.7);
+    var dataUrl=shareCanvas.toDataURL('image/jpeg',0.85);
     var hash=dataUrl.substring(23,223);
     if(hash===lastFrameHash)return;
     lastFrameHash=hash;
@@ -1497,7 +1517,8 @@ function compressImage(file,maxW,maxH,quality,callback){
         var w=img.width,h=img.height;
         if(w>maxW||h>maxH){var ratio=Math.min(maxW/w,maxH/h);w=Math.round(w*ratio);h=Math.round(h*ratio)}
         var cv=document.createElement('canvas');cv.width=w;cv.height=h;
-        cv.getContext('2d').drawImage(img,0,0,w,h);
+        var cctx=cv.getContext('2d');cctx.imageSmoothingEnabled=true;cctx.imageSmoothingQuality='high';
+        cctx.drawImage(img,0,0,w,h);
         var du=cv.toDataURL('image/jpeg',quality);
         URL.revokeObjectURL(objUrl);
         callback(du);
@@ -1888,11 +1909,12 @@ function initStudentWb(){
     sWbInitRetries=0;
     var w=wrap.offsetWidth;
     var h=Math.round(w*3/4);
-    var dpr=Math.min(window.devicePixelRatio||1,3);
+    var dpr=Math.min(window.devicePixelRatio||1,4);
     sWbEl.width=w*dpr;sWbEl.height=h*dpr;
     sWbEl.style.height=h+'px';
     sWbCtx=sWbEl.getContext('2d');
     sWbCtx.scale(dpr,dpr);
+    sWbCtx.imageSmoothingEnabled=true;sWbCtx.imageSmoothingQuality='high';
     sWbCtx.fillStyle='#fff';
     sWbCtx.fillRect(0,0,w,h);
     sWbCtx.lineCap='round';sWbCtx.lineJoin='round';
@@ -1965,10 +1987,11 @@ function scheduleSWbUpload(){
     sWbUploadTimer=setTimeout(function(){
         if(!sWbEl||!studentDrawMode)return;
         var ec2=document.createElement('canvas');
-        var ew2=1280,eh2=Math.round(1280*sWbEl.height/sWbEl.width);
+        var ew2=1920,eh2=Math.round(1920*sWbEl.height/sWbEl.width);
         ec2.width=ew2;ec2.height=eh2;
-        ec2.getContext('2d').drawImage(sWbEl,0,0,ew2,eh2);
-        var du2=ec2.toDataURL('image/jpeg',0.75);
+        var ectx2=ec2.getContext('2d');ectx2.imageSmoothingEnabled=true;ectx2.imageSmoothingQuality='high';
+        ectx2.drawImage(sWbEl,0,0,ew2,eh2);
+        var du2=ec2.toDataURL('image/jpeg',0.88);
         fbPut('/screenshare/'+encodeURIComponent(CC)+'/frame',{data:du2,ts:Date.now()});
     },500);
 }
@@ -2068,20 +2091,44 @@ function archiveCurrentTask(cb){
     var taskId='t'+cwActive.ts+'_'+Math.random().toString(36).substr(2,4);
     var subKeys=Object.keys(cwSubmissions);
     var meta={title:cwActive.title,ts:cwActive.ts,subCount:subKeys.length,subs:{}};
-    subKeys.forEach(function(k){meta.subs[k]={name:cwSubmissions[k].name,ts:cwSubmissions[k].ts}});
+    subKeys.forEach(function(k){
+        var s=cwSubmissions[k];
+        meta.subs[k]={name:s.name,ts:s.ts};
+        if(s.pages)meta.subs[k].pages=s.pages;
+    });
     var enc=encodeURIComponent(CC);
     fbPut('/cw-history/'+enc+'/'+taskId,meta).then(function(){
-        var pending=subKeys.length;
-        if(pending===0){if(cb)cb();return}
+        /* Archive all submission files (multi-page aware) */
+        var jobs=[];
         subKeys.forEach(function(sid){
-            var cacheKey='sub_'+sid;
-            if(fileCache[cacheKey]){
-                fbPut('/cw-hist-files/'+enc+'/'+taskId+'/'+sid,{data:fileCache[cacheKey]}).then(done);
+            var sub=cwSubmissions[sid];
+            var pages=(sub&&sub.pages)?sub.pages:null;
+            if(pages){
+                Object.keys(pages).forEach(function(pid){
+                    jobs.push({sid:sid,pid:pid});
+                });
             }else{
-                fbGet('/sub-files/'+enc+'/'+sid).then(function(d){
-                    if(d&&d.data){
-                        fbPut('/cw-hist-files/'+enc+'/'+taskId+'/'+sid,{data:d.data}).then(done);
-                    }else{done()}
+                jobs.push({sid:sid,pid:null});
+            }
+        });
+        var pending=jobs.length;
+        if(pending===0){if(cb)cb();return}
+        jobs.forEach(function(job){
+            var srcPath,destPath,cacheKey;
+            if(job.pid){
+                srcPath='/sub-files/'+enc+'/'+job.sid+'/'+job.pid;
+                destPath='/cw-hist-files/'+enc+'/'+taskId+'/'+job.sid+'/'+job.pid;
+                cacheKey='sub_'+job.sid+'_'+job.pid;
+            }else{
+                srcPath='/sub-files/'+enc+'/'+job.sid;
+                destPath='/cw-hist-files/'+enc+'/'+taskId+'/'+job.sid;
+                cacheKey='sub_'+job.sid;
+            }
+            if(fileCache[cacheKey]){
+                fbPut(destPath,{data:fileCache[cacheKey]}).then(done);
+            }else{
+                fbGet(srcPath).then(function(d){
+                    if(d&&d.data){fbPut(destPath,{data:d.data}).then(done)}else{done()}
                 });
             }
             function done(){pending--;if(pending<=0&&cb)cb()}
@@ -2140,10 +2187,13 @@ function renderCwTeacher(){
     document.getElementById('cwProgressFill').style.width=pct+'%';
     var grid=document.getElementById('cwSubGrid');grid.innerHTML='';
     students.forEach(function(s){
-        var hasSub=!!cwSubmissions[s.id];
+        var sub=cwSubmissions[s.id];
+        var hasSub=!!sub;
         var item=document.createElement('div');
         item.className='cw-sub-item'+(hasSub?' submitted':'');
-        item.innerHTML='<span class="cw-sub-emoji">'+s.emoji+'</span><span class="cw-sub-name">'+escH(s.name.split(' ')[0])+'</span>'+(hasSub?'<i class="fas fa-check-circle cw-sub-check"></i>':'');
+        var pageCount=(sub&&sub.pages)?Object.keys(sub.pages).length:0;
+        var pcBadge=(hasSub&&pageCount>1)?'<span class="cw-page-count">'+pageCount+'p</span>':'';
+        item.innerHTML='<span class="cw-sub-emoji">'+s.emoji+'</span><span class="cw-sub-name">'+escH(s.name.split(' ')[0])+'</span>'+(hasSub?'<i class="fas fa-check-circle cw-sub-check"></i>':'')+pcBadge;
         if(hasSub){
             item.addEventListener('click',(function(sid){return function(){openCwViewer(sid)}})(s.id));
         }
@@ -2161,9 +2211,32 @@ function renderCwStudent(){
     document.getElementById('cwStudentActive').style.display='';
     document.getElementById('cwStudentEmpty').style.display='none';
     document.getElementById('cwStudentTaskName').textContent=cwActive.title;
-    var hasSub=myId!==null&&cwSubmissions[myId];
+    var sub=myId!==null?cwSubmissions[myId]:null;
+    var hasSub=!!sub;
     document.getElementById('cwSubmitArea').style.display=hasSub?'none':'';
     document.getElementById('cwSubmittedBadge').style.display=hasSub?'':'none';
+    if(hasSub){
+        var pages=sub.pages||{};
+        var pageKeys=Object.keys(pages).sort(function(a,b){return(pages[a].ts||0)-(pages[b].ts||0)});
+        var count=pageKeys.length||1;
+        document.getElementById('cwSubPageLabel').textContent=count+' page'+(count>1?'s':'')+' submitted!';
+        var thumbDiv=document.getElementById('cwSubThumbs');
+        thumbDiv.innerHTML='';
+        var enc=encodeURIComponent(CC);
+        if(pageKeys.length>0){
+            pageKeys.forEach(function(pid,idx){
+                var img=document.createElement('img');
+                img.className='cw-sub-thumb';
+                img.alt='Page '+(idx+1);
+                img.title='Page '+(idx+1);
+                var cacheKey='sub_'+myId+'_'+pid;
+                if(fileCache[cacheKey]){img.src=fileCache[cacheKey]}
+                else{fbGet('/sub-files/'+enc+'/'+myId+'/'+pid).then(function(d){if(d&&d.data){fileCache[cacheKey]=d.data;img.src=d.data}})}
+                img.addEventListener('click',function(){if(img.src)openImgViewer(img.src)});
+                thumbDiv.appendChild(img);
+            });
+        }
+    }
     /* Notify student of new task */
     if(cwActive.title&&cwActive.title!==cwLastNotifiedTask){
         cwLastNotifiedTask=cwActive.title;
@@ -2171,21 +2244,33 @@ function renderCwStudent(){
     }
 }
 
-/* Student: Submit work */
+/* Student: Submit work (multi-page) */
 document.getElementById('cwSubmitBtn').addEventListener('click',function(){cwSubmitInput.click()});
-document.getElementById('cwResubmitBtn').addEventListener('click',function(){cwSubmitInput.click()});
+document.getElementById('cwAddMoreBtn').addEventListener('click',function(){cwSubmitInput.click()});
 
 cwSubmitInput.addEventListener('change',function(){
-    var file=cwSubmitInput.files[0];if(!file)return;
+    var files=Array.from(cwSubmitInput.files);if(!files.length)return;
     if(myId===null){toast('Please log in first',1);cwSubmitInput.value='';return}
-    toast('📤 Uploading...');
-    compressImage(file,1600,1200,0.7,function(dataUrl){
-        var s=students[myId];
-        fbPut('/sub-files/'+encodeURIComponent(CC)+'/'+myId,{data:dataUrl});
-        fbPut('/submissions/'+encodeURIComponent(CC)+'/'+myId,{name:s.name,ts:Date.now()});
-        cwSubmissions[myId]={name:s.name,ts:Date.now()};
-        renderCwStudent();
-        toast('✅ Work submitted!');
+    var total=files.length;var done=0;
+    toast('📤 Uploading '+total+' page'+(total>1?'s':'')+'...');
+    var enc=encodeURIComponent(CC);
+    var s=students[myId];
+    var existing=cwSubmissions[myId];
+    var pages=(existing&&existing.pages)?JSON.parse(JSON.stringify(existing.pages)):{};
+    files.forEach(function(file){
+        compressImage(file,2400,1800,0.82,function(dataUrl){
+            var pid='p'+Date.now()+'_'+Math.random().toString(36).substr(2,4);
+            fbPut('/sub-files/'+enc+'/'+myId+'/'+pid,{data:dataUrl});
+            pages[pid]={ts:Date.now()};
+            done++;
+            if(done>=total){
+                var subMeta={name:s.name,ts:Date.now(),pages:pages};
+                fbPut('/submissions/'+enc+'/'+myId,subMeta);
+                cwSubmissions[myId]=subMeta;
+                renderCwStudent();
+                toast('✅ '+total+' page'+(total>1?'s':'')+' submitted!');
+            }
+        });
     });
     cwSubmitInput.value='';
 });
@@ -2244,10 +2329,14 @@ function renderCwHistory(){
         topHtml+='</div>';
         var bodyHtml='<div class="cw-hist-body"><div class="cw-sub-grid">';
         students.forEach(function(s){
-            var hasSub=!!e.subs[s.id];
+            var subData=e.subs[s.id];
+            var hasSub=!!subData;
+            var pc=(subData&&subData.pages)?Object.keys(subData.pages).length:0;
+            var pcBadge2=(hasSub&&pc>1)?'<span class="cw-page-count">'+pc+'p</span>':'';
             bodyHtml+='<div class="cw-sub-item'+(hasSub?' submitted':'')+'"'+(hasSub?' data-hsid="'+s.id+'" data-htid="'+e.id+'"':'')+' >';
             bodyHtml+='<span class="cw-sub-emoji">'+s.emoji+'</span><span class="cw-sub-name">'+escH(s.name.split(' ')[0])+'</span>';
             if(hasSub)bodyHtml+='<i class="fas fa-check-circle cw-sub-check"></i>';
+            bodyHtml+=pcBadge2;
             bodyHtml+='</div>';
         });
         bodyHtml+='</div></div>';
@@ -2285,6 +2374,18 @@ document.getElementById('cwHistList').addEventListener('click',function(e){
 });
 
 /* ===== CLASSWORK VIEWER (Teacher) ===== */
+var cwViewerPages=[];
+var cwViewerPageIdx=0;
+
+function resetCwViewerTools(){
+    cwVColor='#EF4444';cwVSize=5;cwVErasing=false;cwVHighlighting=false;cwVHlColor='rgba(250,204,21,0.4)';
+    document.getElementById('cwvHighlight').classList.remove('active','hl-active');
+    document.getElementById('cwvHlColors').style.display='none';
+    document.querySelectorAll('#cwvColors .wb-c').forEach(function(b){b.classList.remove('active')});
+    document.querySelector('#cwvColors .wb-c[data-c="#EF4444"]').classList.add('active');
+    document.getElementById('cwvEraser').classList.remove('active');
+}
+
 function openCwViewer(sid,histTaskId){
     cwViewingSid=sid;
     cwViewerSource=histTaskId||null;
@@ -2295,16 +2396,65 @@ function openCwViewer(sid,histTaskId){
     document.getElementById('cwvLoading').innerHTML='<i class="fas fa-spinner fa-pulse"></i> Loading...';
     document.getElementById('cwvLoading').style.display='';
     cwViewerOpen=true;
-    cwVColor='#EF4444';cwVSize=5;cwVErasing=false;cwVHighlighting=false;cwVHlColor='rgba(250,204,21,0.4)';
-    document.getElementById('cwvHighlight').classList.remove('active','hl-active');
-    document.getElementById('cwvHlColors').style.display='none';
-    document.querySelectorAll('#cwvColors .wb-c').forEach(function(b){b.classList.remove('active')});
-    document.querySelector('#cwvColors .wb-c[data-c="#EF4444"]').classList.add('active');
-    document.getElementById('cwvEraser').classList.remove('active');
+    resetCwViewerTools();
 
+    /* Build page list */
     var enc=encodeURIComponent(CC);
-    var cachedKey=histTaskId?('hist_'+histTaskId+'_'+sid):('sub_'+sid);
-    var filePath=histTaskId?('/cw-hist-files/'+enc+'/'+histTaskId+'/'+sid):('/sub-files/'+enc+'/'+sid);
+    var sub;
+    if(histTaskId){
+        var histTask=cwHistory[histTaskId];
+        sub=histTask&&histTask.subs?histTask.subs[sid]:null;
+    }else{
+        sub=cwSubmissions[sid];
+    }
+    var pages=(sub&&sub.pages)?sub.pages:null;
+    if(pages){
+        cwViewerPages=Object.keys(pages).sort(function(a,b){return(pages[a].ts||0)-(pages[b].ts||0)});
+    }else{
+        cwViewerPages=['_single'];
+    }
+    cwViewerPageIdx=0;
+    updateCwvPager();
+    loadCwViewerPage();
+}
+
+function updateCwvPager(){
+    var pager=document.getElementById('cwvPager');
+    if(cwViewerPages.length<=1){pager.style.display='none';return}
+    pager.style.display='flex';
+    document.getElementById('cwvPageLabel').textContent=(cwViewerPageIdx+1)+' / '+cwViewerPages.length;
+    document.getElementById('cwvPrev').disabled=(cwViewerPageIdx===0);
+    document.getElementById('cwvNext').disabled=(cwViewerPageIdx>=cwViewerPages.length-1);
+}
+
+function loadCwViewerPage(){
+    document.getElementById('cwvCanvas').style.display='none';
+    document.getElementById('cwvLoading').innerHTML='<i class="fas fa-spinner fa-pulse"></i> Loading...';
+    document.getElementById('cwvLoading').style.display='';
+    resetCwViewerTools();
+    var enc=encodeURIComponent(CC);
+    var pid=cwViewerPages[cwViewerPageIdx];
+    var sid=cwViewingSid;
+    var htid=cwViewerSource;
+    var cachedKey,filePath;
+    if(pid==='_single'){
+        /* Legacy single-file submission */
+        if(htid){
+            cachedKey='hist_'+htid+'_'+sid;
+            filePath='/cw-hist-files/'+enc+'/'+htid+'/'+sid;
+        }else{
+            cachedKey='sub_'+sid;
+            filePath='/sub-files/'+enc+'/'+sid;
+        }
+    }else{
+        if(htid){
+            cachedKey='hist_'+htid+'_'+sid+'_'+pid;
+            filePath='/cw-hist-files/'+enc+'/'+htid+'/'+sid+'/'+pid;
+        }else{
+            cachedKey='sub_'+sid+'_'+pid;
+            filePath='/sub-files/'+enc+'/'+sid+'/'+pid;
+        }
+    }
     if(fileCache[cachedKey]){
         loadCwViewerImage(fileCache[cachedKey]);
     }else{
@@ -2318,6 +2468,13 @@ function openCwViewer(sid,histTaskId){
         });
     }
 }
+
+document.getElementById('cwvPrev').addEventListener('click',function(){
+    if(cwViewerPageIdx>0){cwViewerPageIdx--;updateCwvPager();loadCwViewerPage()}
+});
+document.getElementById('cwvNext').addEventListener('click',function(){
+    if(cwViewerPageIdx<cwViewerPages.length-1){cwViewerPageIdx++;updateCwvPager();loadCwViewerPage()}
+});
 
 function loadCwViewerImage(dataUrl){
     var img=new Image();
@@ -2338,13 +2495,14 @@ function initCwViewerCanvas(img){
     var w=wrap.offsetWidth-20;
     var aspectRatio=img.height/img.width;
     var h=Math.round(w*aspectRatio);
-    var maxH=window.innerHeight*0.55;
+    var maxH=window.innerHeight*0.7;
     if(h>maxH){w=Math.round(maxH/aspectRatio);h=maxH}
-    var dpr=Math.min(window.devicePixelRatio||1,3);
+    var dpr=Math.min(window.devicePixelRatio||1,4);
     cwViewerEl.width=w*dpr;cwViewerEl.height=h*dpr;
     cwViewerEl.style.width=w+'px';cwViewerEl.style.height=h+'px';
     cwViewerCtx=cwViewerEl.getContext('2d');
     cwViewerCtx.scale(dpr,dpr);
+    cwViewerCtx.imageSmoothingEnabled=true;cwViewerCtx.imageSmoothingQuality='high';
     cwViewerCtx.drawImage(img,0,0,w,h);
     cwViewerCtx.lineCap='round';cwViewerCtx.lineJoin='round';
     cwVHistory=[];
@@ -2399,7 +2557,9 @@ document.getElementById('cwvClose').addEventListener('click',closeCwViewer);
 
 function closeCwViewer(){
     document.getElementById('cwViewerBg').classList.remove('show');
+    document.getElementById('cwvPager').style.display='none';
     cwViewerOpen=false;
+    cwViewerPages=[];cwViewerPageIdx=0;
     if(cwViewerEl){
         cwViewerEl.removeEventListener('pointerdown',cwvDown);
         cwViewerEl.removeEventListener('pointermove',cwvMoveH);
@@ -2458,10 +2618,11 @@ document.getElementById('cwvClearMarks').addEventListener('click',function(){
 document.getElementById('cwvShare').addEventListener('click',function(){
     if(!cwViewerEl||!cwViewerCtx)return;
     var ec=document.createElement('canvas');
-    var ew=1280,eh=Math.round(1280*cwViewerEl.height/cwViewerEl.width);
+    var ew=1920,eh=Math.round(1920*cwViewerEl.height/cwViewerEl.width);
     ec.width=ew;ec.height=eh;
-    ec.getContext('2d').drawImage(cwViewerEl,0,0,ew,eh);
-    var dataUrl=ec.toDataURL('image/jpeg',0.75);
+    var ectx3=ec.getContext('2d');ectx3.imageSmoothingEnabled=true;ectx3.imageSmoothingQuality='high';
+    ectx3.drawImage(cwViewerEl,0,0,ew,eh);
+    var dataUrl=ec.toDataURL('image/jpeg',0.88);
     fbPut('/screenshare/'+encodeURIComponent(CC)+'/status',{live:true,ts:Date.now()});
     fbPut('/screenshare/'+encodeURIComponent(CC)+'/frame',{data:dataUrl,ts:Date.now()});
     document.getElementById('liveB').classList.add('on');
@@ -2472,10 +2633,11 @@ document.getElementById('cwvShare').addEventListener('click',function(){
 document.getElementById('cwvSave').addEventListener('click',function(){
     if(!cwViewerEl||!cwViewerCtx||cwViewingSid===null)return;
     var ec=document.createElement('canvas');
-    var ew=1280,eh=Math.round(1280*cwViewerEl.height/cwViewerEl.width);
+    var ew=1920,eh=Math.round(1920*cwViewerEl.height/cwViewerEl.width);
     ec.width=ew;ec.height=eh;
-    ec.getContext('2d').drawImage(cwViewerEl,0,0,ew,eh);
-    var dataUrl=ec.toDataURL('image/jpeg',0.8);
+    var ectx4=ec.getContext('2d');ectx4.imageSmoothingEnabled=true;ectx4.imageSmoothingQuality='high';
+    ectx4.drawImage(cwViewerEl,0,0,ew,eh);
+    var dataUrl=ec.toDataURL('image/jpeg',0.92);
     var taskTitle='Classwork';
     if(cwViewerSource&&cwHistory[cwViewerSource]){taskTitle=cwHistory[cwViewerSource].title}
     else if(cwActive){taskTitle=cwActive.title}
