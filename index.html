@@ -237,6 +237,22 @@
         .cw-sub-name{font-family:'Fredoka',sans-serif;font-size:10px;font-weight:600;color:var(--t1);margin-top:2px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
         .cw-sub-check{position:absolute;top:-4px;right:-4px;color:var(--pos);font-size:14px;background:var(--bgc);border-radius:50%}
         .cw-empty{text-align:center;padding:12px;color:var(--t2);font-style:italic;font-size:13px}
+        .cw-hist-header{display:flex;align-items:center;gap:8px;margin-top:14px;padding-top:12px;border-top:1.5px solid var(--brd);font-family:'Fredoka',sans-serif;font-size:14px;font-weight:700;color:var(--t2)}
+        .cw-hist-header i{color:var(--acc);font-size:13px}
+        .cw-hist-list{display:flex;flex-direction:column;gap:8px;margin-top:8px;max-height:400px;overflow-y:auto}
+        .cw-hist-card{padding:10px 12px;background:var(--bg2);border:1.5px solid var(--brd);border-radius:12px;cursor:pointer;transition:all .2s}
+        .cw-hist-card:hover{border-color:var(--acc);box-shadow:var(--shh)}
+        .cw-hist-card.open{border-color:var(--acc)}
+        .cw-hist-top{display:flex;align-items:center;justify-content:space-between}
+        .cw-hist-name{font-family:'Fredoka',sans-serif;font-size:14px;font-weight:700;color:var(--t1);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-right:8px}
+        .cw-hist-date{font-size:11px;color:var(--t2);font-weight:600;white-space:nowrap;margin-right:6px}
+        .cw-hist-badge{font-family:'Fredoka',sans-serif;font-size:11px;font-weight:700;color:#fff;background:var(--pos);padding:2px 8px;border-radius:6px;white-space:nowrap}
+        .cw-hist-arrow{color:var(--t2);font-size:12px;transition:transform .2s;margin-left:6px}
+        .cw-hist-card.open .cw-hist-arrow{transform:rotate(90deg)}
+        .cw-hist-body{display:none;margin-top:10px;padding-top:10px;border-top:1px dashed var(--brd)}
+        .cw-hist-card.open .cw-hist-body{display:block}
+        .cw-hist-del{width:28px;height:28px;border:1.5px solid var(--brd);border-radius:8px;background:var(--bgc);color:var(--neg);font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;margin-left:6px;flex-shrink:0}
+        .cw-hist-del:hover{background:var(--neg);color:#fff;border-color:var(--neg)}
         .cw-student-task{display:flex;align-items:center;gap:8px;padding:10px 14px;background:linear-gradient(135deg,var(--acc),#e5592a);border-radius:12px;color:#fff;font-family:'Fredoka',sans-serif;font-size:15px;font-weight:700;margin-bottom:10px}
         .cw-student-task i{font-size:20px}
         .cw-submit-btn{width:100%;padding:16px;border:2px dashed var(--brd);border-radius:14px;background:var(--bgc);font-family:'Fredoka',sans-serif;font-size:16px;font-weight:700;cursor:pointer;color:var(--t2);display:flex;align-items:center;justify-content:center;gap:10px;transition:all .2s}
@@ -499,6 +515,8 @@
                 <div class="cw-sub-grid" id="cwSubGrid"></div>
             </div>
             <div class="cw-empty" id="cwEmpty">No active classwork. Tap <b>+ New Task</b> to start.</div>
+            <div class="cw-hist-header" id="cwHistHeader" style="display:none"><i class="fas fa-history"></i> Past Tasks</div>
+            <div class="cw-hist-list" id="cwHistList"></div>
         </div>
         <div class="my-card-wrap student-only" id="myCardWrap">
             <div class="my-card-top">
@@ -2006,7 +2024,9 @@ if(isStudent){
 /* ===== CLASSWORK SUBMISSION ===== */
 var cwActive=null;
 var cwSubmissions={};
+var cwHistory={};
 var cwViewerOpen=false;
+var cwViewerSource=null;
 var cwViewerCtx=null;
 var cwViewerEl=null;
 var cwVDrawing=false;
@@ -2043,28 +2063,62 @@ document.getElementById('cwCreateCancel').addEventListener('click',function(){
 document.getElementById('cwCreateGo').addEventListener('click',createClasswork);
 document.getElementById('cwCreateInput').addEventListener('keydown',function(e){if(e.key==='Enter')createClasswork()});
 
+function archiveCurrentTask(cb){
+    if(!cwActive||!cwActive.active||!cwActive.title){if(cb)cb();return}
+    var taskId='t'+cwActive.ts+'_'+Math.random().toString(36).substr(2,4);
+    var subKeys=Object.keys(cwSubmissions);
+    var meta={title:cwActive.title,ts:cwActive.ts,subCount:subKeys.length,subs:{}};
+    subKeys.forEach(function(k){meta.subs[k]={name:cwSubmissions[k].name,ts:cwSubmissions[k].ts}});
+    var enc=encodeURIComponent(CC);
+    fbPut('/cw-history/'+enc+'/'+taskId,meta).then(function(){
+        var pending=subKeys.length;
+        if(pending===0){if(cb)cb();return}
+        subKeys.forEach(function(sid){
+            var cacheKey='sub_'+sid;
+            if(fileCache[cacheKey]){
+                fbPut('/cw-hist-files/'+enc+'/'+taskId+'/'+sid,{data:fileCache[cacheKey]}).then(done);
+            }else{
+                fbGet('/sub-files/'+enc+'/'+sid).then(function(d){
+                    if(d&&d.data){
+                        fbPut('/cw-hist-files/'+enc+'/'+taskId+'/'+sid,{data:d.data}).then(done);
+                    }else{done()}
+                });
+            }
+            function done(){pending--;if(pending<=0&&cb)cb()}
+        });
+    });
+}
+
 function createClasswork(){
     var title=document.getElementById('cwCreateInput').value.trim();
     if(!title){toast('Please enter a task title',1);return}
-    cwActive={title:title,ts:Date.now(),active:true};
-    fbPut('/classwork/'+encodeURIComponent(CC),cwActive);
-    fbDel('/submissions/'+encodeURIComponent(CC));
-    fbDel('/sub-files/'+encodeURIComponent(CC));
-    cwSubmissions={};
-    document.getElementById('cwCreate').classList.remove('open');
-    document.getElementById('cwCreateInput').value='';
-    renderCwTeacher();
-    toast('📋 Task created!');
+    document.getElementById('cwCreateGo').disabled=true;
+    archiveCurrentTask(function(){
+        cwActive={title:title,ts:Date.now(),active:true};
+        fbPut('/classwork/'+encodeURIComponent(CC),cwActive);
+        fbDel('/submissions/'+encodeURIComponent(CC));
+        fbDel('/sub-files/'+encodeURIComponent(CC));
+        cwSubmissions={};
+        document.getElementById('cwCreate').classList.remove('open');
+        document.getElementById('cwCreateInput').value='';
+        document.getElementById('cwCreateGo').disabled=false;
+        renderCwTeacher();
+        pollCwHistory();
+        toast('📋 Task created!');
+    });
 }
 
 /* Teacher: End task */
 document.getElementById('cwEndBtn').addEventListener('click',function(){
-    showCwConfirm('End this classwork task?',function(){
-        cwActive=null;
-        fbDel('/classwork/'+encodeURIComponent(CC));
-        cwSubmissions={};
-        renderCwTeacher();
-        toast('Task ended');
+    showCwConfirm('End this classwork task? It will be saved to history.',function(){
+        archiveCurrentTask(function(){
+            cwActive=null;
+            fbDel('/classwork/'+encodeURIComponent(CC));
+            cwSubmissions={};
+            renderCwTeacher();
+            pollCwHistory();
+            toast('Task ended & archived');
+        });
     });
 });
 
@@ -2152,13 +2206,93 @@ function pollClasswork(){
     });
 }
 
+/* ===== CLASSWORK HISTORY (Teacher) ===== */
+function pollCwHistory(){
+    if(isStudent)return;
+    fbGet('/cw-history/'+encodeURIComponent(CC)).then(function(d){
+        cwHistory=(d&&typeof d==='object')?d:{};
+        renderCwHistory();
+    });
+}
+
+function renderCwHistory(){
+    var entries=[];
+    for(var k in cwHistory){
+        if(cwHistory.hasOwnProperty(k)){
+            entries.push({id:k,title:cwHistory[k].title,ts:cwHistory[k].ts||0,subCount:cwHistory[k].subCount||0,subs:cwHistory[k].subs||{}});
+        }
+    }
+    entries.sort(function(a,b){return b.ts-a.ts});
+    var header=document.getElementById('cwHistHeader');
+    var list=document.getElementById('cwHistList');
+    if(entries.length===0){header.style.display='none';list.innerHTML='';return}
+    header.style.display='flex';
+    list.innerHTML='';
+    entries.forEach(function(e){
+        var dt=new Date(e.ts);
+        var timeStr=dt.getDate()+'/'+(dt.getMonth()+1)+' '+dt.getHours()+':'+(dt.getMinutes()<10?'0':'')+dt.getMinutes();
+        var card=document.createElement('div');
+        card.className='cw-hist-card';
+        card.dataset.tid=e.id;
+        var subIds=Object.keys(e.subs);
+        var topHtml='<div class="cw-hist-top">';
+        topHtml+='<span class="cw-hist-name">'+escH(e.title)+'</span>';
+        topHtml+='<span class="cw-hist-date">'+timeStr+'</span>';
+        topHtml+='<span class="cw-hist-badge">'+e.subCount+' <i class="fas fa-user-check" style="font-size:9px"></i></span>';
+        topHtml+='<button class="cw-hist-del" data-tid="'+e.id+'" title="Delete"><i class="fas fa-trash-alt"></i></button>';
+        topHtml+='<i class="fas fa-chevron-right cw-hist-arrow"></i>';
+        topHtml+='</div>';
+        var bodyHtml='<div class="cw-hist-body"><div class="cw-sub-grid">';
+        students.forEach(function(s){
+            var hasSub=!!e.subs[s.id];
+            bodyHtml+='<div class="cw-sub-item'+(hasSub?' submitted':'')+'"'+(hasSub?' data-hsid="'+s.id+'" data-htid="'+e.id+'"':'')+' >';
+            bodyHtml+='<span class="cw-sub-emoji">'+s.emoji+'</span><span class="cw-sub-name">'+escH(s.name.split(' ')[0])+'</span>';
+            if(hasSub)bodyHtml+='<i class="fas fa-check-circle cw-sub-check"></i>';
+            bodyHtml+='</div>';
+        });
+        bodyHtml+='</div></div>';
+        card.innerHTML=topHtml+bodyHtml;
+        list.appendChild(card);
+    });
+}
+
+/* History: expand/collapse + open viewer + delete */
+document.getElementById('cwHistList').addEventListener('click',function(e){
+    var delBtn=e.target.closest('.cw-hist-del');
+    if(delBtn){
+        e.stopPropagation();
+        var tid=delBtn.getAttribute('data-tid');
+        showCwConfirm('Delete this archived task and all its submissions?',function(){
+            var enc=encodeURIComponent(CC);
+            fbDel('/cw-history/'+enc+'/'+tid);
+            fbDel('/cw-hist-files/'+enc+'/'+tid);
+            delete cwHistory[tid];
+            renderCwHistory();
+            toast('🗑️ Archived task deleted');
+        });
+        return;
+    }
+    var subItem=e.target.closest('.cw-sub-item.submitted[data-hsid]');
+    if(subItem){
+        e.stopPropagation();
+        var sid=parseInt(subItem.getAttribute('data-hsid'));
+        var htid=subItem.getAttribute('data-htid');
+        openCwViewer(sid,htid);
+        return;
+    }
+    var card=e.target.closest('.cw-hist-card');
+    if(card){card.classList.toggle('open')}
+});
+
 /* ===== CLASSWORK VIEWER (Teacher) ===== */
-function openCwViewer(sid){
+function openCwViewer(sid,histTaskId){
     cwViewingSid=sid;
+    cwViewerSource=histTaskId||null;
     var s=students[sid];
     document.getElementById('cwvName').textContent=s.emoji+' '+s.name+"'s Work";
     document.getElementById('cwViewerBg').classList.add('show');
     document.getElementById('cwvCanvas').style.display='none';
+    document.getElementById('cwvLoading').innerHTML='<i class="fas fa-spinner fa-pulse"></i> Loading...';
     document.getElementById('cwvLoading').style.display='';
     cwViewerOpen=true;
     cwVColor='#EF4444';cwVSize=5;cwVErasing=false;cwVHighlighting=false;cwVHlColor='rgba(250,204,21,0.4)';
@@ -2168,11 +2302,13 @@ function openCwViewer(sid){
     document.querySelector('#cwvColors .wb-c[data-c="#EF4444"]').classList.add('active');
     document.getElementById('cwvEraser').classList.remove('active');
 
-    var cachedKey='sub_'+sid;
+    var enc=encodeURIComponent(CC);
+    var cachedKey=histTaskId?('hist_'+histTaskId+'_'+sid):('sub_'+sid);
+    var filePath=histTaskId?('/cw-hist-files/'+enc+'/'+histTaskId+'/'+sid):('/sub-files/'+enc+'/'+sid);
     if(fileCache[cachedKey]){
         loadCwViewerImage(fileCache[cachedKey]);
     }else{
-        fbGet('/sub-files/'+encodeURIComponent(CC)+'/'+sid).then(function(d){
+        fbGet(filePath).then(function(d){
             if(d&&d.data){
                 fileCache[cachedKey]=d.data;
                 loadCwViewerImage(d.data);
@@ -2340,7 +2476,9 @@ document.getElementById('cwvSave').addEventListener('click',function(){
     ec.width=ew;ec.height=eh;
     ec.getContext('2d').drawImage(cwViewerEl,0,0,ew,eh);
     var dataUrl=ec.toDataURL('image/jpeg',0.8);
-    var taskTitle=cwActive?cwActive.title:'Classwork';
+    var taskTitle='Classwork';
+    if(cwViewerSource&&cwHistory[cwViewerSource]){taskTitle=cwHistory[cwViewerSource].title}
+    else if(cwActive){taskTitle=cwActive.title}
     var markId='m'+Date.now()+'_'+Math.random().toString(36).substr(2,6);
     var basePath='/marked-work/'+encodeURIComponent(CC)+'/'+cwViewingSid+'/'+markId;
     var filePath='/marked-files/'+encodeURIComponent(CC)+'/'+cwViewingSid+'/'+markId;
@@ -2472,12 +2610,14 @@ function pollStatus(){
     setInterval(pollChat,2500);
     setInterval(pollReactions,2500);
     setInterval(pollClasswork,3000);
+    if(!isStudent){setInterval(pollCwHistory,10000)}
     if(isStudent){setInterval(pollScreenStatus,2500);setInterval(pollDrawControl,2000);setInterval(pollMarkedWork,5000)}
     setTimeout(pollNotes,500);
     setTimeout(pollStatus,1000);
     setTimeout(pollLive,500);
     setTimeout(pollChat,1000);
     setTimeout(pollClasswork,800);
+    if(!isStudent){setTimeout(pollCwHistory,1200)}
     if(isStudent){setTimeout(pollScreenStatus,800);setTimeout(pollDrawControl,1000);setTimeout(pollMarkedWork,1200)}
 })();
 </script>
