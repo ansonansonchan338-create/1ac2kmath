@@ -10,6 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <style>
         :root{--bg1:#FEF9F2;--bg2:#FFF3E4;--bgc:#FFF;--t1:#2C1810;--t2:#8B7355;--brd:rgba(44,24,16,.07);--pos:#2D9C4A;--pos-bg:rgba(45,156,74,.1);--neg:#D94040;--neg-bg:rgba(217,64,64,.1);--neu:#8B7355;--acc:#FF6B35;--acc-g:rgba(255,107,53,.25);--ov:rgba(30,20,10,.45);--sh:0 4px 16px rgba(44,24,16,.08);--shh:0 8px 28px rgba(44,24,16,.14);--board:linear-gradient(145deg,#2D5A16,#1E3D0F);--bt:#E8E4D0;--warn:#F59E0B;--info:#3B82F6}
         html.dark{--bg1:#141820;--bg2:#1C2230;--bgc:#222838;--t1:#E8E4D0;--t2:#7A8599;--brd:rgba(255,255,255,.06);--pos:#4ADE80;--pos-bg:rgba(74,222,128,.1);--neg:#F87171;--neg-bg:rgba(248,113,113,.1);--neu:#7A8599;--acc:#FF8555;--acc-g:rgba(255,133,85,.2);--ov:rgba(0,0,0,.6);--sh:0 4px 16px rgba(0,0,0,.25);--shh:0 8px 28px rgba(0,0,0,.4);--board:linear-gradient(145deg,#1B3A0F,#14290A);--bt:#B8C4A0;--warn:#FBBF24;--info:#60A5FA}
@@ -222,6 +223,36 @@
         .cw-create-input:focus{border-color:var(--acc)}
         .cw-create-go{width:40px;height:40px;border:none;border-radius:10px;background:var(--pos);color:#fff;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
         .cw-create-x{width:40px;height:40px;border:1.5px solid var(--brd);border-radius:10px;background:var(--bgc);color:var(--t2);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+        .cw-attach-row{display:flex;align-items:center;gap:8px;margin-top:6px}
+        .cw-attach-btn{padding:7px 14px;border:1.5px dashed var(--info);border-radius:10px;background:transparent;font-family:'Fredoka',sans-serif;font-size:13px;font-weight:600;cursor:pointer;color:var(--info);display:flex;align-items:center;gap:6px;transition:all .15s}
+        .cw-attach-btn:hover{background:rgba(59,130,246,.08);border-style:solid}
+        .cw-attach-preview{display:flex;align-items:center;gap:6px;font-family:'Fredoka',sans-serif;font-size:12px;font-weight:600;color:var(--t1);max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+        .cw-attach-preview i{color:var(--info);font-size:14px}
+        .cw-attach-remove{width:24px;height:24px;border:none;border-radius:6px;background:var(--neg-bg);color:var(--neg);font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+        .cw-ws-preview{margin:8px 0;padding:6px;background:var(--bg2);border-radius:10px;border:1px solid var(--brd);text-align:center}
+        .cw-ws-preview img{max-width:100%;max-height:120px;border-radius:6px}
+        .cw-ws-label{font-size:11px;color:var(--t2);margin-top:4px;font-family:'Fredoka',sans-serif;font-weight:600}
+        .cw-student-ws{margin:8px 0;border-radius:12px;overflow:hidden;border:1.5px solid var(--brd);background:var(--bg2)}
+        .cw-student-ws-img{display:block;width:100%;cursor:pointer}
+        .cw-student-ws-bar{display:flex;align-items:center;justify-content:center;gap:8px;padding:8px}
+        .cw-student-ws-btn{padding:8px 16px;border:1.5px solid var(--acc);border-radius:10px;background:var(--acc-g);font-family:'Fredoka',sans-serif;font-size:13px;font-weight:700;cursor:pointer;color:var(--acc);display:flex;align-items:center;gap:6px;transition:all .15s}
+        .cw-student-ws-btn:hover{background:var(--acc);color:#fff}
+        .cw-draw-overlay{position:fixed;inset:0;background:var(--bg1);z-index:1200;display:flex;flex-direction:column}
+        .cw-draw-header{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--bgc);border-bottom:1.5px solid var(--brd)}
+        .cw-draw-title{font-family:'Fredoka',sans-serif;font-size:15px;font-weight:700;color:var(--t1);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;margin-right:8px}
+        .cw-draw-close{width:36px;height:36px;border:1.5px solid var(--brd);border-radius:10px;background:var(--bgc);color:var(--t2);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+        .cw-draw-body{flex:1;overflow:auto;display:flex;align-items:center;justify-content:center;padding:8px}
+        .cw-draw-canvas{display:block;touch-action:none;cursor:crosshair;max-width:100%;border-radius:4px;box-shadow:var(--sh)}
+        .cw-draw-bar{display:flex;align-items:center;gap:6px;padding:10px 12px;background:var(--bgc);border-top:1.5px solid var(--brd);flex-wrap:wrap}
+        .cw-draw-submit{padding:8px 18px;border:none;border-radius:10px;background:var(--pos);color:#fff;font-family:'Fredoka',sans-serif;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;margin-left:auto;transition:all .15s}
+        .cw-draw-submit:hover{filter:brightness(1.1)}
+        .tchr-marked-section{margin-top:12px;padding-top:10px;border-top:1.5px solid var(--brd)}
+        .tchr-marked-header{display:flex;align-items:center;gap:6px;font-family:'Fredoka',sans-serif;font-size:13px;font-weight:700;color:var(--t2);margin-bottom:6px}
+        .tchr-marked-header i{color:var(--info);font-size:12px}
+        .tchr-marked-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(70px,1fr));gap:6px}
+        .tchr-marked-item{display:flex;flex-direction:column;align-items:center;padding:8px 4px;border:1.5px solid var(--brd);border-radius:10px;background:var(--bg2);cursor:pointer;transition:all .2s;position:relative}
+        .tchr-marked-item:hover{border-color:var(--info);box-shadow:var(--shh);transform:scale(1.02)}
+        .tchr-marked-count{font-size:10px;font-weight:700;background:var(--info);color:#fff;border-radius:5px;padding:1px 5px;position:absolute;bottom:-3px;right:-3px;font-family:'Fredoka',sans-serif}
         .cw-task-bar{display:flex;align-items:center;padding:8px 12px;background:linear-gradient(135deg,var(--acc),#e5592a);border-radius:10px;margin-bottom:10px}
         .cw-task-name{font-family:'Fredoka',sans-serif;font-size:15px;font-weight:700;color:#fff;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
         .cw-end-btn{padding:4px 10px;border:1.5px solid rgba(255,255,255,.4);border-radius:8px;background:rgba(255,255,255,.15);color:#fff;font-family:'Fredoka',sans-serif;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;flex-shrink:0;margin-left:8px}
@@ -334,6 +365,10 @@
         .chat-msg.mine .cm-text a{color:#fff}
         .cm-time{font-size:10px;color:var(--t2);margin-top:3px}
         .chat-msg.mine .cm-time{color:rgba(255,255,255,.6)}
+        .cm-del{display:none;position:absolute;top:4px;right:4px;width:22px;height:22px;border:none;border-radius:6px;background:var(--neg-bg);color:var(--neg);font-size:10px;cursor:pointer;align-items:center;justify-content:center;transition:all .15s}
+        .cm-del:hover{background:var(--neg);color:#fff}
+        .cm-bubble{position:relative}
+        .cm-bubble:hover .cm-del{display:flex}
         .cm-img{margin-top:6px}
         .cm-img img{max-width:100%;max-height:200px;border-radius:8px;cursor:pointer}
         .cm-file{margin-top:6px;display:flex;align-items:center;gap:8px;padding:8px 12px;background:rgba(0,0,0,.04);border-radius:10px;cursor:pointer;font-size:13px;font-weight:600;color:var(--info)}
@@ -429,12 +464,18 @@
         .lb-cl{margin-top:12px;width:100%;padding:12px;border:none;border-radius:12px;font-family:'Nunito',sans-serif;font-size:15px;font-weight:800;cursor:pointer;background:var(--acc);color:#fff}
 
         /* Random */
-        .rand-ov{position:fixed;inset:0;background:var(--ov);display:none;align-items:center;justify-content:center;z-index:1100;padding:20px}
+        .rand-ov{position:fixed;inset:0;background:var(--ov);display:none;align-items:center;justify-content:center;z-index:1100;padding:20px;flex-direction:column;gap:16px}
         .rand-ov.show{display:flex}
-        .rand-box{text-align:center;animation:mi .3s ease}
-        .rand-em{font-size:72px;animation:spn .6s ease}
-        @keyframes spn{0%{transform:rotateY(0) scale(.5);opacity:0}50%{transform:rotateY(180deg) scale(1.2)}100%{transform:rotateY(360deg) scale(1);opacity:1}}
-        .rand-nm{font-family:'Fredoka',sans-serif;font-size:32px;font-weight:700;color:#fff;margin-top:10px;text-shadow:0 4px 20px rgba(0,0,0,.3)}
+        .spinner-wrap{position:relative;display:flex;align-items:center;justify-content:center}
+        .spinner-pointer{position:absolute;top:-8px;left:50%;transform:translateX(-50%);z-index:10;font-size:36px;filter:drop-shadow(0 2px 6px rgba(0,0,0,.4));line-height:1}
+        .spinner-canvas{border-radius:50%;box-shadow:0 0 0 6px rgba(255,255,255,.25),0 8px 40px rgba(0,0,0,.4);transition:transform 4s cubic-bezier(0.17,0.67,0.12,0.99)}
+        .spinner-result{text-align:center;animation:mi .3s ease;min-height:80px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+        .spinner-result-em{font-size:56px}
+        .spinner-result-nm{font-family:'Fredoka',sans-serif;font-size:28px;font-weight:700;color:#fff;text-shadow:0 4px 20px rgba(0,0,0,.3)}
+        .spinner-result-sub{font-size:13px;color:rgba(255,255,255,.5);font-weight:600;margin-top:6px}
+        .spinner-btn{padding:12px 32px;border:2px solid rgba(255,255,255,.3);border-radius:14px;background:rgba(255,255,255,.1);backdrop-filter:blur(8px);font-family:'Fredoka',sans-serif;font-size:16px;font-weight:700;color:#fff;cursor:pointer;transition:all .2s;letter-spacing:.5px}
+        .spinner-btn:hover{background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.5)}
+        .spinner-btn:disabled{opacity:.4;cursor:default}
 
         /* Share */
         .share-bg{position:fixed;inset:0;background:var(--ov);display:none;align-items:center;justify-content:center;z-index:1500;padding:20px}
@@ -515,17 +556,31 @@
                 <input class="cw-create-input" id="cwCreateInput" placeholder="Task title..." maxlength="100">
                 <button class="cw-create-go" id="cwCreateGo"><i class="fas fa-check"></i></button>
                 <button class="cw-create-x" id="cwCreateCancel"><i class="fas fa-times"></i></button>
+                <div class="cw-attach-row" id="cwAttachRow">
+                    <button class="cw-attach-btn" id="cwAttachBtn"><i class="fas fa-paperclip"></i> Attach Worksheet</button>
+                    <div class="cw-attach-preview" id="cwAttachPreview" style="display:none">
+                        <i class="fas fa-file-image"></i><span id="cwAttachName"></span>
+                        <button class="cw-attach-remove" id="cwAttachRemove"><i class="fas fa-times"></i></button>
+                    </div>
+                </div>
             </div>
             <div id="cwActiveSection" style="display:none">
                 <div class="cw-task-bar">
                     <span class="cw-task-name" id="cwTaskName"></span>
                     <button class="cw-end-btn" id="cwEndBtn"><i class="fas fa-stop"></i> End</button>
                 </div>
+                <div class="cw-ws-preview" id="cwWsPreview" style="display:none">
+                    <img id="cwWsThumb" alt="Worksheet"><div class="cw-ws-label"><i class="fas fa-paperclip"></i> Worksheet attached</div>
+                </div>
                 <div class="cw-progress-wrap"><div class="cw-progress-fill" id="cwProgressFill" style="width:0"></div></div>
                 <div class="cw-sub-count" id="cwSubCount">0 / 14 submitted</div>
                 <div class="cw-sub-grid" id="cwSubGrid"></div>
             </div>
             <div class="cw-empty" id="cwEmpty">No active classwork. Tap <b>+ New Task</b> to start.</div>
+            <div class="tchr-marked-section" id="tchrMarkedSection" style="display:none">
+                <div class="tchr-marked-header"><i class="fas fa-folder-open"></i> Student Marked Work</div>
+                <div class="tchr-marked-grid" id="tchrMarkedGrid"></div>
+            </div>
             <div class="cw-hist-header" id="cwHistHeader" style="display:none"><i class="fas fa-history"></i> Past Tasks</div>
             <div class="cw-hist-list" id="cwHistList"></div>
         </div>
@@ -546,6 +601,12 @@
         <div class="cw-section student-only" id="cwStudent">
             <div id="cwStudentActive" style="display:none">
                 <div class="cw-student-task"><i class="fas fa-clipboard-list"></i> <span id="cwStudentTaskName"></span></div>
+                <div class="cw-student-ws" id="cwStudentWs" style="display:none">
+                    <img class="cw-student-ws-img" id="cwStudentWsImg" alt="Worksheet">
+                    <div class="cw-student-ws-bar">
+                        <button class="cw-student-ws-btn" id="cwDrawOnWsBtn"><i class="fas fa-pencil-alt"></i> Draw on Worksheet</button>
+                    </div>
+                </div>
                 <div id="cwSubmitArea">
                     <button class="cw-submit-btn" id="cwSubmitBtn"><i class="fas fa-camera"></i> Submit Photo of Work</button>
                 </div>
@@ -750,7 +811,14 @@
 <div class="modal-bg teacher-only" id="detailModal"><div class="modal-box"><div class="m-head"><div class="m-emoji" id="mEmoji"></div><input class="m-input" id="mName" type="text" maxlength="20" placeholder="Student name"></div><div class="m-pts" id="mPts">0</div><div class="m-grid"><button class="m-btn mn" data-d="-5">−5</button><button class="m-btn mn" data-d="-2">−2</button><button class="m-btn mn" data-d="-1">−1</button><button class="m-btn mp" data-d="1">+1</button><button class="m-btn mp" data-d="2">+2</button><button class="m-btn mp" data-d="5">+5</button></div><button class="m-close" id="mClose">Done</button></div></div>
 <div class="confirm-bg" id="confirmDlg"><div class="confirm-box"><div class="ci">🔄</div><p>Reset all points to zero?</p><div class="cb"><button class="cbtn cc" id="cCancel">Cancel</button><button class="cbtn cd" id="cConfirm">Reset All</button></div></div></div>
 <div class="lb-bg" id="lbOv"><div class="lb-pan"><div class="lb-ti">🏆 Leaderboard</div><div id="lbList"></div><button class="lb-cl" id="lbCl">Close</button></div></div>
-<div class="rand-ov" id="randOv"><div class="rand-box"><div class="rand-em" id="rEm"></div><div class="rand-nm" id="rNm"></div><div style="font-size:13px;color:rgba(255,255,255,.5);margin-top:8px;font-weight:600">Tap to close</div></div></div>
+<div class="rand-ov" id="randOv">
+    <div class="spinner-wrap">
+        <div class="spinner-pointer">▼</div>
+        <canvas class="spinner-canvas" id="spinnerCanvas" width="300" height="300"></canvas>
+    </div>
+    <div class="spinner-result" id="spinnerResult"><div class="spinner-result-sub">Tap SPIN to start!</div></div>
+    <button class="spinner-btn" id="spinnerBtn">🎰 SPIN</button>
+</div>
 <div class="share-bg teacher-only" id="shareOv"><div class="share-mod"><div style="font-size:42px">📲</div><div style="font-family:'Fredoka',sans-serif;font-size:20px;font-weight:700;margin:6px 0 2px">Share with Students</div><div style="font-size:13px;color:var(--t2);margin-bottom:12px;font-weight:600">Students scan QR or open the link</div><div class="share-qr" id="shareQR"></div><div class="share-url" id="shareURL"></div><button class="m-close" id="shareCopy" style="margin-bottom:8px"><i class="fas fa-copy"></i> Copy Link</button><button class="m-sec-btn" id="shareCl">Close</button></div></div>
 <div class="modal-bg" id="noteModal"><div class="modal-box"><div style="font-family:'Fredoka',sans-serif;font-size:20px;font-weight:700;text-align:center;margin-bottom:14px">📎 Upload Resource</div><input class="ne-input" id="neTitle" placeholder="Title" maxlength="100"><textarea class="ne-textarea" id="neContent" placeholder="Description (optional)"></textarea><div class="file-zone" id="fileZone"><i class="fas fa-cloud-upload-alt"></i><div class="fz-t">Tap to upload file</div><div class="fz-h">PDF, images, documents (max 5MB)</div></div><div class="file-prev" id="filePrev" style="display:none"><i class="fp-icon fas fa-file"></i><div style="flex:1"><div class="fp-info" id="fpName"></div><div class="fp-size" id="fpSize"></div></div><button class="fp-rm" id="fpRemove"><i class="fas fa-times"></i></button></div><button class="m-close" id="neSave">Save</button><button class="m-sec-btn" id="neCancel">Cancel</button></div></div>
 
@@ -814,6 +882,41 @@
 <input type="file" id="chatFileInput" accept="image/*,.pdf" style="display:none">
 <input type="file" id="photoInput" accept="image/*" style="display:none">
 <input type="file" id="cwSubmitInput" accept="image/*" multiple style="display:none">
+<input type="file" id="cwAttachInput" accept="image/*,.pdf" style="display:none">
+<div class="cw-draw-overlay" id="cwDrawOverlay" style="display:none">
+    <div class="cw-draw-header">
+        <span class="cw-draw-title" id="cwDrawTitle">Draw on Worksheet</span>
+        <button class="cw-draw-close" id="cwDrawClose"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="cw-draw-body" id="cwDrawBody">
+        <canvas class="cw-draw-canvas" id="cwDrawCanvas"></canvas>
+    </div>
+    <div class="cw-draw-bar">
+        <div class="wb-colors" id="cwDColors">
+            <button class="wb-c active" data-c="#222" style="background:#222"></button>
+            <button class="wb-c" data-c="#EF4444" style="background:#EF4444"></button>
+            <button class="wb-c" data-c="#3B82F6" style="background:#3B82F6"></button>
+            <button class="wb-c" data-c="#22C55E" style="background:#22C55E"></button>
+            <button class="wb-c" data-c="#F97316" style="background:#F97316"></button>
+        </div>
+        <div class="wb-sizes" id="cwDSizes">
+            <button class="wb-sz" data-sz="3">S</button>
+            <button class="wb-sz active" data-sz="6">M</button>
+            <button class="wb-sz" data-sz="12">L</button>
+        </div>
+        <div class="wb-tools">
+            <button class="wb-t" id="cwDHighlight" title="Highlighter"><i class="fas fa-highlighter"></i></button>
+            <div class="wb-hl-colors" id="cwDHlColors" style="display:none">
+                <button class="wb-hl-c active" data-hc="rgba(250,204,21,0.4)" style="background:#FACC15"></button>
+                <button class="wb-hl-c" data-hc="rgba(52,211,153,0.4)" style="background:#34D399"></button>
+                <button class="wb-hl-c" data-hc="rgba(251,146,60,0.4)" style="background:#FB923C"></button>
+            </div>
+            <button class="wb-t" id="cwDEraser" title="Eraser"><i class="fas fa-eraser"></i></button>
+            <button class="wb-t" id="cwDUndo" title="Undo"><i class="fas fa-undo"></i></button>
+        </div>
+        <button class="cw-draw-submit" id="cwDrawSubmit"><i class="fas fa-paper-plane"></i> Submit</button>
+    </div>
+</div>
 
 <script>
 /* ===== DARK MODE ===== */
@@ -1045,8 +1148,169 @@ lbOv.addEventListener('click',function(e){if(e.target===lbOv)lbOv.classList.remo
 
 /* ===== RANDOM ===== */
 var randOv=document.getElementById('randOv');
-document.getElementById('btnRand').addEventListener('click',function(){var s=students[Math.floor(Math.random()*students.length)];var em=document.getElementById('rEm');em.textContent=s.emoji;em.style.animation='none';void em.offsetWidth;em.style.animation='spn .6s ease';document.getElementById('rNm').textContent=s.name;randOv.classList.add('show')});
-randOv.addEventListener('click',function(){randOv.classList.remove('show')});
+var spinnerCanvas=document.getElementById('spinnerCanvas');
+var spinnerCtx=spinnerCanvas.getContext('2d');
+var spinnerAngle=0;
+var spinnerSpinning=false;
+var spinnerColors=['#FF6B35','#3B82F6','#22C55E','#F59E0B','#EF4444','#A855F7','#EC4899','#14B8A6','#F97316','#6366F1','#84CC16','#06B6D4','#E11D48','#8B5CF6'];
+
+function drawSpinner(){
+    var size=spinnerCanvas.width;
+    var cx=size/2,cy=size/2,r=size/2-4;
+    var n=students.length;
+    var sliceAngle=2*Math.PI/n;
+    spinnerCtx.clearRect(0,0,size,size);
+    students.forEach(function(s,i){
+        var startA=i*sliceAngle+spinnerAngle;
+        var endA=startA+sliceAngle;
+        spinnerCtx.beginPath();
+        spinnerCtx.moveTo(cx,cy);
+        spinnerCtx.arc(cx,cy,r,startA,endA);
+        spinnerCtx.closePath();
+        spinnerCtx.fillStyle=spinnerColors[i%spinnerColors.length];
+        spinnerCtx.fill();
+        spinnerCtx.strokeStyle='rgba(255,255,255,0.3)';
+        spinnerCtx.lineWidth=2;
+        spinnerCtx.stroke();
+        /* Text */
+        var midA=startA+sliceAngle/2;
+        var tx=cx+Math.cos(midA)*(r*0.62);
+        var ty=cy+Math.sin(midA)*(r*0.62);
+        spinnerCtx.save();
+        spinnerCtx.translate(tx,ty);
+        spinnerCtx.rotate(midA);
+        spinnerCtx.font='bold 11px Fredoka,sans-serif';
+        spinnerCtx.fillStyle='#fff';
+        spinnerCtx.textAlign='center';
+        spinnerCtx.textBaseline='middle';
+        spinnerCtx.shadowColor='rgba(0,0,0,0.5)';
+        spinnerCtx.shadowBlur=3;
+        var label=s.emoji+' '+s.name.split(' ')[0];
+        if(label.length>8)label=s.emoji+s.name.split(' ')[0].substring(0,5);
+        spinnerCtx.fillText(label,0,0);
+        spinnerCtx.restore();
+    });
+    /* Center circle */
+    spinnerCtx.beginPath();
+    spinnerCtx.arc(cx,cy,18,0,2*Math.PI);
+    spinnerCtx.fillStyle='#fff';
+    spinnerCtx.fill();
+    spinnerCtx.strokeStyle='rgba(0,0,0,0.1)';
+    spinnerCtx.lineWidth=2;
+    spinnerCtx.stroke();
+    spinnerCtx.font='bold 14px Fredoka,sans-serif';
+    spinnerCtx.fillStyle='#222';
+    spinnerCtx.textAlign='center';
+    spinnerCtx.textBaseline='middle';
+    spinnerCtx.shadowBlur=0;
+    spinnerCtx.fillText('🎯',cx,cy);
+}
+
+function initSpinner(){
+    var dpr=Math.min(window.devicePixelRatio||1,3);
+    var displaySize=Math.min(280,window.innerWidth-60,window.innerHeight*0.38);
+    spinnerCanvas.style.width=displaySize+'px';
+    spinnerCanvas.style.height=displaySize+'px';
+    spinnerCanvas.width=displaySize*dpr;
+    spinnerCanvas.height=displaySize*dpr;
+    spinnerCtx.scale(dpr,dpr);
+    /* reset internal size ref for drawing */
+    spinnerCanvas._displaySize=displaySize;
+    drawSpinnerScaled(displaySize);
+}
+
+function drawSpinnerScaled(size){
+    var cx=size/2,cy=size/2,r=size/2-4;
+    var n=students.length;
+    var sliceAngle=2*Math.PI/n;
+    spinnerCtx.clearRect(0,0,size,size);
+    students.forEach(function(s,i){
+        var startA=i*sliceAngle+spinnerAngle;
+        var endA=startA+sliceAngle;
+        spinnerCtx.beginPath();
+        spinnerCtx.moveTo(cx,cy);
+        spinnerCtx.arc(cx,cy,r,startA,endA);
+        spinnerCtx.closePath();
+        spinnerCtx.fillStyle=spinnerColors[i%spinnerColors.length];
+        spinnerCtx.fill();
+        spinnerCtx.strokeStyle='rgba(255,255,255,0.35)';
+        spinnerCtx.lineWidth=1.5;
+        spinnerCtx.stroke();
+        var midA=startA+sliceAngle/2;
+        var tx=cx+Math.cos(midA)*(r*0.62);
+        var ty=cy+Math.sin(midA)*(r*0.62);
+        spinnerCtx.save();
+        spinnerCtx.translate(tx,ty);
+        spinnerCtx.rotate(midA);
+        var fs=Math.max(8,Math.min(13,r*0.1));
+        spinnerCtx.font='bold '+fs+'px Fredoka,sans-serif';
+        spinnerCtx.fillStyle='#fff';
+        spinnerCtx.textAlign='center';
+        spinnerCtx.textBaseline='middle';
+        spinnerCtx.shadowColor='rgba(0,0,0,0.5)';
+        spinnerCtx.shadowBlur=2;
+        var label=s.emoji+' '+s.name.split(' ')[0];
+        if(label.length>9)label=s.emoji+s.name.split(' ')[0].substring(0,6);
+        spinnerCtx.fillText(label,0,0);
+        spinnerCtx.restore();
+    });
+    spinnerCtx.beginPath();
+    spinnerCtx.arc(cx,cy,16,0,2*Math.PI);
+    spinnerCtx.fillStyle='#fff';
+    spinnerCtx.shadowColor='rgba(0,0,0,0.2)';spinnerCtx.shadowBlur=6;
+    spinnerCtx.fill();
+    spinnerCtx.shadowBlur=0;
+}
+
+function spinWheel(){
+    if(spinnerSpinning)return;
+    spinnerSpinning=true;
+    document.getElementById('spinnerBtn').disabled=true;
+    document.getElementById('spinnerResult').innerHTML='<div class="spinner-result-sub" style="animation:none">Spinning...</div>';
+    var n=students.length;
+    var chosen=Math.floor(Math.random()*n);
+    var sliceAngle=2*Math.PI/n;
+    /* pointer at top = -PI/2. We want the chosen slice's center to be at the top */
+    var targetMid=chosen*sliceAngle+sliceAngle/2;
+    var targetAngle=-Math.PI/2-targetMid;
+    /* Normalize + add extra full rotations */
+    var extraSpins=5+Math.floor(Math.random()*3);
+    var totalSpin=extraSpins*2*Math.PI+(targetAngle-spinnerAngle)%(2*Math.PI);
+    if(totalSpin<extraSpins*2*Math.PI)totalSpin+=2*Math.PI;
+    var startAngle=spinnerAngle;
+    var endAngle=startAngle+totalSpin;
+    var duration=4000+Math.random()*1000;
+    var startTime=null;
+    function animate(ts){
+        if(!startTime)startTime=ts;
+        var elapsed=ts-startTime;
+        var t=Math.min(elapsed/duration,1);
+        /* Easing: cubic out */
+        var ease=1-Math.pow(1-t,3);
+        spinnerAngle=startAngle+totalSpin*ease;
+        var ds=spinnerCanvas._displaySize||280;
+        drawSpinnerScaled(ds);
+        if(t<1){
+            requestAnimationFrame(animate);
+        }else{
+            spinnerAngle=endAngle%(2*Math.PI);
+            spinnerSpinning=false;
+            document.getElementById('spinnerBtn').disabled=false;
+            var s=students[chosen];
+            document.getElementById('spinnerResult').innerHTML='<div class="spinner-result-em">'+s.emoji+'</div><div class="spinner-result-nm">'+escH(s.name)+'</div>';
+            /* Notify student via Firebase */
+            fbPut('/spinner-pick/'+encodeURIComponent(CC),{sid:chosen,name:s.name,emoji:s.emoji,ts:Date.now()});
+        }
+    }
+    requestAnimationFrame(animate);
+}
+
+document.getElementById('btnRand').addEventListener('click',function(){
+    randOv.classList.add('show');
+    initSpinner();
+});
+document.getElementById('spinnerBtn').addEventListener('click',spinWheel);
+randOv.addEventListener('click',function(e){if(e.target===randOv)randOv.classList.remove('show')});
 
 /* ===== SHARE ===== */
 var shareOv=document.getElementById('shareOv');
@@ -1582,7 +1846,8 @@ function renderChat(){
             textHtml+='<div class="cm-yt"><iframe src="https://www.youtube.com/embed/'+ytId+'" allowfullscreen></iframe></div>';
         }
 
-        return'<div class="chat-msg'+(mine?' mine':'')+'"><div class="cm-ava">'+escH(m.emoji||'😊')+'</div><div class="cm-bubble"><div class="cm-author">'+escH(m.author)+'</div><div class="cm-text">'+textHtml+'</div>'+fileHtml+'<div class="cm-time">'+time+'</div></div></div>';
+        var delHtml=(!isStudent)?'<button class="cm-del" data-mk="'+escH(m._k)+'"'+(m.file?' data-fid="'+escH(m.file.id)+'"':'')+'><i class="fas fa-trash-alt"></i></button>':'';
+        return'<div class="chat-msg'+(mine?' mine':'')+'"><div class="cm-ava">'+escH(m.emoji||'😊')+'</div><div class="cm-bubble">'+delHtml+'<div class="cm-author">'+escH(m.author)+'</div><div class="cm-text">'+textHtml+'</div>'+fileHtml+'<div class="cm-time">'+time+'</div></div></div>';
     }).join('');
     scrollChat();
     loadChatImages();
@@ -1624,6 +1889,21 @@ function loadChatImages(){
 }
 
 function scrollChat(){setTimeout(function(){chatMsgsEl.scrollTop=chatMsgsEl.scrollHeight},50)}
+
+/* Teacher: Delete chat message */
+chatMsgsEl.addEventListener('click',function(e){
+    var delBtn=e.target.closest('.cm-del');
+    if(!delBtn||isStudent)return;
+    e.stopPropagation();
+    var mk=delBtn.getAttribute('data-mk');
+    var fid=delBtn.getAttribute('data-fid');
+    var enc=encodeURIComponent(CC);
+    fbDel('/forum/'+enc+'/'+mk);
+    if(fid)fbDel('/forum-files/'+enc+'/'+fid);
+    chatMsgsData=chatMsgsData.filter(function(m){return m._k!==mk});
+    renderChat();
+    toast('🗑️ Message deleted');
+});
 
 /* ===== IMAGE VIEWER ===== */
 var imgViewer=document.getElementById('imgViewer');
@@ -2048,6 +2328,7 @@ if(isStudent){
 var cwActive=null;
 var cwSubmissions={};
 var cwHistory={};
+var cwWsImage=null;
 var cwViewerOpen=false;
 var cwViewerSource=null;
 var cwViewerCtx=null;
@@ -2086,17 +2367,79 @@ document.getElementById('cwCreateCancel').addEventListener('click',function(){
 document.getElementById('cwCreateGo').addEventListener('click',createClasswork);
 document.getElementById('cwCreateInput').addEventListener('keydown',function(e){if(e.key==='Enter')createClasswork()});
 
+/* Teacher: Attach worksheet file */
+var cwAttachData=null;
+var cwAttachInput=document.getElementById('cwAttachInput');
+document.getElementById('cwAttachBtn').addEventListener('click',function(){cwAttachInput.click()});
+document.getElementById('cwAttachRemove').addEventListener('click',function(){
+    cwAttachData=null;
+    document.getElementById('cwAttachPreview').style.display='none';
+    document.getElementById('cwAttachBtn').style.display='';
+});
+cwAttachInput.addEventListener('change',function(){
+    var file=cwAttachInput.files[0];if(!file)return;
+    toast('📎 Processing...');
+    if(file.type==='application/pdf'){
+        renderPdfToImage(file,function(dataUrl){
+            cwAttachData=dataUrl;
+            showAttachPreview(file.name);
+        });
+    }else{
+        compressImage(file,2400,1800,0.85,function(dataUrl){
+            cwAttachData=dataUrl;
+            showAttachPreview(file.name);
+        });
+    }
+    cwAttachInput.value='';
+});
+function showAttachPreview(name){
+    document.getElementById('cwAttachBtn').style.display='none';
+    var prev=document.getElementById('cwAttachPreview');
+    prev.style.display='flex';
+    document.getElementById('cwAttachName').textContent=name;
+    toast('✅ Worksheet attached');
+}
+function renderPdfToImage(file,cb){
+    var reader=new FileReader();
+    reader.onload=function(){
+        var typedArray=new Uint8Array(reader.result);
+        if(typeof pdfjsLib!=='undefined'){pdfjsLib.GlobalWorkerOptions.workerSrc=''}
+        var loadTask=(typeof pdfjsLib!=='undefined')?pdfjsLib.getDocument({data:typedArray}):null;
+        if(!loadTask){toast('PDF.js not loaded',1);return}
+        loadTask.promise.then(function(pdf){
+            pdf.getPage(1).then(function(page){
+                var vp=page.getViewport({scale:1});
+                var scale=Math.min(2400/vp.width,1800/vp.height,3);
+                var sv=page.getViewport({scale:scale});
+                var cv=document.createElement('canvas');
+                cv.width=sv.width;cv.height=sv.height;
+                var ctx=cv.getContext('2d');
+                ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';
+                ctx.fillStyle='#fff';ctx.fillRect(0,0,cv.width,cv.height);
+                page.render({canvasContext:ctx,viewport:sv}).promise.then(function(){
+                    cb(cv.toDataURL('image/jpeg',0.9));
+                });
+            });
+        }).catch(function(){toast('Could not read PDF',1)});
+    };
+    reader.readAsArrayBuffer(file);
+}
+
 function archiveCurrentTask(cb){
     if(!cwActive||!cwActive.active||!cwActive.title){if(cb)cb();return}
     var taskId='t'+cwActive.ts+'_'+Math.random().toString(36).substr(2,4);
     var subKeys=Object.keys(cwSubmissions);
-    var meta={title:cwActive.title,ts:cwActive.ts,subCount:subKeys.length,subs:{}};
+    var meta={title:cwActive.title,ts:cwActive.ts,subCount:subKeys.length,hasWs:!!cwActive.hasWs,subs:{}};
     subKeys.forEach(function(k){
         var s=cwSubmissions[k];
         meta.subs[k]={name:s.name,ts:s.ts};
         if(s.pages)meta.subs[k].pages=s.pages;
     });
     var enc=encodeURIComponent(CC);
+    /* Archive worksheet attachment if present */
+    if(cwActive.hasWs&&cwWsImage){
+        fbPut('/cw-hist-files/'+enc+'/'+taskId+'/_ws',{data:cwWsImage});
+    }
     fbPut('/cw-history/'+enc+'/'+taskId,meta).then(function(){
         /* Archive all submission files (multi-page aware) */
         var jobs=[];
@@ -2141,11 +2484,22 @@ function createClasswork(){
     if(!title){toast('Please enter a task title',1);return}
     document.getElementById('cwCreateGo').disabled=true;
     archiveCurrentTask(function(){
-        cwActive={title:title,ts:Date.now(),active:true};
-        fbPut('/classwork/'+encodeURIComponent(CC),cwActive);
-        fbDel('/submissions/'+encodeURIComponent(CC));
-        fbDel('/sub-files/'+encodeURIComponent(CC));
+        var enc=encodeURIComponent(CC);
+        cwActive={title:title,ts:Date.now(),active:true,hasWs:!!cwAttachData};
+        fbPut('/classwork/'+enc,cwActive);
+        if(cwAttachData){
+            fbPut('/classwork-ws/'+enc,{data:cwAttachData});
+            cwWsImage=cwAttachData;
+        }else{
+            fbDel('/classwork-ws/'+enc);
+            cwWsImage=null;
+        }
+        fbDel('/submissions/'+enc);
+        fbDel('/sub-files/'+enc);
         cwSubmissions={};
+        cwAttachData=null;
+        document.getElementById('cwAttachPreview').style.display='none';
+        document.getElementById('cwAttachBtn').style.display='';
         document.getElementById('cwCreate').classList.remove('open');
         document.getElementById('cwCreateInput').value='';
         document.getElementById('cwCreateGo').disabled=false;
@@ -2181,6 +2535,12 @@ function renderCwTeacher(){
     document.getElementById('cwEmpty').style.display='none';
     document.getElementById('cwCreateBtn').style.display='none';
     document.getElementById('cwTaskName').textContent=cwActive.title;
+    if(cwWsImage){
+        document.getElementById('cwWsPreview').style.display='';
+        document.getElementById('cwWsThumb').src=cwWsImage;
+    }else{
+        document.getElementById('cwWsPreview').style.display='none';
+    }
     var subCount=Object.keys(cwSubmissions).length;
     document.getElementById('cwSubCount').textContent=subCount+' / 14 submitted';
     var pct=Math.round(subCount/14*100);
@@ -2211,6 +2571,13 @@ function renderCwStudent(){
     document.getElementById('cwStudentActive').style.display='';
     document.getElementById('cwStudentEmpty').style.display='none';
     document.getElementById('cwStudentTaskName').textContent=cwActive.title;
+    /* Show worksheet if attached */
+    if(cwWsImage&&cwActive.hasWs){
+        document.getElementById('cwStudentWs').style.display='';
+        document.getElementById('cwStudentWsImg').src=cwWsImage;
+    }else{
+        document.getElementById('cwStudentWs').style.display='none';
+    }
     var sub=myId!==null?cwSubmissions[myId]:null;
     var hasSub=!!sub;
     document.getElementById('cwSubmitArea').style.display=hasSub?'none':'';
@@ -2277,17 +2644,31 @@ cwSubmitInput.addEventListener('change',function(){
 
 /* Poll classwork */
 function pollClasswork(){
-    fbGet('/classwork/'+encodeURIComponent(CC)).then(function(d){
+    var enc=encodeURIComponent(CC);
+    fbGet('/classwork/'+enc).then(function(d){
+        var prevHasWs=cwActive&&cwActive.hasWs;
         if(d&&d.active){
             cwActive=d;
         }else{
-            cwActive=null;
+            cwActive=null;cwWsImage=null;
         }
-        fbGet('/submissions/'+encodeURIComponent(CC)).then(function(subs){
-            cwSubmissions=(subs&&typeof subs==='object')?subs:{};
-            if(isStudent)renderCwStudent();
-            else renderCwTeacher();
-        });
+        /* Fetch worksheet image if needed */
+        if(cwActive&&cwActive.hasWs&&!cwWsImage){
+            fbGet('/classwork-ws/'+enc).then(function(ws){
+                if(ws&&ws.data)cwWsImage=ws.data;
+                finishPoll();
+            });
+        }else{
+            if(!cwActive||!cwActive.hasWs)cwWsImage=null;
+            finishPoll();
+        }
+        function finishPoll(){
+            fbGet('/submissions/'+enc).then(function(subs){
+                cwSubmissions=(subs&&typeof subs==='object')?subs:{};
+                if(isStudent)renderCwStudent();
+                else renderCwTeacher();
+            });
+        }
     });
 }
 
@@ -2722,6 +3103,242 @@ document.getElementById('cwMarkedList').addEventListener('click',function(e){
     }
 });
 
+/* ===== DRAW ON WORKSHEET (Student) ===== */
+var cwDCanvas=null,cwDCtx=null,cwDDrawing=false,cwDColor='#222',cwDSize=6;
+var cwDErasing=false,cwDHighlighting=false,cwDHlColor='rgba(250,204,21,0.4)';
+var cwDHistory=[],cwDOpen=false;
+
+document.getElementById('cwDrawOnWsBtn').addEventListener('click',function(){
+    if(!cwWsImage){toast('No worksheet loaded',1);return}
+    openDrawOverlay(cwWsImage);
+});
+document.getElementById('cwStudentWsImg').addEventListener('click',function(){
+    if(cwWsImage)openImgViewer(cwWsImage);
+});
+
+function openDrawOverlay(imgSrc){
+    cwDOpen=true;
+    document.getElementById('cwDrawOverlay').style.display='flex';
+    document.getElementById('cwDrawTitle').textContent=cwActive?cwActive.title:'Worksheet';
+    cwDColor='#222';cwDSize=6;cwDErasing=false;cwDHighlighting=false;
+    document.getElementById('cwDHighlight').classList.remove('active','hl-active');
+    document.getElementById('cwDHlColors').style.display='none';
+    document.getElementById('cwDEraser').classList.remove('active');
+    document.querySelectorAll('#cwDColors .wb-c').forEach(function(b){b.classList.remove('active')});
+    document.querySelector('#cwDColors .wb-c[data-c="#222"]').classList.add('active');
+    var img=new Image();
+    img.onload=function(){
+        cwDCanvas=document.getElementById('cwDrawCanvas');
+        var body=document.getElementById('cwDrawBody');
+        var maxW=body.offsetWidth-16;
+        var maxH=body.offsetHeight-16;
+        var aspectRatio=img.height/img.width;
+        var w=maxW;var h=Math.round(w*aspectRatio);
+        if(h>maxH){h=maxH;w=Math.round(h/aspectRatio)}
+        var dpr=Math.min(window.devicePixelRatio||1,4);
+        cwDCanvas.width=w*dpr;cwDCanvas.height=h*dpr;
+        cwDCanvas.style.width=w+'px';cwDCanvas.style.height=h+'px';
+        cwDCtx=cwDCanvas.getContext('2d');
+        cwDCtx.scale(dpr,dpr);
+        cwDCtx.imageSmoothingEnabled=true;cwDCtx.imageSmoothingQuality='high';
+        cwDCtx.drawImage(img,0,0,w,h);
+        cwDCtx.lineCap='round';cwDCtx.lineJoin='round';
+        cwDHistory=[];
+        cwDHistory.push(cwDCtx.getImageData(0,0,cwDCanvas.width,cwDCanvas.height));
+        cwDCanvas.removeEventListener('pointerdown',cwDDown);
+        cwDCanvas.removeEventListener('pointermove',cwDMove);
+        cwDCanvas.removeEventListener('pointerup',cwDUp);
+        cwDCanvas.removeEventListener('pointercancel',cwDUp);
+        cwDCanvas.addEventListener('pointerdown',cwDDown);
+        cwDCanvas.addEventListener('pointermove',cwDMove);
+        cwDCanvas.addEventListener('pointerup',cwDUp);
+        cwDCanvas.addEventListener('pointercancel',cwDUp);
+    };
+    img.src=imgSrc;
+}
+
+function getCwDPos(e){var rect=cwDCanvas.getBoundingClientRect();return{x:e.clientX-rect.left,y:e.clientY-rect.top}}
+function cwDDown(e){
+    e.preventDefault();cwDDrawing=true;
+    cwDCanvas.setPointerCapture(e.pointerId);
+    var pos=getCwDPos(e);
+    cwDCtx.beginPath();cwDCtx.moveTo(pos.x,pos.y);
+    if(cwDHighlighting){cwDCtx.globalCompositeOperation='source-over';cwDCtx.strokeStyle=cwDHlColor;cwDCtx.lineWidth=cwDSize*4}
+    else if(cwDErasing){cwDCtx.globalCompositeOperation='source-over';cwDCtx.strokeStyle='#fff';cwDCtx.lineWidth=cwDSize*3}
+    else{cwDCtx.globalCompositeOperation='source-over';cwDCtx.strokeStyle=cwDColor;cwDCtx.lineWidth=cwDSize}
+}
+function cwDMove(e){if(!cwDDrawing)return;e.preventDefault();var pos=getCwDPos(e);cwDCtx.lineTo(pos.x,pos.y);cwDCtx.stroke();cwDCtx.beginPath();cwDCtx.moveTo(pos.x,pos.y)}
+function cwDUp(){if(!cwDDrawing)return;cwDDrawing=false;cwDCtx.beginPath();cwDHistory.push(cwDCtx.getImageData(0,0,cwDCanvas.width,cwDCanvas.height));if(cwDHistory.length>20)cwDHistory.shift()}
+
+document.getElementById('cwDrawClose').addEventListener('click',function(){closeDrawOverlay()});
+function closeDrawOverlay(){
+    cwDOpen=false;document.getElementById('cwDrawOverlay').style.display='none';
+    cwDCtx=null;cwDHistory=[];
+}
+
+/* Draw overlay tools */
+document.getElementById('cwDColors').addEventListener('click',function(e){
+    var btn=e.target.closest('.wb-c');if(!btn)return;
+    cwDColor=btn.dataset.c;cwDErasing=false;cwDHighlighting=false;
+    document.getElementById('cwDEraser').classList.remove('active');
+    document.getElementById('cwDHighlight').classList.remove('active','hl-active');
+    document.getElementById('cwDHlColors').style.display='none';
+    document.querySelectorAll('#cwDColors .wb-c').forEach(function(b){b.classList.remove('active')});
+    btn.classList.add('active');
+});
+document.getElementById('cwDSizes').addEventListener('click',function(e){
+    var btn=e.target.closest('.wb-sz');if(!btn)return;
+    cwDSize=parseInt(btn.dataset.sz);
+    document.querySelectorAll('#cwDSizes .wb-sz').forEach(function(b){b.classList.remove('active')});
+    btn.classList.add('active');
+});
+document.getElementById('cwDHighlight').addEventListener('click',function(){
+    cwDHighlighting=!cwDHighlighting;cwDErasing=false;
+    document.getElementById('cwDEraser').classList.remove('active');
+    this.classList.toggle('hl-active',cwDHighlighting);
+    document.getElementById('cwDHlColors').style.display=cwDHighlighting?'flex':'none';
+});
+document.getElementById('cwDHlColors').addEventListener('click',function(e){
+    var btn=e.target.closest('.wb-hl-c');if(!btn)return;
+    cwDHlColor=btn.dataset.hc;
+    document.querySelectorAll('#cwDHlColors .wb-hl-c').forEach(function(b){b.classList.remove('active')});
+    btn.classList.add('active');
+});
+document.getElementById('cwDEraser').addEventListener('click',function(){
+    cwDErasing=!cwDErasing;cwDHighlighting=false;
+    document.getElementById('cwDHighlight').classList.remove('active','hl-active');
+    document.getElementById('cwDHlColors').style.display='none';
+    this.classList.toggle('active',cwDErasing);
+});
+document.getElementById('cwDUndo').addEventListener('click',function(){
+    if(!cwDCtx||cwDHistory.length<2)return;
+    cwDHistory.pop();cwDCtx.putImageData(cwDHistory[cwDHistory.length-1],0,0);
+});
+
+/* Submit drawn worksheet */
+document.getElementById('cwDrawSubmit').addEventListener('click',function(){
+    if(!cwDCanvas||!cwDCtx)return;
+    if(myId===null){toast('Please log in first',1);return}
+    toast('📤 Uploading...');
+    var ec=document.createElement('canvas');
+    var ew=2400,eh=Math.round(2400*cwDCanvas.height/cwDCanvas.width);
+    ec.width=ew;ec.height=eh;
+    var ectx=ec.getContext('2d');ectx.imageSmoothingEnabled=true;ectx.imageSmoothingQuality='high';
+    ectx.drawImage(cwDCanvas,0,0,ew,eh);
+    var dataUrl=ec.toDataURL('image/jpeg',0.85);
+    var enc=encodeURIComponent(CC);
+    var s=students[myId];
+    var existing=cwSubmissions[myId];
+    var pages=(existing&&existing.pages)?JSON.parse(JSON.stringify(existing.pages)):{};
+    var pid='p'+Date.now()+'_'+Math.random().toString(36).substr(2,4);
+    fbPut('/sub-files/'+enc+'/'+myId+'/'+pid,{data:dataUrl});
+    pages[pid]={ts:Date.now()};
+    var subMeta={name:s.name,ts:Date.now(),pages:pages};
+    fbPut('/submissions/'+enc+'/'+myId,subMeta);
+    cwSubmissions[myId]=subMeta;
+    renderCwStudent();
+    closeDrawOverlay();
+    toast('✅ Worksheet submitted!');
+});
+
+/* Escape key for draw overlay */
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&cwDOpen){closeDrawOverlay()}});
+
+/* ===== TEACHER: VIEW STUDENT MARKED WORK ===== */
+var tchrMarkedMeta={};
+
+function pollTchrMarked(){
+    if(isStudent)return;
+    fbGet('/marked-work/'+encodeURIComponent(CC)).then(function(d){
+        tchrMarkedMeta=(d&&typeof d==='object')?d:{};
+        renderTchrMarked();
+    });
+}
+
+function renderTchrMarked(){
+    var hasAny=false;
+    for(var k in tchrMarkedMeta){if(tchrMarkedMeta.hasOwnProperty(k)&&typeof tchrMarkedMeta[k]==='object'){hasAny=true;break}}
+    var section=document.getElementById('tchrMarkedSection');
+    var grid=document.getElementById('tchrMarkedGrid');
+    if(!hasAny){section.style.display='none';grid.innerHTML='';return}
+    section.style.display='';
+    grid.innerHTML='';
+    students.forEach(function(s){
+        var studentMarks=tchrMarkedMeta[s.id];
+        if(!studentMarks||typeof studentMarks!=='object')return;
+        var markKeys=Object.keys(studentMarks);
+        if(markKeys.length===0)return;
+        var item=document.createElement('div');
+        item.className='tchr-marked-item';
+        item.innerHTML='<span class="cw-sub-emoji">'+s.emoji+'</span><span class="cw-sub-name">'+escH(s.name.split(' ')[0])+'</span>';
+        if(markKeys.length>1)item.innerHTML+='<span class="tchr-marked-count">'+markKeys.length+'</span>';
+        item.addEventListener('click',(function(sid,marks){return function(){openTchrMarkedList(sid,marks)}})(s.id,studentMarks));
+        grid.appendChild(item);
+    });
+}
+
+function openTchrMarkedList(sid,marks){
+    var s=students[sid];
+    var entries=[];
+    for(var k in marks){
+        if(marks.hasOwnProperty(k)){entries.push({id:k,title:marks[k].title||'Classwork',ts:marks[k].ts||0})}
+    }
+    entries.sort(function(a,b){return b.ts-a.ts});
+    /* Build a quick list and show in a modal */
+    var bg=document.createElement('div');
+    bg.className='confirm-bg show';bg.style.zIndex='2500';
+    var html='<div class="confirm-box" style="max-width:360px;max-height:70vh;overflow:auto"><div style="font-family:Fredoka,sans-serif;font-size:16px;font-weight:700;margin-bottom:10px">'+s.emoji+' '+escH(s.name)+' — Marked Work</div>';
+    entries.forEach(function(e){
+        var dt=new Date(e.ts);
+        var timeStr=dt.getDate()+'/'+(dt.getMonth()+1)+' '+dt.getHours()+':'+(dt.getMinutes()<10?'0':'')+dt.getMinutes();
+        html+='<div class="cw-marked-item" style="cursor:pointer;margin-bottom:6px" data-sid="'+sid+'" data-mid="'+e.id+'">';
+        html+='<div class="cw-marked-item-head"><span class="cw-marked-item-title">'+escH(e.title)+'</span><span class="cw-marked-item-date">'+timeStr+'</span></div></div>';
+    });
+    html+='<button class="cbtn cc" style="margin-top:10px;width:100%">Close</button></div>';
+    bg.innerHTML=html;
+    document.body.appendChild(bg);
+    bg.querySelector('.cc').addEventListener('click',function(){bg.remove()});
+    bg.addEventListener('click',function(ev){if(ev.target===bg)bg.remove()});
+    bg.querySelectorAll('.cw-marked-item').forEach(function(el){
+        el.addEventListener('click',function(){
+            var msid=parseInt(el.getAttribute('data-sid'));
+            var mmid=el.getAttribute('data-mid');
+            bg.remove();
+            /* Load and show the marked file */
+            toast('📥 Loading...');
+            fbGet('/marked-files/'+encodeURIComponent(CC)+'/'+msid+'/'+mmid).then(function(d){
+                if(d&&d.data){openImgViewer(d.data)}
+                else{toast('Could not load file',1)}
+            });
+        });
+    });
+}
+
+/* ===== SPINNER PICK NOTIFICATION (Student) ===== */
+var lastSpinnerTs=0;
+function pollSpinnerPick(){
+    if(!isStudent||myId===null)return;
+    fbGet('/spinner-pick/'+encodeURIComponent(CC)).then(function(d){
+        if(d&&d.sid===myId&&d.ts>lastSpinnerTs){
+            lastSpinnerTs=d.ts;
+            showSpinnerNotification(d.emoji,d.name);
+        }else if(d&&d.ts){
+            lastSpinnerTs=Math.max(lastSpinnerTs,d.ts);
+        }
+    });
+}
+function showSpinnerNotification(emoji,name){
+    var overlay=document.createElement('div');
+    overlay.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;z-index:2000;flex-direction:column;gap:10px;animation:mi .3s ease';
+    overlay.innerHTML='<div style="font-size:80px;animation:bounce 0.6s ease infinite alternate">'+emoji+'</div><div style="font-family:Fredoka,sans-serif;font-size:28px;font-weight:700;color:#FFD700;text-shadow:0 0 20px rgba(255,215,0,.5)">You\'ve been chosen!</div><div style="font-family:Fredoka,sans-serif;font-size:18px;color:#fff;opacity:.8">'+escH(name)+'</div><div style="font-size:13px;color:rgba(255,255,255,.4);margin-top:12px">Tap to dismiss</div>';
+    var style=document.createElement('style');
+    style.textContent='@keyframes bounce{0%{transform:scale(1)}100%{transform:scale(1.15)}}';
+    overlay.appendChild(style);
+    document.body.appendChild(overlay);
+    overlay.addEventListener('click',function(){overlay.remove()});
+    setTimeout(function(){if(overlay.parentNode)overlay.remove()},8000);
+}
+
 /* ===== SMART POLLING ===== */
 function pollData(){
     fbGet(P).then(function(d){
@@ -2772,15 +3389,15 @@ function pollStatus(){
     setInterval(pollChat,2500);
     setInterval(pollReactions,2500);
     setInterval(pollClasswork,3000);
-    if(!isStudent){setInterval(pollCwHistory,10000)}
-    if(isStudent){setInterval(pollScreenStatus,2500);setInterval(pollDrawControl,2000);setInterval(pollMarkedWork,5000)}
+    if(!isStudent){setInterval(pollCwHistory,10000);setInterval(pollTchrMarked,8000)}
+    if(isStudent){setInterval(pollScreenStatus,2500);setInterval(pollDrawControl,2000);setInterval(pollMarkedWork,5000);setInterval(pollSpinnerPick,3000)}
     setTimeout(pollNotes,500);
     setTimeout(pollStatus,1000);
     setTimeout(pollLive,500);
     setTimeout(pollChat,1000);
     setTimeout(pollClasswork,800);
-    if(!isStudent){setTimeout(pollCwHistory,1200)}
-    if(isStudent){setTimeout(pollScreenStatus,800);setTimeout(pollDrawControl,1000);setTimeout(pollMarkedWork,1200)}
+    if(!isStudent){setTimeout(pollCwHistory,1200);setTimeout(pollTchrMarked,1500)}
+    if(isStudent){setTimeout(pollScreenStatus,800);setTimeout(pollDrawControl,1000);setTimeout(pollMarkedWork,1200);setTimeout(pollSpinnerPick,1500)}
 })();
 </script>
 </body>
