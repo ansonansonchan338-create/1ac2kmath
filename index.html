@@ -616,6 +616,27 @@
         .grp-student-mate.is-me{border-color:var(--acc);background:var(--acc-g);font-weight:700}
         .grp-student-mate-emoji{font-size:16px}
 
+        /* GROUP ASSIGN EDITOR */
+        .grp-assign-wrap{margin-top:14px;border-top:1.5px solid var(--brd);padding-top:14px}
+        .grp-assign-title{font-family:'Fredoka',sans-serif;font-size:14px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+        .grp-assign-title i{color:var(--warn)}
+        .grp-assign-list{display:flex;flex-direction:column;gap:6px}
+        .grp-assign-row{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:10px;background:var(--bg1);border:1px solid var(--brd)}
+        .grp-assign-stu{display:flex;align-items:center;gap:6px;flex:1;min-width:0}
+        .grp-assign-emoji{font-size:20px}
+        .grp-assign-name{font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+        .grp-assign-btns{display:flex;gap:4px;flex-shrink:0}
+        .grp-assign-btn{width:30px;height:30px;border:2px solid var(--brd);border-radius:8px;background:var(--bgc);font-family:'Fredoka',sans-serif;font-size:12px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;color:var(--t2)}
+        .grp-assign-btn:hover{transform:scale(1.08)}
+        .grp-assign-btn.sel-0{background:#FF6B6B;color:#fff;border-color:#FF6B6B}
+        .grp-assign-btn.sel-1{background:#5B7FFF;color:#fff;border-color:#5B7FFF}
+        .grp-assign-btn.sel-2{background:#48C774;color:#fff;border-color:#48C774}
+        .grp-assign-btn.sel-3{background:#FECA57;color:#7A5D00;border-color:#FECA57}
+        .grp-assign-save{margin-top:12px;width:100%;padding:11px;border:none;border-radius:12px;background:linear-gradient(135deg,#10B981,#059669);color:#fff;font-family:'Fredoka',sans-serif;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:all .2s;box-shadow:0 4px 14px rgba(16,185,129,.3)}
+        .grp-assign-save:hover{transform:translateY(-1px)}
+        .grp-assign-toggle{padding:7px 14px;border:1.5px solid var(--brd);border-radius:10px;background:var(--bgc);color:var(--t2);font-family:'Fredoka',sans-serif;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:5px;transition:all .2s;margin-bottom:10px}
+        .grp-assign-toggle:hover{border-color:var(--warn);color:var(--warn)}
+
         /* GROUP WORK */
         .gw-section{margin-top:16px;border-top:1.5px solid var(--brd);padding-top:16px}
         .gw-section-title{font-family:'Fredoka',sans-serif;font-size:15px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:7px}
@@ -3709,14 +3730,95 @@ document.getElementById('cwvSave').addEventListener('click',function(){
 /* ===== GROUP DISCUSSION ===== */
 var GRP_COLORS=['#FF6B6B','#5B7FFF','#48C774','#FECA57'];
 var GRP_NAMES=['Group A','Group B','Group C','Group D'];
-var GRP_DEF=[
-    [0,1,2,3],     /* Group A: 鄧昊賢 吳琸翔 鄒雨軒 苗彧菲 (4) */
-    [4,5,6],       /* Group B: 羅梓揚 劉耀安 羅皓天 (3) */
-    [7,8,9],       /* Group C: 王雨寒 漆哈迪 林子航 (3) */
-    [10,11,12,13]  /* Group D: 李堃榕 余文彬 鄺靜兒 蔡樂熙 (4) */
+var GRP_DEF_DEFAULT=[
+    [0,1,2,3],
+    [4,5,6],
+    [7,8,9],
+    [10,11,12,13]
 ];
+var GRP_DEF=GRP_DEF_DEFAULT.map(function(a){return a.slice()});
+var grpConfigLoaded=false;
 var grpActive=null; /* null when no discussion, object when active */
 var grpTasks=['','','','']; /* teacher draft tasks per group */
+var grpAssignEditing=false; /* is the assign editor open */
+
+/* Load saved group config from Firebase */
+function loadGroupConfig(){
+    fbGet('/group-config/'+encodeURIComponent(CC)).then(function(d){
+        if(d&&Array.isArray(d)&&d.length===4){
+            GRP_DEF=d.map(function(a){return Array.isArray(a)?a.slice():[]});
+        }
+        grpConfigLoaded=true;
+    });
+}
+loadGroupConfig();
+
+/* Save group config to Firebase */
+function saveGroupConfig(){
+    fbPut('/group-config/'+encodeURIComponent(CC),GRP_DEF);
+}
+
+/* Build assignment editor UI */
+function buildGrpAssignEditor(){
+    /* Map each student to their current group */
+    var stuGrp={};
+    GRP_DEF.forEach(function(members,gi){
+        members.forEach(function(sid){stuGrp[sid]=gi});
+    });
+    var html='<div class="grp-assign-wrap" id="grpAssignWrap">';
+    html+='<div class="grp-assign-title"><i class="fas fa-user-cog"></i> Assign Students to Groups</div>';
+    html+='<div class="grp-assign-list">';
+    for(var i=0;i<14;i++){
+        var s=students[i];
+        var curG=(stuGrp[i]!==undefined)?stuGrp[i]:-1;
+        html+='<div class="grp-assign-row"><div class="grp-assign-stu"><span class="grp-assign-emoji">'+s.emoji+'</span><span class="grp-assign-name">'+escH(s.name)+'</span></div><div class="grp-assign-btns">';
+        for(var g=0;g<4;g++){
+            html+='<button class="grp-assign-btn'+(curG===g?' sel-'+g:'')+'" data-assign-sid="'+i+'" data-assign-grp="'+g+'">'+String.fromCharCode(65+g)+'</button>';
+        }
+        html+='</div></div>';
+    }
+    html+='</div>';
+    html+='<button class="grp-assign-save" id="grpAssignSave"><i class="fas fa-check-circle"></i> Save Groups</button>';
+    html+='</div>';
+    return html;
+}
+
+function wireGrpAssignEditor(container){
+    container.querySelectorAll('.grp-assign-btn').forEach(function(btn){
+        btn.addEventListener('click',function(){
+            var sid=parseInt(this.dataset.assignSid);
+            var grp=parseInt(this.dataset.assignGrp);
+            /* Toggle: if already selected, deselect */
+            var wasSelected=this.classList.contains('sel-'+grp);
+            /* Clear all for this student */
+            var row=this.closest('.grp-assign-row');
+            row.querySelectorAll('.grp-assign-btn').forEach(function(b){
+                b.className='grp-assign-btn';
+            });
+            if(!wasSelected){
+                this.classList.add('sel-'+grp);
+            }
+        });
+    });
+    var saveBtn=container.querySelector('#grpAssignSave');
+    if(saveBtn)saveBtn.addEventListener('click',function(){
+        var newDef=[[],[],[],[]];
+        container.querySelectorAll('.grp-assign-row').forEach(function(row){
+            var selBtn=row.querySelector('.grp-assign-btn[class*="sel-"]');
+            if(selBtn){
+                var sid=parseInt(selBtn.dataset.assignSid);
+                var grp=parseInt(selBtn.dataset.assignGrp);
+                newDef[grp].push(sid);
+            }
+        });
+        GRP_DEF=newDef;
+        saveGroupConfig();
+        grpAssignEditing=false;
+        applyGrpHighlights();
+        closeGrpModal();
+        toast('Groups saved!');
+    });
+}
 
 function openGrpModal(){
     buildGrpModalBody();
@@ -3820,6 +3922,14 @@ function renderStudentGrpBanner(){
 
 function pollGroupDisc(){
     var enc=encodeURIComponent(CC);
+    /* Also refresh group config for students */
+    if(isStudent){
+        fbGet('/group-config/'+enc).then(function(cfg){
+            if(cfg&&Array.isArray(cfg)&&cfg.length===4){
+                GRP_DEF=cfg.map(function(a){return Array.isArray(a)?a.slice():[]});
+            }
+        });
+    }
     fbGet('/group-disc/'+enc).then(function(d){
         if(d&&d.active){
             grpActive=d;
@@ -3882,6 +3992,24 @@ function buildGrpModalBody(){
             card.innerHTML='<div class="grp-card-head"><div class="grp-card-icon">'+String.fromCharCode(65+g)+'</div><div class="grp-card-name">'+GRP_NAMES[g]+'</div><div class="grp-card-count">'+members.length+'</div></div><div class="grp-members">'+membersHtml+'</div><textarea class="grp-task-input" data-grp="'+g+'" placeholder="Discussion task for '+GRP_NAMES[g]+'…" rows="2">'+escH(taskVal)+'</textarea>';
         }
         cardsEl.appendChild(card);
+    }
+
+    /* Customise Groups button + editor (teacher only) */
+    if(!isStudent){
+        var assignToggle=document.createElement('button');
+        assignToggle.className='grp-assign-toggle';
+        assignToggle.innerHTML='<i class="fas fa-user-cog"></i> Customise Groups';
+        cardsEl.parentNode.insertBefore(assignToggle,actionsEl);
+        assignToggle.addEventListener('click',function(){
+            var existing=document.getElementById('grpAssignWrap');
+            if(existing){existing.remove();return}
+            var editorHtml=buildGrpAssignEditor();
+            var editorDiv=document.createElement('div');
+            editorDiv.innerHTML=editorHtml;
+            var wrap=editorDiv.firstChild;
+            assignToggle.parentNode.insertBefore(wrap,assignToggle.nextSibling);
+            wireGrpAssignEditor(wrap);
+        });
     }
 
     /* Discussion actions */
