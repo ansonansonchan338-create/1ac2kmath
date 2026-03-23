@@ -253,6 +253,8 @@
         .tchr-marked-item{display:flex;flex-direction:column;align-items:center;padding:8px 4px;border:1.5px solid var(--brd);border-radius:10px;background:var(--bg2);cursor:pointer;transition:all .2s;position:relative}
         .tchr-marked-item:hover{border-color:var(--info);box-shadow:var(--shh);transform:scale(1.02)}
         .tchr-marked-count{font-size:10px;font-weight:700;background:var(--info);color:#fff;border-radius:5px;padding:1px 5px;position:absolute;bottom:-3px;right:-3px;font-family:'Fredoka',sans-serif}
+        .tchr-mark-del{width:24px;height:24px;border:1.5px solid var(--brd);border-radius:6px;background:var(--bgc);color:var(--t2);font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0;margin-left:auto}
+        .tchr-mark-del:hover{border-color:var(--neg);color:var(--neg);background:var(--neg-bg)}
         .cw-task-bar{display:flex;align-items:center;padding:8px 12px;background:linear-gradient(135deg,var(--acc),#e5592a);border-radius:10px;margin-bottom:10px}
         .cw-task-name{font-family:'Fredoka',sans-serif;font-size:15px;font-weight:700;color:#fff;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
         .cw-end-btn{padding:4px 10px;border:1.5px solid rgba(255,255,255,.4);border-radius:8px;background:rgba(255,255,255,.15);color:#fff;font-family:'Fredoka',sans-serif;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;flex-shrink:0;margin-left:8px}
@@ -315,8 +317,11 @@
         .cwv-share{padding:6px 12px;border:none;border-radius:8px;background:linear-gradient(135deg,#EF4444,#DC2626);color:#fff;font-family:'Fredoka',sans-serif;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:5px}
         .cwv-share:active{transform:scale(.95)}
         .cwv-close{width:36px;height:36px;border:1.5px solid var(--brd);border-radius:10px;background:var(--bgc);color:var(--t2);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center}
-        .cwv-wrap{flex:1;overflow:auto;display:flex;align-items:center;justify-content:center;padding:10px;background:#1a1a1a}
-        .cwv-canvas{display:block;max-width:100%;touch-action:none;cursor:crosshair;border-radius:6px}
+        .cwv-wrap{flex:1;overflow:auto;display:block;padding:10px;background:#1a1a1a;-webkit-overflow-scrolling:touch;position:relative;text-align:center}
+        .cwv-wrap .cwv-loading{display:flex;align-items:center;justify-content:center;min-height:200px}
+        .cwv-wrap.move-mode{cursor:grab}.cwv-wrap.move-mode:active{cursor:grabbing}
+        .cwv-canvas{display:inline-block;touch-action:none;cursor:crosshair;border-radius:6px;vertical-align:top}
+        .cwv-canvas.move-mode{touch-action:auto;cursor:grab}
         .cwv-loading{color:#999;font-family:'Fredoka',sans-serif;font-size:15px;text-align:center;padding:40px}
         .cwv-bar{display:flex;align-items:center;gap:6px;padding:10px 12px;background:var(--bg2);border-top:1.5px solid var(--brd);flex-shrink:0;flex-wrap:wrap}
         .cwv-bar .wb-c{width:26px;height:26px}
@@ -325,6 +330,18 @@
         .cwv-clear-marks{padding:5px 10px;border:1.5px solid var(--warn);border-radius:8px;background:rgba(245,158,11,.1);color:var(--warn);font-family:'Fredoka',sans-serif;font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:4px}
         .cwv-save{padding:6px 12px;border:none;border-radius:8px;background:linear-gradient(135deg,var(--info),#2563EB);color:#fff;font-family:'Fredoka',sans-serif;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:5px}
         .cwv-save:active{transform:scale(.95)}
+        .cwv-zoom-bar{display:flex;align-items:center;gap:4px;padding:4px 10px;background:var(--bg2);border-bottom:1px solid var(--brd);justify-content:center;flex-shrink:0}
+        .cwv-zoom-btn{width:32px;height:32px;border:1.5px solid var(--brd);border-radius:8px;background:var(--bgc);color:var(--t1);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;font-family:'Fredoka',sans-serif;font-weight:700}
+        .cwv-zoom-btn:hover{border-color:var(--acc);color:var(--acc)}
+        .cwv-zoom-btn:active{transform:scale(.92)}
+        .cwv-zoom-label{font-family:'Fredoka',sans-serif;font-size:12px;font-weight:700;color:var(--t2);min-width:44px;text-align:center}
+        .cwv-zoom-fit{padding:4px 10px;border:1.5px solid var(--brd);border-radius:8px;background:var(--bgc);font-family:'Fredoka',sans-serif;font-size:11px;font-weight:600;cursor:pointer;color:var(--t2);transition:all .15s}
+        .cwv-zoom-fit:hover{border-color:var(--acc);color:var(--acc)}
+        .cwv-mode-sep{width:1px;height:22px;background:var(--brd);margin:0 4px}
+        .cwv-mode-btn{padding:4px 10px;border:1.5px solid var(--brd);border-radius:8px;background:var(--bgc);font-family:'Fredoka',sans-serif;font-size:11px;font-weight:600;cursor:pointer;color:var(--t2);display:flex;align-items:center;gap:4px;transition:all .15s;white-space:nowrap}
+        .cwv-mode-btn.active{border-color:var(--acc);background:var(--acc-g);color:var(--acc)}
+        .cwv-mode-btn:hover{border-color:var(--acc)}
+        .cwv-canvas-wrap{position:relative;transform-origin:0 0;display:inline-block}
 
         /* MARKED WORK (Student) */
         .cw-marked{margin-top:10px;padding:12px;background:rgba(59,130,246,.06);border:1.5px solid var(--info);border-radius:14px}
@@ -531,7 +548,7 @@
             <div class="live-b" id="liveB"><span class="ld"></span>LIVE</div>
             <button class="hb teacher-only" id="btnShare" title="Share"><i class="fas fa-qrcode"></i></button>
             <button class="hb teacher-only" id="btnSync" title="Sync"><i class="fas fa-cloud"></i><span class="sync-d" id="syncDot"></span></button>
-            <button class="hb" id="btnRand" title="Random"><i class="fas fa-dice"></i></button>
+            <button class="hb teacher-only" id="btnRand" title="Random"><i class="fas fa-dice"></i></button>
             <button class="hb" id="btnLB" title="Leaderboard"><i class="fas fa-trophy"></i></button>
             <button class="hb teacher-only" id="btnReset" title="Reset"><i class="fas fa-rotate-left"></i></button>
             <button class="hb student-only" id="btnLogout" title="Logout"><i class="fas fa-sign-out-alt"></i></button>
@@ -840,6 +857,15 @@
             <button class="cwv-pager-btn" id="cwvPrev" title="Previous page"><i class="fas fa-chevron-left"></i></button>
             <span class="cwv-pager-label" id="cwvPageLabel">1 / 1</span>
             <button class="cwv-pager-btn" id="cwvNext" title="Next page"><i class="fas fa-chevron-right"></i></button>
+        </div>
+        <div class="cwv-zoom-bar" id="cwvZoomBar">
+            <button class="cwv-mode-btn active" id="cwvModeDraw" title="Draw mode"><i class="fas fa-pen"></i> Draw</button>
+            <button class="cwv-mode-btn" id="cwvModeMove" title="Move mode"><i class="fas fa-hand-paper"></i> Move</button>
+            <div class="cwv-mode-sep"></div>
+            <button class="cwv-zoom-btn" id="cwvZoomOut" title="Zoom out"><i class="fas fa-minus"></i></button>
+            <span class="cwv-zoom-label" id="cwvZoomLabel">100%</span>
+            <button class="cwv-zoom-btn" id="cwvZoomIn" title="Zoom in"><i class="fas fa-plus"></i></button>
+            <button class="cwv-zoom-fit" id="cwvZoomFit">Fit</button>
         </div>
         <div class="cwv-wrap" id="cwvWrap">
             <div class="cwv-loading" id="cwvLoading"><i class="fas fa-spinner fa-spin"></i> Loading submission...</div>
@@ -2757,14 +2783,24 @@ document.getElementById('cwHistList').addEventListener('click',function(e){
 /* ===== CLASSWORK VIEWER (Teacher) ===== */
 var cwViewerPages=[];
 var cwViewerPageIdx=0;
+var cwvZoom=1;
+var cwvBaseW=0;
+var cwvBaseH=0;
+var cwvMoveMode=false;
 
 function resetCwViewerTools(){
     cwVColor='#EF4444';cwVSize=5;cwVErasing=false;cwVHighlighting=false;cwVHlColor='rgba(250,204,21,0.4)';
+    cwvMoveMode=false;
     document.getElementById('cwvHighlight').classList.remove('active','hl-active');
     document.getElementById('cwvHlColors').style.display='none';
     document.querySelectorAll('#cwvColors .wb-c').forEach(function(b){b.classList.remove('active')});
     document.querySelector('#cwvColors .wb-c[data-c="#EF4444"]').classList.add('active');
     document.getElementById('cwvEraser').classList.remove('active');
+    document.getElementById('cwvModeDraw').classList.add('active');
+    document.getElementById('cwvModeMove').classList.remove('active');
+    var cv=document.getElementById('cwvCanvas');
+    cv.classList.remove('move-mode');
+    document.getElementById('cwvWrap').classList.remove('move-mode');
 }
 
 function openCwViewer(sid,histTaskId){
@@ -2777,6 +2813,8 @@ function openCwViewer(sid,histTaskId){
     document.getElementById('cwvLoading').innerHTML='<i class="fas fa-spinner fa-pulse"></i> Loading...';
     document.getElementById('cwvLoading').style.display='';
     cwViewerOpen=true;
+    cwvZoom=1;
+    updateCwvZoomLabel();
     resetCwViewerTools();
 
     /* Build page list */
@@ -2878,6 +2916,7 @@ function initCwViewerCanvas(img){
     var h=Math.round(w*aspectRatio);
     var maxH=window.innerHeight*0.7;
     if(h>maxH){w=Math.round(maxH/aspectRatio);h=maxH}
+    cwvBaseW=w;cwvBaseH=h;
     var dpr=Math.min(window.devicePixelRatio||1,4);
     cwViewerEl.width=w*dpr;cwViewerEl.height=h*dpr;
     cwViewerEl.style.width=w+'px';cwViewerEl.style.height=h+'px';
@@ -2896,11 +2935,20 @@ function initCwViewerCanvas(img){
     cwViewerEl.addEventListener('pointermove',cwvMoveH);
     cwViewerEl.addEventListener('pointerup',cwvUpH);
     cwViewerEl.addEventListener('pointercancel',cwvUpH);
+    cwvZoom=1;
+    updateCwvZoomLabel();
+    applyCwvZoom();
 }
 
-function getCwvPos(e){var rect=cwViewerEl.getBoundingClientRect();return{x:e.clientX-rect.left,y:e.clientY-rect.top}}
+function getCwvPos(e){
+    var rect=cwViewerEl.getBoundingClientRect();
+    return{x:(e.clientX-rect.left)/cwvZoom,y:(e.clientY-rect.top)/cwvZoom};
+}
 
 function cwvDown(e){
+    /* Apple Pencil always draws; finger respects move mode */
+    var isPen=(e.pointerType==='pen');
+    if(cwvMoveMode&&!isPen)return; /* let touch scroll in move mode */
     e.preventDefault();cwVDrawing=true;
     cwViewerEl.setPointerCapture(e.pointerId);
     var pos=getCwvPos(e);
@@ -2933,6 +2981,69 @@ function cwvUpH(){
     if(cwVHistory.length>20)cwVHistory.shift();
 }
 
+/* Zoom helpers */
+function updateCwvZoomLabel(){
+    document.getElementById('cwvZoomLabel').textContent=Math.round(cwvZoom*100)+'%';
+}
+function applyCwvZoom(){
+    if(!cwViewerEl)return;
+    cwViewerEl.style.width=Math.round(cwvBaseW*cwvZoom)+'px';
+    cwViewerEl.style.height=Math.round(cwvBaseH*cwvZoom)+'px';
+    updateCwvZoomLabel();
+}
+function setCwvZoom(z){
+    cwvZoom=Math.max(0.25,Math.min(5,z));
+    applyCwvZoom();
+}
+
+/* Zoom buttons */
+document.getElementById('cwvZoomIn').addEventListener('click',function(){setCwvZoom(cwvZoom+0.25)});
+document.getElementById('cwvZoomOut').addEventListener('click',function(){setCwvZoom(cwvZoom-0.25)});
+document.getElementById('cwvZoomFit').addEventListener('click',function(){
+    cwvZoom=1;applyCwvZoom();
+    document.getElementById('cwvWrap').scrollTop=0;
+    document.getElementById('cwvWrap').scrollLeft=0;
+});
+
+/* Draw / Move mode */
+document.getElementById('cwvModeDraw').addEventListener('click',function(){
+    cwvMoveMode=false;
+    this.classList.add('active');
+    document.getElementById('cwvModeMove').classList.remove('active');
+    if(cwViewerEl)cwViewerEl.classList.remove('move-mode');
+    document.getElementById('cwvWrap').classList.remove('move-mode');
+});
+document.getElementById('cwvModeMove').addEventListener('click',function(){
+    cwvMoveMode=true;
+    this.classList.add('active');
+    document.getElementById('cwvModeDraw').classList.remove('active');
+    if(cwViewerEl)cwViewerEl.classList.add('move-mode');
+    document.getElementById('cwvWrap').classList.add('move-mode');
+});
+
+/* Pinch-to-zoom on wheel (trackpad) and gesture (iPad Safari) */
+document.getElementById('cwvWrap').addEventListener('wheel',function(e){
+    if(!cwViewerOpen||!cwViewerEl)return;
+    if(e.ctrlKey){
+        e.preventDefault();
+        var delta=-e.deltaY*0.01;
+        setCwvZoom(cwvZoom+delta);
+    }
+},{passive:false});
+/* iPad Safari gesture events */
+var cwvGestureStartZoom=1;
+document.getElementById('cwvWrap').addEventListener('gesturestart',function(e){
+    if(!cwViewerOpen)return;
+    e.preventDefault();cwvGestureStartZoom=cwvZoom;
+});
+document.getElementById('cwvWrap').addEventListener('gesturechange',function(e){
+    if(!cwViewerOpen)return;
+    e.preventDefault();setCwvZoom(cwvGestureStartZoom*e.scale);
+});
+document.getElementById('cwvWrap').addEventListener('gestureend',function(e){
+    if(!cwViewerOpen)return;e.preventDefault();
+});
+
 /* Viewer: close */
 document.getElementById('cwvClose').addEventListener('click',closeCwViewer);
 
@@ -2941,13 +3052,26 @@ function closeCwViewer(){
     document.getElementById('cwvPager').style.display='none';
     cwViewerOpen=false;
     cwViewerPages=[];cwViewerPageIdx=0;
+    cwvZoom=1;cwvBaseW=0;cwvBaseH=0;cwvMoveMode=false;
     if(cwViewerEl){
         cwViewerEl.removeEventListener('pointerdown',cwvDown);
         cwViewerEl.removeEventListener('pointermove',cwvMoveH);
         cwViewerEl.removeEventListener('pointerup',cwvUpH);
         cwViewerEl.removeEventListener('pointercancel',cwvUpH);
+        cwViewerEl.classList.remove('move-mode');
     }
+    document.getElementById('cwvWrap').classList.remove('move-mode');
     cwViewerCtx=null;cwVHistory=[];
+}
+
+/* Viewer: auto-switch to draw mode when a drawing tool is selected */
+function cwvEnsureDrawMode(){
+    if(!cwvMoveMode)return;
+    cwvMoveMode=false;
+    document.getElementById('cwvModeDraw').classList.add('active');
+    document.getElementById('cwvModeMove').classList.remove('active');
+    if(cwViewerEl)cwViewerEl.classList.remove('move-mode');
+    document.getElementById('cwvWrap').classList.remove('move-mode');
 }
 
 /* Viewer: tools */
@@ -2959,6 +3083,7 @@ document.getElementById('cwvColors').addEventListener('click',function(e){
     document.getElementById('cwvHlColors').style.display='none';
     document.querySelectorAll('#cwvColors .wb-c').forEach(function(b){b.classList.remove('active')});
     btn.classList.add('active');
+    cwvEnsureDrawMode();
 });
 document.getElementById('cwvSizes').addEventListener('click',function(e){
     var btn=e.target.closest('.wb-sz');if(!btn)return;
@@ -2971,6 +3096,7 @@ document.getElementById('cwvHighlight').addEventListener('click',function(){
     document.getElementById('cwvEraser').classList.remove('active');
     this.classList.toggle('hl-active',cwVHighlighting);
     document.getElementById('cwvHlColors').style.display=cwVHighlighting?'flex':'none';
+    if(cwVHighlighting)cwvEnsureDrawMode();
 });
 document.getElementById('cwvHlColors').addEventListener('click',function(e){
     var btn=e.target.closest('.wb-hl-c');if(!btn)return;
@@ -2983,6 +3109,7 @@ document.getElementById('cwvEraser').addEventListener('click',function(){
     document.getElementById('cwvHighlight').classList.remove('active','hl-active');
     document.getElementById('cwvHlColors').style.display='none';
     this.classList.toggle('active',cwVErasing);
+    if(cwVErasing)cwvEnsureDrawMode();
 });
 document.getElementById('cwvUndo').addEventListener('click',function(){
     if(!cwViewerCtx||cwVHistory.length<2)return;
@@ -3291,24 +3418,47 @@ function openTchrMarkedList(sid,marks){
     entries.forEach(function(e){
         var dt=new Date(e.ts);
         var timeStr=dt.getDate()+'/'+(dt.getMonth()+1)+' '+dt.getHours()+':'+(dt.getMinutes()<10?'0':'')+dt.getMinutes();
-        html+='<div class="cw-marked-item" style="cursor:pointer;margin-bottom:6px" data-sid="'+sid+'" data-mid="'+e.id+'">';
-        html+='<div class="cw-marked-item-head"><span class="cw-marked-item-title">'+escH(e.title)+'</span><span class="cw-marked-item-date">'+timeStr+'</span></div></div>';
+        html+='<div class="cw-marked-item" style="cursor:pointer;margin-bottom:6px;display:flex;align-items:center;gap:6px" data-sid="'+sid+'" data-mid="'+e.id+'">';
+        html+='<div style="flex:1;min-width:0"><div class="cw-marked-item-head"><span class="cw-marked-item-title">'+escH(e.title)+'</span><span class="cw-marked-item-date">'+timeStr+'</span></div></div>';
+        html+='<button class="tchr-mark-del" data-dsid="'+sid+'" data-dmid="'+e.id+'" title="Delete"><i class="fas fa-trash-alt"></i></button>';
+        html+='</div>';
     });
     html+='<button class="cbtn cc" style="margin-top:10px;width:100%">Close</button></div>';
     bg.innerHTML=html;
     document.body.appendChild(bg);
     bg.querySelector('.cc').addEventListener('click',function(){bg.remove()});
     bg.addEventListener('click',function(ev){if(ev.target===bg)bg.remove()});
+    /* View marked work on click */
     bg.querySelectorAll('.cw-marked-item').forEach(function(el){
-        el.addEventListener('click',function(){
+        el.addEventListener('click',function(ev){
+            if(ev.target.closest('.tchr-mark-del'))return; /* skip if delete clicked */
             var msid=parseInt(el.getAttribute('data-sid'));
             var mmid=el.getAttribute('data-mid');
             bg.remove();
-            /* Load and show the marked file */
             toast('📥 Loading...');
             fbGet('/marked-files/'+encodeURIComponent(CC)+'/'+msid+'/'+mmid).then(function(d){
                 if(d&&d.data){openImgViewer(d.data)}
                 else{toast('Could not load file',1)}
+            });
+        });
+    });
+    /* Delete marked work on click */
+    bg.querySelectorAll('.tchr-mark-del').forEach(function(btn){
+        btn.addEventListener('click',function(ev){
+            ev.stopPropagation();
+            var dsid=btn.getAttribute('data-dsid');
+            var dmid=btn.getAttribute('data-dmid');
+            showCwConfirm('Delete this marked work from student\u2019s account?',function(){
+                var enc=encodeURIComponent(CC);
+                fbDel('/marked-work/'+enc+'/'+dsid+'/'+dmid);
+                fbDel('/marked-files/'+enc+'/'+dsid+'/'+dmid);
+                /* Remove from local data */
+                if(tchrMarkedMeta[dsid])delete tchrMarkedMeta[dsid][dmid];
+                /* Remove the item from modal */
+                var itemEl=btn.closest('.cw-marked-item');
+                if(itemEl)itemEl.remove();
+                renderTchrMarked();
+                toast('🗑️ Marked work deleted');
             });
         });
     });
