@@ -1715,18 +1715,21 @@ function stopSharing(){
 }
 
 /* ===== SCREEN SHARE POLL (STUDENT) ===== */
+var lastScreenTs=0; /* version stamp — only download frame if ts changed */
 function pollScreenStatus(){
     if(!isStudent)return;
     fbGet('/screenshare/'+encodeURIComponent(CC)+'/status').then(function(d){
         var wasLive=screenShareLive;
         screenShareLive=!!(d&&d.live);
         if(screenShareLive&&!wasLive){
+            lastScreenTs=0; /* reset so first frame always downloads */
             pollScreenFrame();
-            if(!screenPollTimer)screenPollTimer=setInterval(pollScreenFrame,1500);
+            if(!screenPollTimer)screenPollTimer=setInterval(pollScreenFrame,2500);
             document.getElementById('screenWaiting').style.display='none';
             document.getElementById('liveB').classList.add('on');
         }else if(!screenShareLive&&wasLive){
             clearInterval(screenPollTimer);screenPollTimer=null;
+            lastScreenTs=0;
             document.getElementById('screenImg').style.display='none';
             document.getElementById('screenWaiting').style.display='';
         }
@@ -1735,12 +1738,19 @@ function pollScreenStatus(){
 
 function pollScreenFrame(){
     if(!screenShareLive)return;
-    fbGet('/screenshare/'+encodeURIComponent(CC)+'/frame').then(function(d){
-        if(d&&d.data){
-            var img=document.getElementById('screenImg');
-            img.src=d.data;img.style.display='';
-            document.getElementById('screenWaiting').style.display='none';
-        }
+    /* First check if timestamp changed (lightweight ~50 bytes vs full image ~500KB) */
+    fbGet('/screenshare/'+encodeURIComponent(CC)+'/status').then(function(st){
+        if(!st||!st.live)return;
+        var serverTs=st.ts||0;
+        if(serverTs<=lastScreenTs)return; /* same frame, skip heavy download */
+        lastScreenTs=serverTs;
+        fbGet('/screenshare/'+encodeURIComponent(CC)+'/frame').then(function(d){
+            if(d&&d.data){
+                var img=document.getElementById('screenImg');
+                img.src=d.data;img.style.display='';
+                document.getElementById('screenWaiting').style.display='none';
+            }
+        });
     });
 }
 
@@ -3750,22 +3760,36 @@ function pollStatus(){
         }
     });
 
-    /* Start polling */
-    setInterval(pollData,2000);
-    setInterval(pollStatus,3000);
-    setInterval(pollLive,1500);
-    setInterval(pollChat,2500);
-    setInterval(pollReactions,2500);
-    setInterval(pollClasswork,3000);
-    if(!isStudent){setInterval(pollCwHistory,10000);setInterval(pollTchrMarked,8000);setInterval(pollCwDrafts,12000)}
-    if(isStudent){setInterval(pollScreenStatus,2500);setInterval(pollDrawControl,2000);setInterval(pollMarkedWork,5000);setInterval(pollSpinnerPick,3000)}
+    /* Start polling — teacher has faster intervals, students are bandwidth-optimized */
+    if(isStudent){
+        setInterval(pollData,5000);
+        setInterval(pollStatus,6000);
+        setInterval(pollLive,4000);
+        setInterval(pollChat,5000);
+        setInterval(pollReactions,4000);
+        setInterval(pollClasswork,5000);
+        setInterval(pollScreenStatus,3000);
+        setInterval(pollDrawControl,3000);
+        setInterval(pollMarkedWork,8000);
+        setInterval(pollSpinnerPick,5000);
+    }else{
+        setInterval(pollData,2000);
+        setInterval(pollStatus,3000);
+        setInterval(pollLive,1500);
+        setInterval(pollChat,2500);
+        setInterval(pollReactions,2500);
+        setInterval(pollClasswork,3000);
+        setInterval(pollCwHistory,10000);
+        setInterval(pollTchrMarked,8000);
+        setInterval(pollCwDrafts,12000);
+    }
     setTimeout(pollNotes,500);
     setTimeout(pollStatus,1000);
     setTimeout(pollLive,500);
     setTimeout(pollChat,1000);
     setTimeout(pollClasswork,800);
     if(!isStudent){setTimeout(pollCwHistory,1200);setTimeout(pollTchrMarked,1500);setTimeout(pollCwDrafts,800)}
-    if(isStudent){setTimeout(pollScreenStatus,800);setTimeout(pollDrawControl,1000);setTimeout(pollMarkedWork,1200);setTimeout(pollSpinnerPick,1500)}
+    if(isStudent){setTimeout(pollScreenStatus,1000);setTimeout(pollDrawControl,1200);setTimeout(pollMarkedWork,1500);setTimeout(pollSpinnerPick,2000)}
 })();
 </script>
 </body>
