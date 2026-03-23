@@ -217,13 +217,13 @@
         .cw-title i{color:var(--acc)}
         .cw-create-btn{padding:6px 14px;border:1.5px solid var(--acc);border-radius:10px;background:var(--acc-g);color:var(--acc);font-family:'Fredoka',sans-serif;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:5px;transition:all .2s}
         .cw-create-btn:hover{background:var(--acc);color:#fff}
-        .cw-create{display:none;gap:6px;margin-bottom:10px;align-items:center}
+        .cw-create{display:none;gap:6px;margin-bottom:10px;align-items:center;flex-wrap:wrap}
         .cw-create.open{display:flex}
         .cw-create-input{flex:1;padding:10px 14px;border:2px solid var(--brd);border-radius:10px;font-family:'Nunito',sans-serif;font-size:16px;color:var(--t1);background:var(--bg2);outline:none}
         .cw-create-input:focus{border-color:var(--acc)}
         .cw-create-go{width:40px;height:40px;border:none;border-radius:10px;background:var(--pos);color:#fff;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
         .cw-create-x{width:40px;height:40px;border:1.5px solid var(--brd);border-radius:10px;background:var(--bgc);color:var(--t2);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-        .cw-attach-row{display:flex;align-items:center;gap:8px;margin-top:6px}
+        .cw-attach-row{display:flex;align-items:center;gap:8px;margin-top:6px;width:100%}
         .cw-attach-btn{padding:7px 14px;border:1.5px dashed var(--info);border-radius:10px;background:transparent;font-family:'Fredoka',sans-serif;font-size:13px;font-weight:600;cursor:pointer;color:var(--info);display:flex;align-items:center;gap:6px;transition:all .15s}
         .cw-attach-btn:hover{background:rgba(59,130,246,.08);border-style:solid}
         .cw-attach-preview{display:flex;align-items:center;gap:6px;font-family:'Fredoka',sans-serif;font-size:12px;font-weight:600;color:var(--t1);max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -269,6 +269,27 @@
         .cw-sub-emoji{font-size:22px}
         .cw-sub-name{font-family:'Fredoka',sans-serif;font-size:10px;font-weight:600;color:var(--t1);margin-top:2px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
         .cw-sub-check{position:absolute;top:-4px;right:-4px;color:var(--pos);font-size:14px;background:var(--bgc);border-radius:50%}
+        .cw-create-btns{display:flex;gap:6px;margin-top:6px;width:100%}
+        .cw-draft-save{flex:1;padding:8px;border:1.5px solid var(--info);border-radius:10px;background:rgba(59,130,246,.08);color:var(--info);font-family:'Fredoka',sans-serif;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;transition:all .15s}
+        .cw-draft-save:hover{background:var(--info);color:#fff}
+        .cw-drafts-header{display:flex;align-items:center;gap:8px;margin-top:12px;padding-top:10px;border-top:1.5px solid var(--brd);font-family:'Fredoka',sans-serif;font-size:14px;font-weight:700;color:var(--t2);margin-bottom:8px}
+        .cw-drafts-header i{color:var(--info);font-size:13px}
+        .cw-drafts-count{font-size:11px;font-weight:700;background:var(--info);color:#fff;border-radius:5px;padding:1px 6px;margin-left:auto}
+        .cw-drafts-list{display:flex;flex-direction:column;gap:8px;max-height:300px;overflow-y:auto}
+        .cw-draft-card{padding:10px 12px;background:var(--bg2);border:1.5px solid var(--brd);border-radius:12px;transition:all .15s}
+        .cw-draft-card:hover{border-color:var(--info);box-shadow:var(--sh)}
+        .cw-draft-top{display:flex;align-items:center;gap:8px}
+        .cw-draft-name{flex:1;font-family:'Fredoka',sans-serif;font-size:14px;font-weight:700;color:var(--t1);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+        .cw-draft-date{font-size:11px;color:var(--t2);font-weight:600;white-space:nowrap}
+        .cw-draft-ws-tag{font-size:10px;font-weight:700;color:var(--info);background:rgba(59,130,246,.1);padding:2px 6px;border-radius:5px;white-space:nowrap;display:flex;align-items:center;gap:3px}
+        .cw-draft-actions{display:flex;gap:6px;margin-top:8px}
+        .cw-draft-pub{flex:1;padding:7px;border:none;border-radius:8px;background:linear-gradient(135deg,var(--pos),#22874a);color:#fff;font-family:'Fredoka',sans-serif;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;transition:all .15s}
+        .cw-draft-pub:hover{box-shadow:0 4px 12px rgba(45,156,74,.3);transform:translateY(-1px)}
+        .cw-draft-pub:active{transform:scale(.96)}
+        .cw-draft-edit{padding:7px 12px;border:1.5px solid var(--brd);border-radius:8px;background:var(--bgc);color:var(--t2);font-family:'Fredoka',sans-serif;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:4px;transition:all .15s}
+        .cw-draft-edit:hover{border-color:var(--info);color:var(--info)}
+        .cw-draft-del{padding:7px 10px;border:1.5px solid var(--brd);border-radius:8px;background:var(--bgc);color:var(--t2);font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
+        .cw-draft-del:hover{border-color:var(--neg);color:var(--neg);background:var(--neg-bg)}
         .cw-empty{text-align:center;padding:12px;color:var(--t2);font-style:italic;font-size:13px}
         .cw-hist-header{display:flex;align-items:center;gap:8px;margin-top:14px;padding-top:12px;border-top:1.5px solid var(--brd);font-family:'Fredoka',sans-serif;font-size:14px;font-weight:700;color:var(--t2)}
         .cw-hist-header i{color:var(--acc);font-size:13px}
@@ -571,7 +592,7 @@
             </div>
             <div class="cw-create" id="cwCreate">
                 <input class="cw-create-input" id="cwCreateInput" placeholder="Task title..." maxlength="100">
-                <button class="cw-create-go" id="cwCreateGo"><i class="fas fa-check"></i></button>
+                <button class="cw-create-go" id="cwCreateGo" title="Publish now"><i class="fas fa-check"></i></button>
                 <button class="cw-create-x" id="cwCreateCancel"><i class="fas fa-times"></i></button>
                 <div class="cw-attach-row" id="cwAttachRow">
                     <button class="cw-attach-btn" id="cwAttachBtn"><i class="fas fa-paperclip"></i> Attach Worksheet</button>
@@ -579,6 +600,9 @@
                         <i class="fas fa-file-image"></i><span id="cwAttachName"></span>
                         <button class="cw-attach-remove" id="cwAttachRemove"><i class="fas fa-times"></i></button>
                     </div>
+                </div>
+                <div class="cw-create-btns">
+                    <button class="cw-draft-save" id="cwDraftSave"><i class="fas fa-bookmark"></i> Save as Draft</button>
                 </div>
             </div>
             <div id="cwActiveSection" style="display:none">
@@ -594,6 +618,10 @@
                 <div class="cw-sub-grid" id="cwSubGrid"></div>
             </div>
             <div class="cw-empty" id="cwEmpty">No active classwork. Tap <b>+ New Task</b> to start.</div>
+            <div id="cwDraftsSection" style="display:none">
+                <div class="cw-drafts-header"><i class="fas fa-bookmark"></i> Prepared Tasks <span class="cw-drafts-count" id="cwDraftsCount">0</span></div>
+                <div class="cw-drafts-list" id="cwDraftsList"></div>
+            </div>
             <div class="tchr-marked-section" id="tchrMarkedSection" style="display:none">
                 <div class="tchr-marked-header"><i class="fas fa-folder-open"></i> Student Marked Work</div>
                 <div class="tchr-marked-grid" id="tchrMarkedGrid"></div>
@@ -2390,6 +2418,10 @@ document.getElementById('cwCreateBtn').addEventListener('click',function(){
 document.getElementById('cwCreateCancel').addEventListener('click',function(){
     document.getElementById('cwCreate').classList.remove('open');
     document.getElementById('cwCreateInput').value='';
+    cwEditingDraftId=null;
+    cwAttachData=null;
+    document.getElementById('cwAttachPreview').style.display='none';
+    document.getElementById('cwAttachBtn').style.display='';
 });
 document.getElementById('cwCreateGo').addEventListener('click',createClasswork);
 document.getElementById('cwCreateInput').addEventListener('keydown',function(e){if(e.key==='Enter')createClasswork()});
@@ -2452,26 +2484,199 @@ function renderPdfToImage(file,cb){
     reader.readAsArrayBuffer(file);
 }
 
+/* ===== PREPARED TASKS (Drafts) ===== */
+var cwDrafts={};
+var cwEditingDraftId=null; /* non-null when editing an existing draft */
+
+function pollCwDrafts(){
+    if(isStudent)return;
+    fbGet('/cw-drafts/'+encodeURIComponent(CC)).then(function(d){
+        cwDrafts=(d&&typeof d==='object')?d:{};
+        renderCwDrafts();
+    });
+}
+
+function renderCwDrafts(){
+    var keys=Object.keys(cwDrafts);
+    var section=document.getElementById('cwDraftsSection');
+    var list=document.getElementById('cwDraftsList');
+    if(keys.length===0){section.style.display='none';list.innerHTML='';return}
+    section.style.display='';
+    document.getElementById('cwDraftsCount').textContent=keys.length;
+    /* Sort by ts descending */
+    keys.sort(function(a,b){return(cwDrafts[b].ts||0)-(cwDrafts[a].ts||0)});
+    list.innerHTML='';
+    keys.forEach(function(did){
+        var dr=cwDrafts[did];
+        var dt=new Date(dr.ts||0);
+        var timeStr=dt.getDate()+'/'+(dt.getMonth()+1)+' '+dt.getHours()+':'+(dt.getMinutes()<10?'0':'')+dt.getMinutes();
+        var wsTag=dr.hasWs?'<span class="cw-draft-ws-tag"><i class="fas fa-paperclip"></i> WS</span>':'';
+        var card=document.createElement('div');
+        card.className='cw-draft-card';
+        card.setAttribute('data-did',did);
+        card.innerHTML='<div class="cw-draft-top">'
+            +'<span class="cw-draft-name">'+escH(dr.title)+'</span>'
+            +wsTag
+            +'<span class="cw-draft-date">'+timeStr+'</span>'
+            +'</div>'
+            +'<div class="cw-draft-actions">'
+            +'<button class="cw-draft-pub" data-did="'+did+'"><i class="fas fa-play"></i> Publish</button>'
+            +'<button class="cw-draft-edit" data-did="'+did+'"><i class="fas fa-pen"></i> Edit</button>'
+            +'<button class="cw-draft-del" data-did="'+did+'"><i class="fas fa-trash-alt"></i></button>'
+            +'</div>';
+        list.appendChild(card);
+    });
+}
+
+/* Save draft */
+document.getElementById('cwDraftSave').addEventListener('click',function(){
+    var title=document.getElementById('cwCreateInput').value.trim();
+    if(!title){toast('Please enter a task title',1);return}
+    var enc=encodeURIComponent(CC);
+    var did=cwEditingDraftId||('d'+Date.now()+'_'+Math.random().toString(36).substr(2,4));
+    var meta={title:title,ts:Date.now(),hasWs:!!cwAttachData};
+    fbPut('/cw-drafts/'+enc+'/'+did,meta);
+    if(cwAttachData){
+        fbPut('/cw-draft-files/'+enc+'/'+did,{data:cwAttachData});
+    }else if(cwEditingDraftId){
+        /* If editing and worksheet removed, delete the old file */
+        var oldDraft=cwDrafts[cwEditingDraftId];
+        if(oldDraft&&oldDraft.hasWs){
+            fbDel('/cw-draft-files/'+enc+'/'+cwEditingDraftId);
+        }
+    }
+    cwDrafts[did]=meta;
+    /* Reset form */
+    cwAttachData=null;
+    cwEditingDraftId=null;
+    document.getElementById('cwAttachPreview').style.display='none';
+    document.getElementById('cwAttachBtn').style.display='';
+    document.getElementById('cwCreate').classList.remove('open');
+    document.getElementById('cwCreateInput').value='';
+    renderCwDrafts();
+    toast('📌 Draft saved!');
+});
+
+/* Drafts list: event delegation for publish / edit / delete */
+document.getElementById('cwDraftsList').addEventListener('click',function(e){
+    var pubBtn=e.target.closest('.cw-draft-pub');
+    var editBtn=e.target.closest('.cw-draft-edit');
+    var delBtn=e.target.closest('.cw-draft-del');
+
+    if(pubBtn){
+        var did=pubBtn.getAttribute('data-did');
+        publishDraft(did);
+        return;
+    }
+
+    if(editBtn){
+        var edid=editBtn.getAttribute('data-did');
+        editDraft(edid);
+        return;
+    }
+
+    if(delBtn){
+        var ddid=delBtn.getAttribute('data-did');
+        showCwConfirm('Delete this prepared task?',function(){
+            var enc=encodeURIComponent(CC);
+            fbDel('/cw-drafts/'+enc+'/'+ddid);
+            fbDel('/cw-draft-files/'+enc+'/'+ddid);
+            delete cwDrafts[ddid];
+            renderCwDrafts();
+            toast('🗑️ Draft deleted');
+        });
+    }
+});
+
+/* Publish draft = create classwork from a saved draft */
+function publishDraft(did){
+    var dr=cwDrafts[did];
+    if(!dr)return;
+    cwEnding=true;
+    var enc=encodeURIComponent(CC);
+    archiveCurrentTask(function(){
+        cwActive={title:dr.title,ts:Date.now(),active:true,hasWs:!!dr.hasWs};
+        fbPut('/classwork/'+enc,cwActive);
+        fbDel('/submissions/'+enc);
+        fbDel('/sub-files/'+enc);
+        cwSubmissions={};
+        if(dr.hasWs){
+            /* Load worksheet from draft file and set as active worksheet */
+            fbGet('/cw-draft-files/'+enc+'/'+did).then(function(d){
+                if(d&&d.data){
+                    cwWsImage=d.data;
+                    fbPut('/classwork-ws/'+enc,{data:d.data});
+                }else{
+                    cwWsImage=null;
+                    cwActive.hasWs=false;
+                    fbPut('/classwork/'+enc,cwActive);
+                }
+                renderCwTeacher();
+            });
+        }else{
+            cwWsImage=null;
+            fbDel('/classwork-ws/'+enc);
+            renderCwTeacher();
+        }
+        toast('📋 Task published: '+dr.title);
+        setTimeout(function(){pollCwHistory();cwEnding=false},2000);
+    });
+}
+
+/* Edit draft = load into create form */
+function editDraft(did){
+    var dr=cwDrafts[did];
+    if(!dr)return;
+    cwEditingDraftId=did;
+    document.getElementById('cwCreate').classList.add('open');
+    document.getElementById('cwCreateInput').value=dr.title;
+    document.getElementById('cwCreateInput').focus();
+    /* Load worksheet preview if exists */
+    cwAttachData=null;
+    document.getElementById('cwAttachPreview').style.display='none';
+    document.getElementById('cwAttachBtn').style.display='';
+    if(dr.hasWs){
+        toast('📎 Loading worksheet...');
+        fbGet('/cw-draft-files/'+encodeURIComponent(CC)+'/'+did).then(function(d){
+            if(d&&d.data){
+                cwAttachData=d.data;
+                document.getElementById('cwAttachBtn').style.display='none';
+                var prev=document.getElementById('cwAttachPreview');
+                prev.style.display='flex';
+                document.getElementById('cwAttachName').textContent='Worksheet (saved)';
+            }
+        });
+    }
+}
+
 function archiveCurrentTask(cb){
     if(!cwActive||!cwActive.active||!cwActive.title){if(cb)cb();return}
-    var taskId='t'+cwActive.ts+'_'+Math.random().toString(36).substr(2,4);
-    var subKeys=Object.keys(cwSubmissions);
-    var meta={title:cwActive.title,ts:cwActive.ts,subCount:subKeys.length,hasWs:!!cwActive.hasWs,subs:{}};
+    /* Snapshot all data NOW so we're decoupled from live globals */
+    var snapActive=cwActive;
+    var snapSubs=cwSubmissions;
+    var snapWsImage=cwWsImage;
+    var taskId='t'+snapActive.ts+'_'+Math.random().toString(36).substr(2,4);
+    var subKeys=Object.keys(snapSubs);
+    var meta={title:snapActive.title,ts:snapActive.ts,subCount:subKeys.length,hasWs:!!snapActive.hasWs,subs:{}};
     subKeys.forEach(function(k){
-        var s=cwSubmissions[k];
+        var s=snapSubs[k];
+        if(!s)return;
         meta.subs[k]={name:s.name,ts:s.ts};
         if(s.pages)meta.subs[k].pages=s.pages;
     });
     var enc=encodeURIComponent(CC);
+    /* Fire callback immediately — archive files in background */
+    if(cb)cb();
     /* Archive worksheet attachment if present */
-    if(cwActive.hasWs&&cwWsImage){
-        fbPut('/cw-hist-files/'+enc+'/'+taskId+'/_ws',{data:cwWsImage});
+    if(snapActive.hasWs&&snapWsImage){
+        fbPut('/cw-hist-files/'+enc+'/'+taskId+'/_ws',{data:snapWsImage});
     }
+    /* Save metadata (lightweight) */
     fbPut('/cw-history/'+enc+'/'+taskId,meta).then(function(){
-        /* Archive all submission files (multi-page aware) */
+        /* Archive all submission files in background (multi-page aware) */
         var jobs=[];
         subKeys.forEach(function(sid){
-            var sub=cwSubmissions[sid];
+            var sub=snapSubs[sid];
             var pages=(sub&&sub.pages)?sub.pages:null;
             if(pages){
                 Object.keys(pages).forEach(function(pid){
@@ -2481,8 +2686,7 @@ function archiveCurrentTask(cb){
                 jobs.push({sid:sid,pid:null});
             }
         });
-        var pending=jobs.length;
-        if(pending===0){if(cb)cb();return}
+        if(jobs.length===0)return;
         jobs.forEach(function(job){
             var srcPath,destPath,cacheKey;
             if(job.pid){
@@ -2495,13 +2699,12 @@ function archiveCurrentTask(cb){
                 cacheKey='sub_'+job.sid;
             }
             if(fileCache[cacheKey]){
-                fbPut(destPath,{data:fileCache[cacheKey]}).then(done);
+                fbPut(destPath,{data:fileCache[cacheKey]});
             }else{
                 fbGet(srcPath).then(function(d){
-                    if(d&&d.data){fbPut(destPath,{data:d.data}).then(done)}else{done()}
+                    if(d&&d.data){fbPut(destPath,{data:d.data})}
                 });
             }
-            function done(){pending--;if(pending<=0&&cb)cb()}
         });
     });
 }
@@ -2510,7 +2713,9 @@ function createClasswork(){
     var title=document.getElementById('cwCreateInput').value.trim();
     if(!title){toast('Please enter a task title',1);return}
     document.getElementById('cwCreateGo').disabled=true;
-    cwEnding=true; /* suppress poll during archive+create */
+    cwEnding=true;
+    cwEditingDraftId=null; /* clear draft edit state */
+    /* Archive old task in background (callback fires immediately) */
     archiveCurrentTask(function(){
         var enc=encodeURIComponent(CC);
         cwActive={title:title,ts:Date.now(),active:true,hasWs:!!cwAttachData};
@@ -2531,32 +2736,32 @@ function createClasswork(){
         document.getElementById('cwCreate').classList.remove('open');
         document.getElementById('cwCreateInput').value='';
         document.getElementById('cwCreateGo').disabled=false;
-        cwEnding=false;
         renderCwTeacher();
-        pollCwHistory();
         toast('📋 Task created!');
+        setTimeout(function(){pollCwHistory();cwEnding=false},2000);
     });
-    setTimeout(function(){cwEnding=false},15000);
 }
 
 /* Teacher: End task */
 document.getElementById('cwEndBtn').addEventListener('click',function(){
     showCwConfirm('End this classwork task? It will be saved to history.',function(){
-        cwEnding=true; /* prevent pollClasswork from restoring */
+        cwEnding=true;
         var enc=encodeURIComponent(CC);
+        /* Archive snapshots data then fires callback immediately */
         archiveCurrentTask(function(){
+            /* Immediately clear local state + UI */
             cwActive=null;
             cwSubmissions={};
+            cwWsImage=null;
+            renderCwTeacher();
+            toast('✅ Task ended & archived');
+            /* Delete from Firebase */
             fbDel('/classwork/'+enc);
             fbDel('/submissions/'+enc);
             fbDel('/sub-files/'+enc);
-            renderCwTeacher();
-            pollCwHistory();
-            cwEnding=false;
-            toast('Task ended & archived');
+            /* Refresh history after a short delay for archive write to land */
+            setTimeout(function(){pollCwHistory();cwEnding=false},2000);
         });
-        /* Safety: if archive takes too long, still clear flag */
-        setTimeout(function(){cwEnding=false},15000);
     });
 });
 
@@ -3552,14 +3757,14 @@ function pollStatus(){
     setInterval(pollChat,2500);
     setInterval(pollReactions,2500);
     setInterval(pollClasswork,3000);
-    if(!isStudent){setInterval(pollCwHistory,10000);setInterval(pollTchrMarked,8000)}
+    if(!isStudent){setInterval(pollCwHistory,10000);setInterval(pollTchrMarked,8000);setInterval(pollCwDrafts,12000)}
     if(isStudent){setInterval(pollScreenStatus,2500);setInterval(pollDrawControl,2000);setInterval(pollMarkedWork,5000);setInterval(pollSpinnerPick,3000)}
     setTimeout(pollNotes,500);
     setTimeout(pollStatus,1000);
     setTimeout(pollLive,500);
     setTimeout(pollChat,1000);
     setTimeout(pollClasswork,800);
-    if(!isStudent){setTimeout(pollCwHistory,1200);setTimeout(pollTchrMarked,1500)}
+    if(!isStudent){setTimeout(pollCwHistory,1200);setTimeout(pollTchrMarked,1500);setTimeout(pollCwDrafts,800)}
     if(isStudent){setTimeout(pollScreenStatus,800);setTimeout(pollDrawControl,1000);setTimeout(pollMarkedWork,1200);setTimeout(pollSpinnerPick,1500)}
 })();
 </script>
