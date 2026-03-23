@@ -616,6 +616,93 @@
         .grp-student-mate.is-me{border-color:var(--acc);background:var(--acc-g);font-weight:700}
         .grp-student-mate-emoji{font-size:16px}
 
+        /* GROUP WORK */
+        .gw-section{margin-top:16px;border-top:1.5px solid var(--brd);padding-top:16px}
+        .gw-section-title{font-family:'Fredoka',sans-serif;font-size:15px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:7px}
+        .gw-section-title i{color:var(--info)}
+        .gw-task-row{display:flex;gap:8px;align-items:center;margin-bottom:8px}
+        .gw-task-input{flex:1;padding:9px 12px;border:1.5px solid var(--brd);border-radius:10px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:600;background:var(--bg1);color:var(--t1);transition:border-color .2s}
+        .gw-task-input:focus{outline:none;border-color:var(--info)}
+        .gw-task-input::placeholder{color:var(--t2);opacity:.6}
+        .gw-attach-btn{padding:8px 12px;border:1.5px dashed var(--brd);border-radius:10px;background:var(--bg1);color:var(--t2);font-family:'Fredoka',sans-serif;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:5px;white-space:nowrap;transition:all .2s}
+        .gw-attach-btn:hover{border-color:var(--info);color:var(--info)}
+        .gw-attach-tag{display:inline-flex;align-items:center;gap:4px;background:var(--acc-g);border:1px solid var(--acc);border-radius:8px;padding:3px 8px;font-size:11px;font-family:'Fredoka',sans-serif;font-weight:600;color:var(--acc);margin-top:4px}
+        .gw-attach-tag i{font-size:10px}
+        .gw-attach-tag .gw-att-rm{cursor:pointer;margin-left:4px;opacity:.6}
+        .gw-attach-tag .gw-att-rm:hover{opacity:1}
+
+        .gw-actions-row{display:flex;gap:8px;margin-top:14px}
+        .gw-pub-btn{flex:1;padding:11px;border:none;border-radius:12px;background:linear-gradient(135deg,#10B981,#059669);color:#fff;font-family:'Fredoka',sans-serif;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:all .2s;box-shadow:0 4px 14px rgba(16,185,129,.3)}
+        .gw-pub-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(16,185,129,.4)}
+        .gw-draft-btn{padding:11px 16px;border:2px solid var(--brd);border-radius:12px;background:var(--bgc);color:var(--t2);font-family:'Fredoka',sans-serif;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:all .2s}
+        .gw-draft-btn:hover{border-color:var(--warn);color:var(--warn)}
+        .gw-end-row{display:flex;gap:8px;margin-top:14px}
+        .gw-end-btn{flex:1;padding:11px;border:2px solid var(--neg);border-radius:12px;background:var(--neg-bg);color:var(--neg);font-family:'Fredoka',sans-serif;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:all .2s}
+        .gw-end-btn:hover{background:var(--neg);color:#fff}
+        .gw-edit-btn{flex:1;padding:11px;border:2px solid var(--warn);border-radius:12px;background:rgba(245,158,11,.08);color:var(--warn);font-family:'Fredoka',sans-serif;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:all .2s}
+        .gw-edit-btn:hover{background:var(--warn);color:#fff}
+
+        .gw-active-card{border-radius:12px;padding:10px 12px;margin-bottom:10px;border:1.5px solid var(--brd);background:var(--bg1)}
+        .gw-active-head{display:flex;align-items:center;gap:6px;margin-bottom:6px}
+        .gw-active-gi{width:24px;height:24px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;font-family:'Fredoka',sans-serif;flex-shrink:0}
+        .gw-active-name{font-family:'Fredoka',sans-serif;font-size:14px;font-weight:700;flex:1}
+        .gw-active-task{font-family:'Nunito',sans-serif;font-size:13px;font-weight:600;color:var(--t2);line-height:1.35;white-space:pre-wrap;word-break:break-word}
+        .gw-active-task.empty{font-style:italic;opacity:.5}
+        .gw-active-ws{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-family:'Fredoka',sans-serif;font-weight:600;color:var(--acc);margin-top:4px}
+        .gw-active-ws i{font-size:10px}
+        .gw-sub-bar{display:flex;align-items:center;gap:6px;margin-top:6px;flex-wrap:wrap}
+        .gw-sub-avatar{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;border:2px solid var(--brd);background:var(--bgc);cursor:pointer;transition:all .2s;position:relative}
+        .gw-sub-avatar.submitted{border-color:var(--pos)}
+        .gw-sub-avatar.submitted::after{content:'✓';position:absolute;bottom:-3px;right:-3px;width:13px;height:13px;border-radius:50%;background:var(--pos);color:#fff;font-size:8px;display:flex;align-items:center;justify-content:center;font-weight:700}
+        .gw-sub-count{font-size:11px;font-family:'Fredoka',sans-serif;font-weight:600;color:var(--t2)}
+
+        /* Student group work banner */
+        .gw-student-section{margin:10px 12px;padding:16px;border-radius:16px;border:2px solid;position:relative;overflow:hidden;animation:grpFadeIn .5s ease}
+        .gw-student-section::before{content:'';position:absolute;top:0;left:0;right:0;height:5px}
+        .gw-student-section[data-gc="0"]{border-color:rgba(255,107,107,.4);background:rgba(255,107,107,.04)}.gw-student-section[data-gc="0"]::before{background:#FF6B6B}
+        .gw-student-section[data-gc="1"]{border-color:rgba(91,127,255,.4);background:rgba(91,127,255,.04)}.gw-student-section[data-gc="1"]::before{background:#5B7FFF}
+        .gw-student-section[data-gc="2"]{border-color:rgba(72,199,116,.4);background:rgba(72,199,116,.04)}.gw-student-section[data-gc="2"]::before{background:#48C774}
+        .gw-student-section[data-gc="3"]{border-color:rgba(254,202,87,.4);background:rgba(254,202,87,.04)}.gw-student-section[data-gc="3"]::before{background:#FECA57}
+        .gw-student-label{font-family:'Fredoka',sans-serif;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--t2);margin-bottom:3px;display:flex;align-items:center;gap:5px}
+        .gw-student-label i{font-size:12px}
+        .gw-student-grpname{font-family:'Fredoka',sans-serif;font-size:18px;font-weight:700;margin-bottom:6px}
+        .gw-student-section[data-gc="0"] .gw-student-grpname{color:#FF6B6B}
+        .gw-student-section[data-gc="1"] .gw-student-grpname{color:#5B7FFF}
+        .gw-student-section[data-gc="2"] .gw-student-grpname{color:#48C774}
+        .gw-student-section[data-gc="3"] .gw-student-grpname{color:#FECA57}
+        html.dark .gw-student-section[data-gc="3"] .gw-student-grpname{color:#E8C839}
+        .gw-student-task{font-family:'Nunito',sans-serif;font-size:14px;font-weight:700;line-height:1.4;margin-bottom:8px;white-space:pre-wrap;word-break:break-word}
+        .gw-student-task.empty{color:var(--t2);font-style:italic;font-weight:600}
+        .gw-student-ws{margin-bottom:10px}
+        .gw-student-ws img{max-width:100%;border-radius:10px;border:1.5px solid var(--brd);cursor:pointer}
+        .gw-student-submit-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+        .gw-student-submit-btn{padding:10px 18px;border:none;border-radius:12px;background:linear-gradient(135deg,#3B82F6,#2563EB);color:#fff;font-family:'Fredoka',sans-serif;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all .2s;box-shadow:0 3px 10px rgba(59,130,246,.25)}
+        .gw-student-submit-btn:hover{transform:translateY(-1px)}
+        .gw-student-thumbs{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+        .gw-student-thumb{width:52px;height:52px;border-radius:8px;object-fit:cover;border:1.5px solid var(--brd);cursor:pointer}
+        .gw-student-submitted{display:flex;align-items:center;gap:6px;font-family:'Fredoka',sans-serif;font-size:13px;font-weight:600;color:var(--pos)}
+        .gw-student-submitted i{font-size:15px}
+        .gw-student-add-more{padding:7px 14px;border:1.5px dashed var(--brd);border-radius:10px;background:var(--bgc);color:var(--t2);font-family:'Fredoka',sans-serif;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:4px;transition:all .2s}
+        .gw-student-add-more:hover{border-color:var(--info);color:var(--info)}
+        .gw-student-mates{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+        .gw-student-mate-sm{font-size:11px;font-family:'Nunito',sans-serif;font-weight:600;padding:2px 8px 2px 4px;background:var(--bgc);border-radius:14px;border:1px solid var(--brd);display:inline-flex;align-items:center;gap:3px}
+
+        /* Group work drafts in teacher panel */
+        .gw-drafts-section{margin-top:16px;border-top:1.5px solid var(--brd);padding-top:14px}
+        .gw-drafts-title{font-family:'Fredoka',sans-serif;font-size:14px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:6px;color:var(--t2)}
+        .gw-drafts-title i{color:var(--warn)}
+        .gw-draft-card{border:1.5px solid var(--brd);border-radius:12px;padding:12px;margin-bottom:8px;background:var(--bg1)}
+        .gw-draft-card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+        .gw-draft-card-name{font-family:'Fredoka',sans-serif;font-size:14px;font-weight:700}
+        .gw-draft-card-date{font-size:11px;color:var(--t2);font-family:'Nunito',sans-serif}
+        .gw-draft-card-actions{display:flex;gap:6px;margin-top:8px}
+        .gw-draft-pub{padding:6px 14px;border:none;border-radius:8px;background:var(--pos);color:#fff;font-family:'Fredoka',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s}
+        .gw-draft-pub:hover{filter:brightness(1.1)}
+        .gw-draft-edit{padding:6px 14px;border:1.5px solid var(--brd);border-radius:8px;background:var(--bgc);color:var(--t2);font-family:'Fredoka',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s}
+        .gw-draft-edit:hover{border-color:var(--info);color:var(--info)}
+        .gw-draft-del{padding:6px 10px;border:1.5px solid var(--brd);border-radius:8px;background:var(--bgc);color:var(--t2);font-family:'Fredoka',sans-serif;font-size:12px;cursor:pointer;transition:all .2s}
+        .gw-draft-del:hover{border-color:var(--neg);color:var(--neg)}
+
         /* Toast */
         .toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(10px);background:var(--pos);color:#fff;font-family:'Fredoka',sans-serif;font-size:14px;font-weight:600;padding:9px 20px;border-radius:10px;box-shadow:0 6px 24px rgba(0,0,0,.18);opacity:0;transition:opacity .3s,transform .3s;z-index:3000;pointer-events:none;white-space:nowrap}
         .toast.vis{opacity:1;transform:translateX(-50%) translateY(0)}
@@ -753,6 +840,7 @@
             </div>
         </div>
         <div class="grp-student-banner student-only hidden" id="grpStudentBanner" data-gc="0"></div>
+        <div class="gw-student-section student-only hidden" id="gwStudentSection" data-gc="0"></div>
         <div class="react-bar student-only-flex" id="reactBar">
             <span class="react-bar-l">React</span>
         </div>
@@ -1038,6 +1126,8 @@
 <input type="file" id="photoInput" accept="image/*" style="display:none">
 <input type="file" id="cwSubmitInput" accept="image/*" multiple style="display:none">
 <input type="file" id="cwAttachInput" accept="image/*,.pdf" style="display:none">
+<input type="file" id="gwSubmitInput" accept="image/*" multiple style="display:none">
+<input type="file" id="gwAttachInput" accept="image/*,.pdf" style="display:none">
 <div class="cw-draw-overlay" id="cwDrawOverlay" style="display:none">
     <div class="cw-draw-header">
         <span class="cw-draw-title" id="cwDrawTitle">Draw on Worksheet</span>
@@ -1092,7 +1182,8 @@ var isStudent=urlP.has('student');
 var myId=null;
 var students=[];
 var i;
-for(i=0;i<14;i++)students.push({id:i,name:'Student '+(i+1),points:0,emoji:EMOJIS[i],color:COLORS[i],status:''});
+var NAMES=['鄧昊賢','吳琸翔','鄒雨軒','苗彧菲','羅梓揚','劉耀安','羅皓天','王雨寒','漆哈迪','林子航','李堃榕','余文彬','鄺靜兒','蔡樂熙'];
+for(i=0;i<14;i++)students.push({id:i,name:NAMES[i],points:0,emoji:EMOJIS[i],color:COLORS[i],status:''});
 var activeId=null;
 var prevSnap={};
 var chatMsgsData=[];
@@ -3619,76 +3710,17 @@ document.getElementById('cwvSave').addEventListener('click',function(){
 var GRP_COLORS=['#FF6B6B','#5B7FFF','#48C774','#FECA57'];
 var GRP_NAMES=['Group A','Group B','Group C','Group D'];
 var GRP_DEF=[
-    [0,1,2,3],     /* Front row → Group A (4 students) */
-    [4,5,6,7],     /* Middle row → Group B (4 students) */
-    [8,9,10],      /* Back-left → Group C (3 students) */
-    [11,12,13]     /* Back-right → Group D (3 students) */
+    [0,1,2,3],     /* Group A: 鄧昊賢 吳琸翔 鄒雨軒 苗彧菲 (4) */
+    [4,5,6],       /* Group B: 羅梓揚 劉耀安 羅皓天 (3) */
+    [7,8,9],       /* Group C: 王雨寒 漆哈迪 林子航 (3) */
+    [10,11,12,13]  /* Group D: 李堃榕 余文彬 鄺靜兒 蔡樂熙 (4) */
 ];
 var grpActive=null; /* null when no discussion, object when active */
 var grpTasks=['','','','']; /* teacher draft tasks per group */
 
 function openGrpModal(){
-    var overlay=document.getElementById('grpOverlay');
-    var cardsEl=document.getElementById('grpCards');
-    var actionsEl=document.getElementById('grpActions');
-    cardsEl.innerHTML='';
-    for(var g=0;g<4;g++){
-        var members=GRP_DEF[g];
-        var card=document.createElement('div');
-        card.className='grp-card';card.dataset.gc=g;
-        var membersHtml='';
-        members.forEach(function(sid){
-            var s=students[sid];
-            membersHtml+='<span class="grp-member"><span class="grp-member-emoji">'+s.emoji+'</span>'+escH(s.name)+'</span>';
-        });
-        var taskVal=grpActive?((grpActive.tasks&&grpActive.tasks[g])||''):grpTasks[g];
-        if(grpActive){
-            card.innerHTML='<div class="grp-card-head"><div class="grp-card-icon">'+String.fromCharCode(65+g)+'</div><div class="grp-card-name">'+GRP_NAMES[g]+'</div><div class="grp-card-count">'+members.length+'</div></div><div class="grp-members">'+membersHtml+'</div><div class="grp-task-display'+(taskVal?'':' empty')+'">'+escH(taskVal||'No task assigned')+'</div>';
-        }else{
-            card.innerHTML='<div class="grp-card-head"><div class="grp-card-icon">'+String.fromCharCode(65+g)+'</div><div class="grp-card-name">'+GRP_NAMES[g]+'</div><div class="grp-card-count">'+members.length+'</div></div><div class="grp-members">'+membersHtml+'</div><textarea class="grp-task-input" data-grp="'+g+'" placeholder="Enter task for '+GRP_NAMES[g]+'…" rows="2">'+escH(taskVal)+'</textarea>';
-        }
-        cardsEl.appendChild(card);
-    }
-    if(grpActive){
-        actionsEl.innerHTML='<button class="grp-start-btn" id="grpEditBtn" style="background:linear-gradient(135deg,var(--warn),#E08A00);box-shadow:0 4px 14px rgba(245,158,11,.3)"><i class="fas fa-pen"></i> Edit Tasks</button><button class="grp-end-btn" id="grpEndBtn"><i class="fas fa-stop-circle"></i> End Discussion</button>';
-        document.getElementById('grpEndBtn').addEventListener('click',endGrpDiscussion);
-        document.getElementById('grpEditBtn').addEventListener('click',function(){
-            /* Switch to editable mode */
-            for(var g2=0;g2<4;g2++){
-                var cardEl=document.querySelector('.grp-card[data-gc="'+g2+'"]');
-                if(!cardEl)continue;
-                var disp=cardEl.querySelector('.grp-task-display');
-                if(!disp)continue;
-                var curTask=(grpActive.tasks&&grpActive.tasks[g2])||'';
-                var ta=document.createElement('textarea');
-                ta.className='grp-task-input';ta.dataset.grp=g2;
-                ta.placeholder='Enter task for '+GRP_NAMES[g2]+'…';
-                ta.rows=2;ta.value=curTask;
-                disp.replaceWith(ta);
-            }
-            actionsEl.innerHTML='<button class="grp-start-btn" id="grpSaveBtn"><i class="fas fa-check-circle"></i> Save Changes</button><button class="grp-end-btn" id="grpEndBtn2"><i class="fas fa-stop-circle"></i> End Discussion</button>';
-            document.getElementById('grpSaveBtn').addEventListener('click',function(){
-                var tasks2=[];
-                document.querySelectorAll('.grp-task-input').forEach(function(ta2){
-                    var gi2=parseInt(ta2.dataset.grp);
-                    tasks2[gi2]=ta2.value.trim();
-                });
-                grpActive.tasks=tasks2;
-                grpActive.ts=Date.now();
-                var enc2=encodeURIComponent(CC);
-                fbPut('/group-disc/'+enc2,grpActive).then(function(){
-                    grpTasks=tasks2.slice();
-                    closeGrpModal();
-                    toast('Tasks updated!');
-                });
-            });
-            document.getElementById('grpEndBtn2').addEventListener('click',endGrpDiscussion);
-        });
-    }else{
-        actionsEl.innerHTML='<button class="grp-start-btn" id="grpStartBtn"><i class="fas fa-play-circle"></i> Start Discussion</button>';
-        document.getElementById('grpStartBtn').addEventListener('click',startGrpDiscussion);
-    }
-    overlay.classList.add('open');
+    buildGrpModalBody();
+    document.getElementById('grpOverlay').classList.add('open');
 }
 
 function closeGrpModal(){
@@ -3809,6 +3841,613 @@ document.getElementById('grpClose').addEventListener('click',closeGrpModal);
 document.getElementById('grpOverlay').addEventListener('click',function(e){
     if(e.target===this)closeGrpModal();
 });
+
+/* ===== GROUP WORK ===== */
+var gwActive=null;       /* {active,ts,tasks:[],ws:[null/dataUrl,...],groups:GRP_DEF} */
+var gwSubs={};           /* {grpIdx:{sid:{name,ts,pages:{pid:{ts}}}}} */
+var gwWsImages=[null,null,null,null]; /* cached worksheet images per group */
+var gwDrafts={};         /* saved drafts */
+var gwAttachData=[null,null,null,null]; /* teacher attach data per group during create */
+var gwAttachGroup=-1;    /* which group is currently attaching */
+var gwDraftTasks=null;   /* tasks from draft being edited */
+var gwEditingDraftId=null;
+
+var gwSubmitInput=document.getElementById('gwSubmitInput');
+var gwAttachInput=document.getElementById('gwAttachInput');
+
+/* ---- Teacher: rewrite openGrpModal to include group work section ---- */
+function buildGrpModalBody(){
+    var cardsEl=document.getElementById('grpCards');
+    var actionsEl=document.getElementById('grpActions');
+    cardsEl.innerHTML='';
+    /* Remove previous group work section if exists */
+    var oldGw=document.getElementById('gwModalSection');
+    if(oldGw)oldGw.remove();
+
+    /* --- Group cards (same as before for discussion) --- */
+    for(var g=0;g<4;g++){
+        var members=GRP_DEF[g];
+        var card=document.createElement('div');
+        card.className='grp-card';card.dataset.gc=g;
+        var membersHtml='';
+        members.forEach(function(sid){
+            var s=students[sid];
+            membersHtml+='<span class="grp-member"><span class="grp-member-emoji">'+s.emoji+'</span>'+escH(s.name)+'</span>';
+        });
+        /* Discussion task */
+        var taskVal=grpActive?((grpActive.tasks&&grpActive.tasks[g])||''):grpTasks[g];
+        if(grpActive){
+            card.innerHTML='<div class="grp-card-head"><div class="grp-card-icon">'+String.fromCharCode(65+g)+'</div><div class="grp-card-name">'+GRP_NAMES[g]+'</div><div class="grp-card-count">'+members.length+'</div></div><div class="grp-members">'+membersHtml+'</div><div class="grp-task-display'+(taskVal?'':' empty')+'">'+escH(taskVal||'No task assigned')+'</div>';
+        }else{
+            card.innerHTML='<div class="grp-card-head"><div class="grp-card-icon">'+String.fromCharCode(65+g)+'</div><div class="grp-card-name">'+GRP_NAMES[g]+'</div><div class="grp-card-count">'+members.length+'</div></div><div class="grp-members">'+membersHtml+'</div><textarea class="grp-task-input" data-grp="'+g+'" placeholder="Discussion task for '+GRP_NAMES[g]+'…" rows="2">'+escH(taskVal)+'</textarea>';
+        }
+        cardsEl.appendChild(card);
+    }
+
+    /* Discussion actions */
+    if(grpActive){
+        actionsEl.innerHTML='<button class="grp-start-btn" id="grpEditBtn" style="background:linear-gradient(135deg,var(--warn),#E08A00);box-shadow:0 4px 14px rgba(245,158,11,.3)"><i class="fas fa-pen"></i> Edit Tasks</button><button class="grp-end-btn" id="grpEndBtn"><i class="fas fa-stop-circle"></i> End Discussion</button>';
+        document.getElementById('grpEndBtn').addEventListener('click',endGrpDiscussion);
+        document.getElementById('grpEditBtn').addEventListener('click',function(){
+            for(var g2=0;g2<4;g2++){
+                var cardEl=document.querySelector('.grp-card[data-gc="'+g2+'"]');
+                if(!cardEl)continue;
+                var disp=cardEl.querySelector('.grp-task-display');
+                if(!disp)continue;
+                var curTask=(grpActive.tasks&&grpActive.tasks[g2])||'';
+                var ta=document.createElement('textarea');
+                ta.className='grp-task-input';ta.dataset.grp=g2;
+                ta.placeholder='Discussion task for '+GRP_NAMES[g2]+'…';
+                ta.rows=2;ta.value=curTask;
+                disp.replaceWith(ta);
+            }
+            actionsEl.innerHTML='<button class="grp-start-btn" id="grpSaveBtn"><i class="fas fa-check-circle"></i> Save Changes</button><button class="grp-end-btn" id="grpEndBtn2"><i class="fas fa-stop-circle"></i> End Discussion</button>';
+            document.getElementById('grpSaveBtn').addEventListener('click',function(){
+                var tasks2=[];
+                document.querySelectorAll('.grp-task-input').forEach(function(ta2){
+                    var gi2=parseInt(ta2.dataset.grp);
+                    tasks2[gi2]=ta2.value.trim();
+                });
+                grpActive.tasks=tasks2;grpActive.ts=Date.now();
+                fbPut('/group-disc/'+encodeURIComponent(CC),grpActive).then(function(){
+                    grpTasks=tasks2.slice();closeGrpModal();toast('Tasks updated!');
+                });
+            });
+            document.getElementById('grpEndBtn2').addEventListener('click',endGrpDiscussion);
+        });
+    }else{
+        actionsEl.innerHTML='<button class="grp-start-btn" id="grpStartBtn"><i class="fas fa-play-circle"></i> Start Discussion</button>';
+        document.getElementById('grpStartBtn').addEventListener('click',startGrpDiscussion);
+    }
+
+    /* ===== GROUP WORK section inside modal ===== */
+    var gwDiv=document.createElement('div');
+    gwDiv.className='gw-section';
+    gwDiv.id='gwModalSection';
+
+    if(gwActive&&gwActive.active){
+        /* Show active group work */
+        var html='<div class="gw-section-title"><i class="fas fa-tasks"></i> Group Work <span style="font-size:11px;color:var(--pos);font-weight:600">● Active</span></div>';
+        for(var gi=0;gi<4;gi++){
+            var mems=GRP_DEF[gi];
+            var gwTask=(gwActive.tasks&&gwActive.tasks[gi])||'';
+            var hasWs=gwActive.ws&&gwActive.ws[gi];
+            html+='<div class="gw-active-card"><div class="gw-active-head"><div class="gw-active-gi" style="background:'+GRP_COLORS[gi]+(gi===3?';color:#7A5D00':'')+'">'+String.fromCharCode(65+gi)+'</div><div class="gw-active-name">'+GRP_NAMES[gi]+'</div></div>';
+            html+='<div class="gw-active-task'+(gwTask?'':' empty')+'">'+escH(gwTask||'No task assigned')+'</div>';
+            if(hasWs)html+='<div class="gw-active-ws"><i class="fas fa-paperclip"></i> Worksheet attached</div>';
+            /* Submission status */
+            html+='<div class="gw-sub-bar">';
+            var subCount=0;
+            mems.forEach(function(sid){
+                var hasSub=gwSubs[gi]&&gwSubs[gi][sid];
+                if(hasSub)subCount++;
+                html+='<div class="gw-sub-avatar'+(hasSub?' submitted':'')+'" data-gw-view-gi="'+gi+'" data-gw-view-sid="'+sid+'" title="'+escH(students[sid].name)+'">'+students[sid].emoji+'</div>';
+            });
+            html+='<div class="gw-sub-count">'+subCount+'/'+mems.length+'</div>';
+            html+='</div></div>';
+        }
+        html+='<div class="gw-end-row"><button class="gw-edit-btn" id="gwEditActiveBtn"><i class="fas fa-pen"></i> Edit Tasks</button><button class="gw-end-btn" id="gwEndBtn"><i class="fas fa-stop-circle"></i> End Group Work</button></div>';
+        gwDiv.innerHTML=html;
+        cardsEl.parentNode.insertBefore(gwDiv,actionsEl.nextSibling);
+
+        /* View submission click */
+        gwDiv.querySelectorAll('[data-gw-view-sid]').forEach(function(av){
+            av.addEventListener('click',function(){
+                var gi3=parseInt(this.dataset.gwViewGi);
+                var sid=parseInt(this.dataset.gwViewSid);
+                if(gwSubs[gi3]&&gwSubs[gi3][sid])openGwSubmission(gi3,sid);
+            });
+        });
+        document.getElementById('gwEndBtn').addEventListener('click',function(){
+            showCwConfirm('End the group work? Submissions will be cleared.',function(){
+                var enc=encodeURIComponent(CC);
+                fbDel('/group-work/'+enc).then(function(){
+                    fbDel('/gw-subs/'+enc);
+                    fbDel('/gw-sub-files/'+enc);
+                    fbDel('/gw-ws/'+enc);
+                    gwActive=null;gwSubs={};gwWsImages=[null,null,null,null];
+                    renderStudentGw();
+                    closeGrpModal();
+                    toast('Group Work ended');
+                });
+            });
+        });
+        document.getElementById('gwEditActiveBtn').addEventListener('click',function(){
+            gwDiv.innerHTML=buildGwCreateForm(true);
+            wireGwCreateForm(gwDiv,true);
+        });
+    }else{
+        /* Show create form or drafts */
+        var html2='<div class="gw-section-title"><i class="fas fa-tasks"></i> Group Work</div>';
+        html2+=buildGwCreateForm(false);
+        gwDiv.innerHTML=html2;
+        cardsEl.parentNode.insertBefore(gwDiv,actionsEl.nextSibling);
+        wireGwCreateForm(gwDiv,false);
+    }
+
+    /* Drafts */
+    renderGwDrafts(gwDiv);
+}
+
+function buildGwCreateForm(isEdit){
+    var html='';
+    for(var g=0;g<4;g++){
+        var taskVal=isEdit?((gwActive.tasks&&gwActive.tasks[g])||''):(gwDraftTasks?(gwDraftTasks[g]||''):'');
+        var attTag='';
+        if(isEdit&&gwActive.ws&&gwActive.ws[g]){
+            attTag='<div class="gw-attach-tag"><i class="fas fa-file-image"></i> Worksheet <span class="gw-att-rm" data-gw-rm-att="'+g+'"><i class="fas fa-times"></i></span></div>';
+        }else if(!isEdit&&gwAttachData[g]){
+            attTag='<div class="gw-attach-tag"><i class="fas fa-file-image"></i> Worksheet <span class="gw-att-rm" data-gw-rm-att="'+g+'"><i class="fas fa-times"></i></span></div>';
+        }
+        html+='<div class="gw-task-row"><div class="gw-active-gi" style="background:'+GRP_COLORS[g]+(g===3?';color:#7A5D00':'')+'">'+String.fromCharCode(65+g)+'</div><input class="gw-task-input" data-gw-task="'+g+'" placeholder="Task for '+GRP_NAMES[g]+'…" value="'+escH(isEdit?((gwActive.tasks&&gwActive.tasks[g])||''):(gwDraftTasks?gwDraftTasks[g]||'':''))+'"><button class="gw-attach-btn" data-gw-att="'+g+'" title="Attach worksheet"><i class="fas fa-paperclip"></i></button></div>';
+        if(attTag)html+='<div style="margin:-4px 0 6px 38px" data-gw-att-wrap="'+g+'">'+attTag+'</div>';
+    }
+    if(isEdit){
+        html+='<div class="gw-actions-row"><button class="gw-pub-btn" id="gwSaveEditBtn"><i class="fas fa-check-circle"></i> Save Changes</button></div>';
+    }else{
+        html+='<div class="gw-actions-row"><button class="gw-pub-btn" id="gwPublishBtn"><i class="fas fa-rocket"></i> Publish Group Work</button><button class="gw-draft-btn" id="gwSaveDraftBtn"><i class="fas fa-bookmark"></i> Save Draft</button></div>';
+    }
+    return html;
+}
+
+function wireGwCreateForm(container,isEdit){
+    /* Attach button clicks */
+    container.querySelectorAll('[data-gw-att]').forEach(function(btn){
+        btn.addEventListener('click',function(){
+            gwAttachGroup=parseInt(this.dataset.gwAtt);
+            gwAttachInput.click();
+        });
+    });
+    /* Remove attachment clicks */
+    container.querySelectorAll('[data-gw-rm-att]').forEach(function(rm){
+        rm.addEventListener('click',function(){
+            var gi=parseInt(this.dataset.gwRmAtt);
+            gwAttachData[gi]=null;
+            if(isEdit&&gwActive.ws)gwActive.ws[gi]=null;
+            var wrap=container.querySelector('[data-gw-att-wrap="'+gi+'"]');
+            if(wrap)wrap.remove();
+        });
+    });
+    if(isEdit){
+        var saveBtn=container.querySelector('#gwSaveEditBtn');
+        if(saveBtn)saveBtn.addEventListener('click',function(){
+            var tasks=[];
+            container.querySelectorAll('[data-gw-task]').forEach(function(inp){
+                tasks[parseInt(inp.dataset.gwTask)]=inp.value.trim();
+            });
+            gwActive.tasks=tasks;gwActive.ts=Date.now();
+            var enc=encodeURIComponent(CC);
+            /* Upload any new worksheets */
+            var wsFlags=gwActive.ws?gwActive.ws.slice():[null,null,null,null];
+            var uploads=[];
+            for(var g=0;g<4;g++){
+                if(gwAttachData[g]){
+                    wsFlags[g]=true;
+                    (function(gi2,data){
+                        uploads.push(fbPut('/gw-ws/'+enc+'/'+gi2,{data:data}));
+                    })(g,gwAttachData[g]);
+                }
+            }
+            gwActive.ws=wsFlags;
+            Promise.all(uploads).then(function(){
+                fbPut('/group-work/'+enc,gwActive).then(function(){
+                    gwAttachData=[null,null,null,null];
+                    closeGrpModal();
+                    toast('Group Work updated!');
+                });
+            });
+        });
+    }else{
+        var pubBtn=container.querySelector('#gwPublishBtn');
+        if(pubBtn)pubBtn.addEventListener('click',function(){publishGw(container)});
+        var draftBtn=container.querySelector('#gwSaveDraftBtn');
+        if(draftBtn)draftBtn.addEventListener('click',function(){saveGwDraft(container)});
+    }
+}
+
+function publishGw(container){
+    var tasks=[];
+    container.querySelectorAll('[data-gw-task]').forEach(function(inp){
+        tasks[parseInt(inp.dataset.gwTask)]=inp.value.trim();
+    });
+    var wsFlags=[null,null,null,null];
+    var enc=encodeURIComponent(CC);
+    var uploads=[];
+    for(var g=0;g<4;g++){
+        if(gwAttachData[g]){
+            wsFlags[g]=true;
+            (function(gi2,data){
+                uploads.push(fbPut('/gw-ws/'+enc+'/'+gi2,{data:data}));
+            })(g,gwAttachData[g]);
+        }
+    }
+    var data={active:true,ts:Date.now(),tasks:tasks,ws:wsFlags,groups:GRP_DEF};
+    Promise.all(uploads).then(function(){
+        fbPut('/group-work/'+enc,data).then(function(){
+            gwActive=data;gwSubs={};
+            gwAttachData=[null,null,null,null];
+            gwDraftTasks=null;
+            applyGrpHighlights();
+            renderStudentGw();
+            closeGrpModal();
+            toast('Group Work published!');
+        });
+    });
+}
+
+function saveGwDraft(container){
+    var tasks=[];
+    container.querySelectorAll('[data-gw-task]').forEach(function(inp){
+        tasks[parseInt(inp.dataset.gwTask)]=inp.value.trim();
+    });
+    var hasAnyContent=tasks.some(function(t){return t})||gwAttachData.some(function(d){return d});
+    if(!hasAnyContent){toast('Add at least one task or worksheet',1);return}
+    var enc=encodeURIComponent(CC);
+    var did=gwEditingDraftId||('gwd_'+Date.now());
+    var wsFlags=[null,null,null,null];
+    var uploads=[];
+    for(var g=0;g<4;g++){
+        if(gwAttachData[g]){
+            wsFlags[g]=true;
+            (function(gi2,data){
+                uploads.push(fbPut('/gw-draft-files/'+enc+'/'+gi2+'/'+did,{data:data}));
+            })(g,gwAttachData[g]);
+        }
+    }
+    var meta={tasks:tasks,ws:wsFlags,ts:Date.now()};
+    Promise.all(uploads).then(function(){
+        fbPut('/gw-drafts/'+enc+'/'+did,meta).then(function(){
+            gwDrafts[did]=meta;
+            gwAttachData=[null,null,null,null];
+            gwDraftTasks=null;
+            gwEditingDraftId=null;
+            closeGrpModal();
+            toast('Group Work draft saved!');
+        });
+    });
+}
+
+function renderGwDrafts(parentDiv){
+    var keys=Object.keys(gwDrafts);
+    if(!keys.length)return;
+    var sec=document.createElement('div');
+    sec.className='gw-drafts-section';
+    var html='<div class="gw-drafts-title"><i class="fas fa-bookmark"></i> Prepared Group Work ('+keys.length+')</div>';
+    keys.sort(function(a,b){return(gwDrafts[b].ts||0)-(gwDrafts[a].ts||0)});
+    keys.forEach(function(did){
+        var d=gwDrafts[did];
+        var dt=new Date(d.ts||0);
+        var timeStr=dt.getDate()+'/'+(dt.getMonth()+1)+' '+dt.getHours()+':'+(dt.getMinutes()<10?'0':'')+dt.getMinutes();
+        var taskPreview=(d.tasks||[]).filter(function(t){return t}).map(function(t,i){return String.fromCharCode(65+i)+': '+t}).join(' · ')||'(empty tasks)';
+        if(taskPreview.length>60)taskPreview=taskPreview.substring(0,57)+'…';
+        html+='<div class="gw-draft-card" data-gw-did="'+did+'"><div class="gw-draft-card-head"><div class="gw-draft-card-name">'+escH(taskPreview)+'</div><div class="gw-draft-card-date">'+timeStr+'</div></div><div class="gw-draft-card-actions"><button class="gw-draft-pub" data-gw-dpub="'+did+'"><i class="fas fa-rocket"></i> Publish</button><button class="gw-draft-edit" data-gw-dedit="'+did+'"><i class="fas fa-pen"></i> Edit</button><button class="gw-draft-del" data-gw-ddel="'+did+'"><i class="fas fa-trash-alt"></i></button></div></div>';
+    });
+    sec.innerHTML=html;
+    parentDiv.appendChild(sec);
+
+    /* Wire draft actions */
+    sec.querySelectorAll('[data-gw-dpub]').forEach(function(btn){
+        btn.addEventListener('click',function(){
+            var did2=this.dataset.gwDpub;
+            publishGwDraft(did2);
+        });
+    });
+    sec.querySelectorAll('[data-gw-dedit]').forEach(function(btn){
+        btn.addEventListener('click',function(){
+            var did2=this.dataset.gwDedit;
+            editGwDraft(did2);
+        });
+    });
+    sec.querySelectorAll('[data-gw-ddel]').forEach(function(btn){
+        btn.addEventListener('click',function(){
+            var did2=this.dataset.gwDdel;
+            showCwConfirm('Delete this group work draft?',function(){
+                var enc=encodeURIComponent(CC);
+                fbDel('/gw-drafts/'+enc+'/'+did2);
+                fbDel('/gw-draft-files/'+enc);
+                delete gwDrafts[did2];
+                closeGrpModal();
+                toast('Draft deleted');
+            });
+        });
+    });
+}
+
+function publishGwDraft(did){
+    var d=gwDrafts[did];if(!d)return;
+    var enc=encodeURIComponent(CC);
+    var tasks=d.tasks||[];
+    var wsFlags=d.ws||[null,null,null,null];
+    /* Copy draft worksheet files to live */
+    var copies=[];
+    for(var g=0;g<4;g++){
+        if(wsFlags[g]){
+            (function(gi2){
+                copies.push(
+                    fbGet('/gw-draft-files/'+enc+'/'+gi2+'/'+did).then(function(fd){
+                        if(fd&&fd.data)return fbPut('/gw-ws/'+enc+'/'+gi2,{data:fd.data});
+                    })
+                );
+            })(g);
+        }
+    }
+    var data={active:true,ts:Date.now(),tasks:tasks,ws:wsFlags,groups:GRP_DEF};
+    Promise.all(copies).then(function(){
+        fbPut('/group-work/'+enc,data).then(function(){
+            gwActive=data;gwSubs={};
+            applyGrpHighlights();
+            renderStudentGw();
+            closeGrpModal();
+            toast('Group Work published from draft!');
+        });
+    });
+}
+
+function editGwDraft(did){
+    var d=gwDrafts[did];if(!d)return;
+    gwEditingDraftId=did;
+    gwAttachData=[null,null,null,null];
+    gwDraftTasks=d.tasks||[];
+    /* Load worksheet files from draft */
+    var enc=encodeURIComponent(CC);
+    var loads=[];
+    for(var g=0;g<4;g++){
+        if(d.ws&&d.ws[g]){
+            (function(gi2){
+                loads.push(
+                    fbGet('/gw-draft-files/'+enc+'/'+gi2+'/'+did).then(function(fd){
+                        if(fd&&fd.data)gwAttachData[gi2]=fd.data;
+                    })
+                );
+            })(g);
+        }
+    }
+    Promise.all(loads).then(function(){
+        closeGrpModal();
+        setTimeout(function(){openGrpModal()},200);
+    });
+}
+
+/* Attach file handler */
+gwAttachInput.addEventListener('change',function(){
+    var file=gwAttachInput.files[0];if(!file||gwAttachGroup<0)return;
+    var gi=gwAttachGroup;
+    if(file.type==='application/pdf'){
+        renderPdfToImage(file,function(dataUrl){
+            gwAttachData[gi]=dataUrl;
+            refreshGwAttachTag(gi);
+        });
+    }else{
+        compressImage(file,2400,1800,0.88,function(dataUrl){
+            gwAttachData[gi]=dataUrl;
+            refreshGwAttachTag(gi);
+        });
+    }
+    gwAttachInput.value='';
+});
+
+function refreshGwAttachTag(gi){
+    var existingWrap=document.querySelector('[data-gw-att-wrap="'+gi+'"]');
+    if(existingWrap){
+        existingWrap.innerHTML='<div class="gw-attach-tag"><i class="fas fa-file-image"></i> Worksheet <span class="gw-att-rm" data-gw-rm-att="'+gi+'"><i class="fas fa-times"></i></span></div>';
+        existingWrap.querySelector('.gw-att-rm').addEventListener('click',function(){gwAttachData[gi]=null;existingWrap.remove()});
+    }else{
+        var row=document.querySelector('[data-gw-att="'+gi+'"]');
+        if(row&&row.parentNode){
+            var wrap=document.createElement('div');
+            wrap.style.cssText='margin:-4px 0 6px 38px';
+            wrap.dataset.gwAttWrap=gi;
+            wrap.innerHTML='<div class="gw-attach-tag"><i class="fas fa-file-image"></i> Worksheet <span class="gw-att-rm" data-gw-rm-att="'+gi+'"><i class="fas fa-times"></i></span></div>';
+            row.parentNode.parentNode.insertBefore(wrap,row.parentNode.nextSibling);
+            wrap.querySelector('.gw-att-rm').addEventListener('click',function(){gwAttachData[gi]=null;wrap.remove()});
+        }
+    }
+    toast('Worksheet attached for '+GRP_NAMES[gi]);
+}
+
+/* Teacher: view a group submission */
+function openGwSubmission(gi,sid){
+    var sub=gwSubs[gi]&&gwSubs[gi][sid];
+    if(!sub||!sub.pages)return;
+    var s=students[sid];
+    var enc=encodeURIComponent(CC);
+    var pages=Object.keys(sub.pages);
+    var bg=document.createElement('div');
+    bg.className='confirm-bg show';bg.style.zIndex='2500';
+    var inner='<div class="confirm-box" style="max-width:420px;max-height:80vh;overflow:auto"><div style="font-family:Fredoka,sans-serif;font-size:16px;font-weight:700;margin-bottom:10px">'+s.emoji+' '+escH(s.name)+' — '+GRP_NAMES[gi]+'</div><div style="font-size:12px;color:var(--t2);margin-bottom:10px">'+pages.length+' page'+(pages.length>1?'s':'')+'</div>';
+    inner+='<div id="gwViewPages" style="display:flex;flex-direction:column;gap:8px">';
+    pages.forEach(function(pid){
+        inner+='<div style="text-align:center;font-size:11px;color:var(--t2)">Loading…</div>';
+    });
+    inner+='</div><button class="cbtn cc" style="margin-top:12px;width:100%">Close</button></div>';
+    bg.innerHTML=inner;
+    document.body.appendChild(bg);
+    bg.querySelector('.cbtn').addEventListener('click',function(){bg.remove()});
+    bg.addEventListener('click',function(e){if(e.target===bg)bg.remove()});
+    /* Load page images */
+    var pagesDiv=bg.querySelector('#gwViewPages');
+    pages.forEach(function(pid,idx){
+        fbGet('/gw-sub-files/'+enc+'/'+gi+'/'+sid+'/'+pid).then(function(fd){
+            if(fd&&fd.data){
+                pagesDiv.children[idx].innerHTML='<img src="'+fd.data+'" style="max-width:100%;border-radius:8px;border:1px solid var(--brd)">';
+            }else{
+                pagesDiv.children[idx].innerHTML='<span style="color:var(--neg)">Failed to load</span>';
+            }
+        });
+    });
+}
+
+/* ---- Student: render group work section ---- */
+function renderStudentGw(){
+    var sec=document.getElementById('gwStudentSection');
+    if(!sec)return;
+    if(!gwActive||!gwActive.active||myId===null){
+        sec.classList.add('hidden');
+        return;
+    }
+    var myGrp=-1;
+    GRP_DEF.forEach(function(members,gi){
+        if(members.indexOf(myId)!==-1)myGrp=gi;
+    });
+    if(myGrp===-1){sec.classList.add('hidden');return}
+    sec.dataset.gc=myGrp;
+    var task=(gwActive.tasks&&gwActive.tasks[myGrp])||'';
+    var hasWs=gwActive.ws&&gwActive.ws[myGrp];
+    var mySub=gwSubs[myGrp]&&gwSubs[myGrp][myId];
+
+    var html='<div class="gw-student-label"><i class="fas fa-tasks"></i> GROUP WORK</div>';
+    html+='<div class="gw-student-grpname">'+GRP_NAMES[myGrp]+'</div>';
+    html+=(task?'<div class="gw-student-task">'+escH(task)+'</div>':'<div class="gw-student-task empty">No specific task assigned</div>');
+
+    /* Worksheet */
+    if(hasWs){
+        if(gwWsImages[myGrp]){
+            html+='<div class="gw-student-ws"><img src="'+gwWsImages[myGrp]+'" alt="Worksheet"></div>';
+        }else{
+            html+='<div class="gw-student-ws" id="gwStudentWsWrap"><div style="padding:20px;text-align:center;color:var(--t2);font-size:13px"><i class="fas fa-spinner fa-spin"></i> Loading worksheet…</div></div>';
+        }
+    }
+
+    /* Submit / submitted */
+    if(mySub&&mySub.pages&&Object.keys(mySub.pages).length>0){
+        var pageCount=Object.keys(mySub.pages).length;
+        html+='<div class="gw-student-submit-row"><div class="gw-student-submitted"><i class="fas fa-check-circle"></i> '+pageCount+' page'+(pageCount>1?'s':'')+' submitted</div><button class="gw-student-add-more" id="gwAddMoreBtn"><i class="fas fa-plus-circle"></i> Add Page</button></div>';
+        html+='<div class="gw-student-thumbs" id="gwStudentThumbs"></div>';
+    }else{
+        html+='<div class="gw-student-submit-row"><button class="gw-student-submit-btn" id="gwSubmitBtn"><i class="fas fa-camera"></i> Submit Photo of Work</button></div>';
+    }
+
+    /* Group mates */
+    html+='<div class="gw-student-mates">';
+    GRP_DEF[myGrp].forEach(function(sid){
+        var s=students[sid];
+        var isMe=sid===myId;
+        var hasSub=gwSubs[myGrp]&&gwSubs[myGrp][sid];
+        html+='<span class="gw-student-mate-sm">'+(hasSub?'✅ ':'')+s.emoji+' '+escH(s.name)+(isMe?' (me)':'')+'</span>';
+    });
+    html+='</div>';
+
+    sec.innerHTML=html;
+    sec.classList.remove('hidden');
+
+    /* Wire submit button */
+    var submitBtn=sec.querySelector('#gwSubmitBtn');
+    if(submitBtn)submitBtn.addEventListener('click',function(){gwSubmitInput.click()});
+    var addMoreBtn=sec.querySelector('#gwAddMoreBtn');
+    if(addMoreBtn)addMoreBtn.addEventListener('click',function(){gwSubmitInput.click()});
+
+    /* Load worksheet if not cached */
+    if(hasWs&&!gwWsImages[myGrp]){
+        fbGet('/gw-ws/'+encodeURIComponent(CC)+'/'+myGrp).then(function(wd){
+            if(wd&&wd.data){
+                gwWsImages[myGrp]=wd.data;
+                var wrap=sec.querySelector('#gwStudentWsWrap');
+                if(wrap)wrap.innerHTML='<img src="'+wd.data+'" alt="Worksheet" style="max-width:100%;border-radius:10px;border:1.5px solid var(--brd)">';
+            }
+        });
+    }
+
+    /* Load thumbnails for submitted pages */
+    if(mySub&&mySub.pages){
+        var thumbsDiv=sec.querySelector('#gwStudentThumbs');
+        if(thumbsDiv){
+            var enc=encodeURIComponent(CC);
+            Object.keys(mySub.pages).forEach(function(pid){
+                fbGet('/gw-sub-files/'+enc+'/'+myGrp+'/'+myId+'/'+pid).then(function(fd){
+                    if(fd&&fd.data&&thumbsDiv){
+                        var img=document.createElement('img');
+                        img.className='gw-student-thumb';img.src=fd.data;img.alt='Page';
+                        thumbsDiv.appendChild(img);
+                    }
+                });
+            });
+        }
+    }
+}
+
+/* Student: submit group work photos */
+gwSubmitInput.addEventListener('change',function(){
+    var files=Array.from(gwSubmitInput.files);if(!files.length)return;
+    if(myId===null){toast('Please log in first',1);gwSubmitInput.value='';return}
+    if(!gwActive||!gwActive.active){toast('No active group work',1);gwSubmitInput.value='';return}
+    var myGrp=-1;
+    GRP_DEF.forEach(function(members,gi){
+        if(members.indexOf(myId)!==-1)myGrp=gi;
+    });
+    if(myGrp===-1){gwSubmitInput.value='';return}
+    var total=files.length;var done=0;
+    toast('📤 Uploading '+total+' page'+(total>1?'s':'')+'...');
+    var enc=encodeURIComponent(CC);
+    var s=students[myId];
+    var existing=(gwSubs[myGrp]&&gwSubs[myGrp][myId]);
+    var pages=(existing&&existing.pages)?JSON.parse(JSON.stringify(existing.pages)):{};
+    files.forEach(function(file){
+        compressImage(file,2400,1800,0.82,function(dataUrl){
+            var pid='p'+Date.now()+'_'+Math.random().toString(36).substr(2,4);
+            fbPut('/gw-sub-files/'+enc+'/'+myGrp+'/'+myId+'/'+pid,{data:dataUrl});
+            pages[pid]={ts:Date.now()};
+            done++;
+            if(done>=total){
+                var subMeta={name:s.name,ts:Date.now(),pages:pages};
+                fbPut('/gw-subs/'+enc+'/'+myGrp+'/'+myId,subMeta);
+                if(!gwSubs[myGrp])gwSubs[myGrp]={};
+                gwSubs[myGrp][myId]=subMeta;
+                renderStudentGw();
+                toast('✅ '+total+' page'+(total>1?'s':'')+' submitted!');
+            }
+        });
+    });
+    gwSubmitInput.value='';
+});
+
+/* Poll group work */
+function pollGroupWork(){
+    var enc=encodeURIComponent(CC);
+    fbGet('/group-work/'+enc).then(function(d){
+        if(d&&d.active){
+            gwActive=d;
+            /* Also poll submissions */
+            fbGet('/gw-subs/'+enc).then(function(sd){
+                gwSubs=(sd&&typeof sd==='object')?sd:{};
+                if(isStudent)renderStudentGw();
+            });
+        }else{
+            if(gwActive){
+                gwActive=null;gwSubs={};gwWsImages=[null,null,null,null];
+                renderStudentGw();
+            }
+        }
+    });
+}
+
+/* Poll group work drafts (teacher only) */
+function pollGwDrafts(){
+    if(isStudent)return;
+    var enc=encodeURIComponent(CC);
+    fbGet('/gw-drafts/'+enc).then(function(d){
+        gwDrafts=(d&&typeof d==='object')?d:{};
+    });
+}
 
 var myMarkedMeta={};
 var markedFileCache={};
@@ -4223,6 +4862,7 @@ function pollStatus(){
         setInterval(pollMarkedWork,8000);
         setInterval(pollSpinnerPick,5000);
         setInterval(pollGroupDisc,6000);
+        setInterval(pollGroupWork,6000);
     }else{
         setInterval(pollData,2000);
         setInterval(pollStatus,3000);
@@ -4234,6 +4874,8 @@ function pollStatus(){
         setInterval(pollTchrMarked,8000);
         setInterval(pollCwDrafts,12000);
         setInterval(pollGroupDisc,5000);
+        setInterval(pollGroupWork,5000);
+        setInterval(pollGwDrafts,15000);
     }
     setTimeout(pollNotes,500);
     setTimeout(pollStatus,1000);
@@ -4243,6 +4885,8 @@ function pollStatus(){
     if(!isStudent){setTimeout(pollCwHistory,1200);setTimeout(pollTchrMarked,1500);setTimeout(pollCwDrafts,800)}
     if(isStudent){setTimeout(pollScreenStatus,1000);setTimeout(pollDrawControl,1200);setTimeout(pollMarkedWork,1500);setTimeout(pollSpinnerPick,2000)}
     setTimeout(pollGroupDisc,900);
+    setTimeout(pollGroupWork,1100);
+    if(!isStudent)setTimeout(pollGwDrafts,1300);
 })();
 </script>
 </body>
