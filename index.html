@@ -2369,6 +2369,7 @@ var cwVHistory=[];
 var cwViewingSid=null;
 var cwSubmitInput=document.getElementById('cwSubmitInput');
 var cwLastNotifiedTask='';
+var cwEnding=false; /* flag to suppress pollClasswork during end operation */
 
 /* Custom confirm helper */
 function showCwConfirm(message,onConfirm){
@@ -2509,6 +2510,7 @@ function createClasswork(){
     var title=document.getElementById('cwCreateInput').value.trim();
     if(!title){toast('Please enter a task title',1);return}
     document.getElementById('cwCreateGo').disabled=true;
+    cwEnding=true; /* suppress poll during archive+create */
     archiveCurrentTask(function(){
         var enc=encodeURIComponent(CC);
         cwActive={title:title,ts:Date.now(),active:true,hasWs:!!cwAttachData};
@@ -2529,23 +2531,32 @@ function createClasswork(){
         document.getElementById('cwCreate').classList.remove('open');
         document.getElementById('cwCreateInput').value='';
         document.getElementById('cwCreateGo').disabled=false;
+        cwEnding=false;
         renderCwTeacher();
         pollCwHistory();
         toast('📋 Task created!');
     });
+    setTimeout(function(){cwEnding=false},15000);
 }
 
 /* Teacher: End task */
 document.getElementById('cwEndBtn').addEventListener('click',function(){
     showCwConfirm('End this classwork task? It will be saved to history.',function(){
+        cwEnding=true; /* prevent pollClasswork from restoring */
+        var enc=encodeURIComponent(CC);
         archiveCurrentTask(function(){
             cwActive=null;
-            fbDel('/classwork/'+encodeURIComponent(CC));
             cwSubmissions={};
+            fbDel('/classwork/'+enc);
+            fbDel('/submissions/'+enc);
+            fbDel('/sub-files/'+enc);
             renderCwTeacher();
             pollCwHistory();
+            cwEnding=false;
             toast('Task ended & archived');
         });
+        /* Safety: if archive takes too long, still clear flag */
+        setTimeout(function(){cwEnding=false},15000);
     });
 });
 
@@ -2670,8 +2681,10 @@ cwSubmitInput.addEventListener('change',function(){
 
 /* Poll classwork */
 function pollClasswork(){
+    if(cwEnding)return; /* skip polling during end operation */
     var enc=encodeURIComponent(CC);
     fbGet('/classwork/'+enc).then(function(d){
+        if(cwEnding)return; /* re-check after async */
         var prevHasWs=cwActive&&cwActive.hasWs;
         if(d&&d.active){
             cwActive=d;
