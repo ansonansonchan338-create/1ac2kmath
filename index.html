@@ -4808,12 +4808,6 @@ function renderHwList(){
     });
 
     /* Wire student submit */
-    listEl.querySelectorAll('[data-hw-photo]').forEach(function(btn){
-        btn.addEventListener('click',function(){
-            hwPhotoInput.dataset.hwTarget=this.dataset.hwPhoto;
-            hwPhotoInput.click();
-        });
-    });
     listEl.querySelectorAll('[data-hw-resubmit]').forEach(function(btn){
         btn.addEventListener('click',function(){
             /* Replace submitted badge with submit form */
