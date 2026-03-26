@@ -2139,7 +2139,7 @@ function renderChat(){
     chatMsgsEl.innerHTML=chatMsgsData.map(function(m){
         var mine=(isStudent&&m.aid===myId)||(!isStudent&&m.aid===-1);
         var dt=new Date(m.ts);var time=dt.getHours()+':'+(dt.getMinutes()<10?'0':'')+dt.getMinutes();
-        var textHtml=escH(m.text||'');
+        var textHtml=escH(m.text||'').replace(/\n/g,'<br>');
         var ytId=detectYouTube(m.text||'');
         var fileHtml='';
 
