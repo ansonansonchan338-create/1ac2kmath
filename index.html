@@ -447,84 +447,6 @@
         .add-note-btn:hover{border-color:var(--acc);color:var(--acc)}
         .notes-empty{text-align:center;padding:40px 20px;color:var(--t2);font-style:italic}
 
-        /* HOMEWORK / ASSIGNMENTS */
-        .hw-area{padding:12px}
-        .hw-create-btn{width:100%;padding:14px;border:2px dashed var(--brd);border-radius:16px;background:none;font-family:'Fredoka',sans-serif;font-size:15px;font-weight:600;color:var(--t2);cursor:pointer;transition:all .2s;margin-bottom:12px;display:flex;align-items:center;justify-content:center;gap:8px}
-        .hw-create-btn:hover{border-color:var(--acc);color:var(--acc)}
-        .hw-create-form{background:var(--bgc);border:1.5px solid var(--brd);border-radius:16px;padding:16px;margin-bottom:14px;display:none}
-        .hw-create-form.open{display:block;animation:mi .25s ease}
-        .hw-form-title{font-family:'Fredoka',sans-serif;font-size:15px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:6px}
-        .hw-form-title i{color:var(--info)}
-        .hw-form-input{width:100%;padding:10px 13px;border:1.5px solid var(--brd);border-radius:10px;font-family:'Nunito',sans-serif;font-size:15px;font-weight:600;background:var(--bg1);color:var(--t1);margin-bottom:8px;transition:border-color .2s}
-        .hw-form-input:focus{outline:none;border-color:var(--info)}
-        .hw-form-textarea{width:100%;padding:10px 13px;border:1.5px solid var(--brd);border-radius:10px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:600;background:var(--bg1);color:var(--t1);resize:none;min-height:60px;transition:border-color .2s;line-height:1.4}
-        .hw-form-textarea:focus{outline:none;border-color:var(--info)}
-        .hw-form-btns{display:flex;gap:8px;margin-top:10px}
-        .hw-form-pub{flex:1;padding:10px;border:none;border-radius:10px;background:linear-gradient(135deg,#3B82F6,#2563EB);color:#fff;font-family:'Fredoka',sans-serif;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;transition:all .2s}
-        .hw-form-pub:hover{transform:translateY(-1px)}
-        .hw-form-cancel{padding:10px 16px;border:1.5px solid var(--brd);border-radius:10px;background:var(--bgc);color:var(--t2);font-family:'Fredoka',sans-serif;font-size:14px;font-weight:600;cursor:pointer}
-
-        .hw-card{background:var(--bgc);border:1.5px solid var(--brd);border-radius:16px;padding:16px;margin-bottom:12px;position:relative;overflow:hidden;transition:all .2s}
-        .hw-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#3B82F6,#8B5CF6)}
-        .hw-card-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:6px;gap:8px}
-        .hw-card-title{font-family:'Fredoka',sans-serif;font-size:16px;font-weight:700;flex:1;line-height:1.3}
-        .hw-card-date{font-size:11px;color:var(--t2);font-family:'Nunito',sans-serif;white-space:nowrap;flex-shrink:0;padding-top:3px}
-        .hw-card-desc{font-family:'Nunito',sans-serif;font-size:13px;font-weight:600;color:var(--t2);line-height:1.4;margin-bottom:10px;white-space:pre-wrap;word-break:break-word}
-        .hw-card-stats{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-        .hw-card-stat{font-family:'Fredoka',sans-serif;font-size:12px;font-weight:600;display:flex;align-items:center;gap:4px;padding:3px 10px;border-radius:8px;background:var(--bg1)}
-        .hw-card-stat i{font-size:11px}
-        .hw-card-stat.done{color:var(--pos)}
-        .hw-card-stat.pending{color:var(--t2)}
-        .hw-card-actions{display:flex;gap:6px;margin-top:10px}
-        .hw-view-btn{padding:7px 14px;border:none;border-radius:10px;background:var(--info);color:#fff;font-family:'Fredoka',sans-serif;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:4px;transition:all .2s}
-        .hw-view-btn:hover{filter:brightness(1.1)}
-        .hw-del-btn{padding:7px 10px;border:1.5px solid var(--brd);border-radius:10px;background:var(--bgc);color:var(--t2);font-size:12px;cursor:pointer;transition:all .2s}
-        .hw-del-btn:hover{border-color:var(--neg);color:var(--neg)}
-        .hw-close-btn{padding:7px 14px;border:1.5px solid var(--brd);border-radius:10px;background:var(--bgc);color:var(--t2);font-family:'Fredoka',sans-serif;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:4px;transition:all .2s}
-        .hw-close-btn:hover{border-color:var(--neg);color:var(--neg)}
-        .hw-empty{text-align:center;padding:40px 20px;color:var(--t2);font-style:italic}
-
-        /* Student HW submit */
-        .hw-submit-section{border-top:1.5px solid var(--brd);padding-top:12px;margin-top:10px}
-        .hw-submit-label{font-family:'Fredoka',sans-serif;font-size:13px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:5px}
-        .hw-submit-label i{color:var(--info)}
-        .hw-submit-text{width:100%;padding:10px 12px;border:1.5px solid var(--brd);border-radius:10px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:600;background:var(--bg1);color:var(--t1);resize:none;min-height:50px;transition:border-color .2s;line-height:1.4;margin-bottom:8px}
-        .hw-submit-text:focus{outline:none;border-color:var(--info)}
-        .hw-submit-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-        .hw-submit-photo-btn{padding:8px 14px;border:1.5px dashed var(--brd);border-radius:10px;background:var(--bg1);color:var(--t2);font-family:'Fredoka',sans-serif;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:5px;transition:all .2s}
-        .hw-submit-photo-btn:hover{border-color:var(--info);color:var(--info)}
-        .hw-submit-go{padding:8px 18px;border:none;border-radius:10px;background:linear-gradient(135deg,#10B981,#059669);color:#fff;font-family:'Fredoka',sans-serif;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:5px;transition:all .2s}
-        .hw-submit-go:hover{transform:translateY(-1px)}
-        .hw-submit-thumbs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
-        .hw-submit-thumb{width:48px;height:48px;border-radius:8px;object-fit:cover;border:1.5px solid var(--brd);position:relative;display:inline-block;overflow:hidden}
-        .hw-submit-thumb img{width:100%;height:100%;object-fit:cover}
-        .hw-submit-thumb .hw-thumb-rm{position:absolute;top:1px;right:1px;width:16px;height:16px;border-radius:50%;background:var(--neg);color:#fff;font-size:9px;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;transition:opacity .2s}
-        .hw-submit-thumb:hover .hw-thumb-rm{opacity:1}
-        .hw-submitted-badge{display:flex;align-items:center;gap:6px;font-family:'Fredoka',sans-serif;font-size:13px;font-weight:600;color:var(--pos);padding:8px 0}
-        .hw-submitted-badge i{font-size:15px}
-
-        /* Teacher HW review overlay */
-        .hw-review-overlay{position:fixed;inset:0;background:var(--ov);z-index:500;display:flex;align-items:flex-start;justify-content:center;padding:20px 12px;overflow-y:auto;opacity:0;pointer-events:none;transition:opacity .3s}
-        .hw-review-overlay.open{opacity:1;pointer-events:auto}
-        .hw-review-panel{background:var(--bgc);border-radius:22px;width:100%;max-width:640px;box-shadow:var(--shh);overflow:hidden;transform:translateY(20px) scale(.97);transition:transform .35s cubic-bezier(.34,1.56,.64,1);max-height:90vh;display:flex;flex-direction:column}
-        .hw-review-overlay.open .hw-review-panel{transform:translateY(0) scale(1)}
-        .hw-review-head{padding:16px 18px 12px;border-bottom:1.5px solid var(--brd);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
-        .hw-review-title{font-family:'Fredoka',sans-serif;font-size:18px;font-weight:700;display:flex;align-items:center;gap:8px;flex:1;min-width:0}
-        .hw-review-title i{color:var(--info);flex-shrink:0}
-        .hw-review-close{width:36px;height:36px;border:1.5px solid var(--brd);border-radius:10px;background:var(--bgc);color:var(--t2);display:flex;align-items:center;justify-content:center;font-size:15px;cursor:pointer;transition:all .2s}
-        .hw-review-close:hover{border-color:var(--neg);color:var(--neg)}
-        .hw-review-body{padding:14px 16px 18px;overflow-y:auto;flex:1}
-        .hw-review-count{font-family:'Fredoka',sans-serif;font-size:13px;font-weight:600;color:var(--t2);margin-bottom:12px}
-        .hw-sub-card{border:1.5px solid var(--brd);border-radius:14px;padding:14px;margin-bottom:10px;background:var(--bg1)}
-        .hw-sub-card-head{display:flex;align-items:center;gap:8px;margin-bottom:6px}
-        .hw-sub-card-emoji{font-size:22px}
-        .hw-sub-card-name{font-family:'Fredoka',sans-serif;font-size:15px;font-weight:700;flex:1}
-        .hw-sub-card-time{font-size:11px;color:var(--t2);font-family:'Nunito',sans-serif}
-        .hw-sub-card-text{font-family:'Nunito',sans-serif;font-size:14px;font-weight:600;line-height:1.4;margin-bottom:8px;white-space:pre-wrap;word-break:break-word}
-        .hw-sub-card-imgs{display:flex;flex-wrap:wrap;gap:6px}
-        .hw-sub-card-img{max-width:100%;border-radius:10px;border:1px solid var(--brd);cursor:pointer;max-height:280px;object-fit:contain}
-        .hw-no-subs{text-align:center;padding:30px;color:var(--t2);font-style:italic;font-size:13px}
-
         /* MODALS */
         .modal-bg{position:fixed;inset:0;background:var(--ov);display:none;align-items:center;justify-content:center;z-index:1000;padding:20px}
         .modal-bg.show{display:flex}
@@ -1113,42 +1035,12 @@
         </div>
     </div>
 
-    <!-- TAB: HOMEWORK -->
-    <div class="tc" id="tabHW">
-        <div class="hw-area">
-            <button class="hw-create-btn teacher-only" id="hwCreateBtn"><i class="fas fa-plus-circle"></i> New Assignment</button>
-            <div class="hw-create-form teacher-only" id="hwCreateForm">
-                <div class="hw-form-title"><i class="fas fa-file-alt"></i> New Assignment</div>
-                <input class="hw-form-input" id="hwFormTitle" placeholder="Assignment title…" maxlength="120">
-                <textarea class="hw-form-textarea" id="hwFormDesc" placeholder="Description / instructions (optional)…" rows="3"></textarea>
-                <div class="hw-form-btns">
-                    <button class="hw-form-pub" id="hwFormPub"><i class="fas fa-paper-plane"></i> Publish</button>
-                    <button class="hw-form-cancel" id="hwFormCancel"><i class="fas fa-times"></i> Cancel</button>
-                </div>
-            </div>
-            <div id="hwList"></div>
-            <div class="hw-empty" id="hwEmpty">No assignments yet.</div>
-        </div>
-    </div>
-
-    <!-- HW Review Overlay -->
-    <div class="hw-review-overlay" id="hwReviewOverlay">
-        <div class="hw-review-panel">
-            <div class="hw-review-head">
-                <div class="hw-review-title"><i class="fas fa-clipboard-check"></i> <span id="hwReviewTitle"></span></div>
-                <button class="hw-review-close" id="hwReviewClose"><i class="fas fa-times"></i></button>
-            </div>
-            <div class="hw-review-body" id="hwReviewBody"></div>
-        </div>
-    </div>
-
     <!-- TAB BAR -->
     <nav class="tab-bar" id="tabBarEl">
         <button class="tab-btn active" data-tab="tabBoard"><i class="fas fa-th-large"></i><span>Board</span></button>
         <button class="tab-btn" data-tab="tabLive"><i class="fas fa-broadcast-tower"></i><span>Live</span></button>
         <button class="tab-btn" data-tab="tabChat"><i class="fas fa-comments"></i><span>Chat</span><span class="badge" id="chatBadge">0</span></button>
         <button class="tab-btn" data-tab="tabNotes"><i class="fas fa-book"></i><span>Notes</span></button>
-        <button class="tab-btn" data-tab="tabHW"><i class="fas fa-file-alt"></i><span>HW</span><span class="badge" id="hwBadge" style="display:none">0</span></button>
     </nav>
 </div>
 
@@ -1254,7 +1146,6 @@
 <input type="file" id="cwAttachInput" accept="image/*,.pdf" style="display:none">
 <input type="file" id="gwSubmitInput" accept="image/*" multiple style="display:none">
 <input type="file" id="gwAttachInput" accept="image/*,.pdf" style="display:none">
-<input type="file" id="hwPhotoInput" accept="image/*" multiple style="display:none">
 <div class="cw-draw-overlay" id="cwDrawOverlay" style="display:none">
     <div class="cw-draw-header">
         <span class="cw-draw-title" id="cwDrawTitle">Draw on Worksheet</span>
@@ -4675,315 +4566,6 @@ function pollGwDrafts(){
     });
 }
 
-/* ===== HOMEWORK / ASSIGNMENTS ===== */
-var hwAssignments={};   /* {hwId:{title,desc,ts,open}} */
-var hwSubmissions={};    /* {hwId:{studentId:{text,ts,pages:{pid:{ts}}}}} */
-var hwPendingPhotos=[];  /* temp photo data urls for student submission form */
-var hwPhotoInput=document.getElementById('hwPhotoInput');
-
-/* Teacher: create assignment */
-document.getElementById('hwCreateBtn').addEventListener('click',function(){
-    var form=document.getElementById('hwCreateForm');
-    form.classList.toggle('open');
-    if(form.classList.contains('open'))document.getElementById('hwFormTitle').focus();
-});
-document.getElementById('hwFormCancel').addEventListener('click',function(){
-    document.getElementById('hwCreateForm').classList.remove('open');
-    document.getElementById('hwFormTitle').value='';
-    document.getElementById('hwFormDesc').value='';
-});
-document.getElementById('hwFormPub').addEventListener('click',function(){
-    var title=document.getElementById('hwFormTitle').value.trim();
-    if(!title){toast('Please enter a title',1);return}
-    var desc=document.getElementById('hwFormDesc').value.trim();
-    var enc=encodeURIComponent(CC);
-    var hwId='hw_'+Date.now();
-    var meta={title:title,desc:desc,ts:Date.now(),open:true};
-    fbPut('/hw-assignments/'+enc+'/'+hwId,meta).then(function(){
-        hwAssignments[hwId]=meta;
-        renderHwList();
-        document.getElementById('hwCreateForm').classList.remove('open');
-        document.getElementById('hwFormTitle').value='';
-        document.getElementById('hwFormDesc').value='';
-        toast('Assignment published!');
-    });
-});
-
-/* Close / reopen assignment */
-function toggleHwOpen(hwId){
-    var hw=hwAssignments[hwId];if(!hw)return;
-    var newOpen=!hw.open;
-    var enc=encodeURIComponent(CC);
-    hw.open=newOpen;
-    fbPut('/hw-assignments/'+enc+'/'+hwId,hw).then(function(){
-        renderHwList();
-        toast(newOpen?'Assignment reopened':'Assignment closed');
-    });
-}
-
-/* Delete assignment */
-function deleteHw(hwId){
-    showCwConfirm('Delete this assignment and all submissions?',function(){
-        var enc=encodeURIComponent(CC);
-        fbDel('/hw-assignments/'+enc+'/'+hwId);
-        fbDel('/hw-submissions/'+enc+'/'+hwId);
-        fbDel('/hw-sub-files/'+enc+'/'+hwId);
-        delete hwAssignments[hwId];
-        delete hwSubmissions[hwId];
-        renderHwList();
-        toast('Assignment deleted');
-    });
-}
-
-/* Render assignment list */
-function renderHwList(){
-    var listEl=document.getElementById('hwList');
-    var emptyEl=document.getElementById('hwEmpty');
-    var keys=Object.keys(hwAssignments);
-    if(!keys.length){
-        listEl.innerHTML='';
-        emptyEl.style.display='';
-        return;
-    }
-    emptyEl.style.display='none';
-    keys.sort(function(a,b){return(hwAssignments[b].ts||0)-(hwAssignments[a].ts||0)});
-    var html='';
-    keys.forEach(function(hwId){
-        var hw=hwAssignments[hwId];
-        var dt=new Date(hw.ts||0);
-        var timeStr=dt.getDate()+'/'+(dt.getMonth()+1)+' '+dt.getHours()+':'+(dt.getMinutes()<10?'0':'')+dt.getMinutes();
-        var subs=hwSubmissions[hwId]||{};
-        var subCount=Object.keys(subs).length;
-
-        html+='<div class="hw-card" data-hwid="'+hwId+'">';
-        html+='<div class="hw-card-head"><div class="hw-card-title">'+escH(hw.title)+'</div><div class="hw-card-date">'+timeStr+'</div></div>';
-        if(hw.desc)html+='<div class="hw-card-desc">'+escH(hw.desc)+'</div>';
-
-        if(isStudent){
-            /* Student: check if already submitted */
-            var mySub=subs[myId];
-            if(!hw.open){
-                html+='<div style="font-family:Fredoka,sans-serif;font-size:12px;font-weight:600;color:var(--t2);opacity:.6;margin-bottom:6px"><i class="fas fa-lock"></i> Closed</div>';
-            }
-            if(mySub){
-                var myPageCount=mySub.pages?Object.keys(mySub.pages).length:0;
-                html+='<div class="hw-submitted-badge"><i class="fas fa-check-circle"></i> Submitted';
-                if(myPageCount>0)html+=' · '+myPageCount+' photo'+(myPageCount>1?'s':'');
-                html+='</div>';
-                if(hw.open)html+='<div style="margin-top:4px"><button class="hw-submit-photo-btn" data-hw-resubmit="'+hwId+'"><i class="fas fa-redo"></i> Resubmit</button></div>';
-            }else if(hw.open){
-                /* Show submit form */
-                html+='<div class="hw-submit-section" data-hw-submit="'+hwId+'">';
-                html+='<div class="hw-submit-label"><i class="fas fa-pen"></i> Your submission</div>';
-                html+='<textarea class="hw-submit-text" data-hw-text="'+hwId+'" placeholder="Write your answer here…" rows="3"></textarea>';
-                html+='<div class="hw-submit-thumbs" data-hw-thumbs="'+hwId+'"></div>';
-                html+='<div class="hw-submit-row"><button class="hw-submit-photo-btn" data-hw-photo="'+hwId+'"><i class="fas fa-camera"></i> Add Photos</button><button class="hw-submit-go" data-hw-go="'+hwId+'"><i class="fas fa-paper-plane"></i> Submit</button></div>';
-                html+='</div>';
-            }
-        }else{
-            /* Teacher: show submission count + actions */
-            html+='<div class="hw-card-stats">';
-            html+='<div class="hw-card-stat'+(subCount>0?' done':'')+'"><i class="fas fa-users"></i> '+subCount+' / 14 submitted</div>';
-            if(!hw.open)html+='<div class="hw-card-stat pending"><i class="fas fa-lock"></i> Closed</div>';
-            html+='</div>';
-            html+='<div class="hw-card-actions">';
-            if(subCount>0)html+='<button class="hw-view-btn" data-hw-review="'+hwId+'"><i class="fas fa-eye"></i> Review</button>';
-            html+='<button class="hw-close-btn" data-hw-toggle="'+hwId+'"><i class="fas fa-'+(hw.open?'lock':'lock-open')+'"></i> '+(hw.open?'Close':'Reopen')+'</button>';
-            html+='<button class="hw-del-btn" data-hw-del="'+hwId+'" title="Delete"><i class="fas fa-trash-alt"></i></button>';
-            html+='</div>';
-        }
-        html+='</div>';
-    });
-    listEl.innerHTML=html;
-
-    /* Wire teacher actions */
-    listEl.querySelectorAll('[data-hw-review]').forEach(function(btn){
-        btn.addEventListener('click',function(){openHwReview(this.dataset.hwReview)});
-    });
-    listEl.querySelectorAll('[data-hw-toggle]').forEach(function(btn){
-        btn.addEventListener('click',function(){toggleHwOpen(this.dataset.hwToggle)});
-    });
-    listEl.querySelectorAll('[data-hw-del]').forEach(function(btn){
-        btn.addEventListener('click',function(){deleteHw(this.dataset.hwDel)});
-    });
-
-    /* Wire student submit */
-    listEl.querySelectorAll('[data-hw-photo]').forEach(function(btn){
-        btn.addEventListener('click',function(){
-            hwPhotoInput.dataset.hwTarget=this.dataset.hwPhoto;
-            hwPhotoInput.click();
-        });
-    });
-    listEl.querySelectorAll('[data-hw-resubmit]').forEach(function(btn){
-        btn.addEventListener('click',function(){
-            /* Replace submitted badge with submit form */
-            var hwId=this.dataset.hwResubmit;
-            var card=this.closest('.hw-card');
-            var badge=card.querySelector('.hw-submitted-badge');
-            var resubBtn=this.parentNode;
-            if(badge)badge.remove();
-            if(resubBtn)resubBtn.remove();
-            var formHtml='<div class="hw-submit-section" data-hw-submit="'+hwId+'">';
-            formHtml+='<div class="hw-submit-label"><i class="fas fa-pen"></i> Resubmit your work</div>';
-            formHtml+='<textarea class="hw-submit-text" data-hw-text="'+hwId+'" placeholder="Write your answer here…" rows="3"></textarea>';
-            formHtml+='<div class="hw-submit-thumbs" data-hw-thumbs="'+hwId+'"></div>';
-            formHtml+='<div class="hw-submit-row"><button class="hw-submit-photo-btn" data-hw-add-photo="'+hwId+'"><i class="fas fa-camera"></i> Add Photos</button><button class="hw-submit-go" data-hw-go="'+hwId+'"><i class="fas fa-paper-plane"></i> Submit</button></div>';
-            formHtml+='</div>';
-            card.insertAdjacentHTML('beforeend',formHtml);
-            wireHwSubmitForm(card,hwId);
-        });
-    });
-    listEl.querySelectorAll('[data-hw-go]').forEach(function(btn){
-        var hwId=btn.dataset.hwGo;
-        var card=btn.closest('.hw-card');
-        wireHwSubmitForm(card,hwId);
-    });
-}
-
-/* Wire submit form event handlers for a specific card */
-function wireHwSubmitForm(card,hwId){
-    var photoBtn=card.querySelector('[data-hw-photo="'+hwId+'"],[data-hw-add-photo="'+hwId+'"]');
-    if(photoBtn){
-        photoBtn.addEventListener('click',function(){
-            hwPhotoInput.dataset.hwTarget=hwId;
-            hwPhotoInput.click();
-        });
-    }
-    var goBtn=card.querySelector('[data-hw-go="'+hwId+'"]');
-    if(goBtn){
-        goBtn.addEventListener('click',function(){submitHw(hwId,card)});
-    }
-}
-
-/* Handle photo input */
-hwPhotoInput.addEventListener('change',function(){
-    var files=Array.from(hwPhotoInput.files);if(!files.length)return;
-    var hwId=hwPhotoInput.dataset.hwTarget;
-    var thumbsEl=document.querySelector('[data-hw-thumbs="'+hwId+'"]');
-    files.forEach(function(file){
-        compressImage(file,2400,1800,0.82,function(dataUrl){
-            hwPendingPhotos.push({hwId:hwId,data:dataUrl});
-            if(thumbsEl){
-                var idx=hwPendingPhotos.length-1;
-                var thumb=document.createElement('div');
-                thumb.className='hw-submit-thumb';
-                thumb.innerHTML='<img src="'+dataUrl+'"><div class="hw-thumb-rm" data-hw-rm-idx="'+idx+'"><i class="fas fa-times"></i></div>';
-                thumb.querySelector('.hw-thumb-rm').addEventListener('click',function(){
-                    hwPendingPhotos[parseInt(this.dataset.hwRmIdx)]=null;
-                    thumb.remove();
-                });
-                thumbsEl.appendChild(thumb);
-            }
-        });
-    });
-    hwPhotoInput.value='';
-});
-
-/* Submit homework */
-function submitHw(hwId,card){
-    if(myId===null){toast('Please log in first',1);return}
-    var textEl=card.querySelector('[data-hw-text="'+hwId+'"]');
-    var text=textEl?textEl.value.trim():'';
-    var photos=hwPendingPhotos.filter(function(p){return p&&p.hwId===hwId});
-    if(!text&&!photos.length){toast('Write something or add a photo',1);return}
-    var enc=encodeURIComponent(CC);
-    var s=students[myId];
-    var pages={};
-    var total=photos.length;var done=0;
-    if(total>0)toast('📤 Uploading '+total+' photo'+(total>1?'s':'')+'...');
-    /* Upload photos */
-    if(total>0){
-        photos.forEach(function(p){
-            var pid='p'+Date.now()+'_'+Math.random().toString(36).substr(2,4);
-            fbPut('/hw-sub-files/'+enc+'/'+hwId+'/'+myId+'/'+pid,{data:p.data});
-            pages[pid]={ts:Date.now()};
-            done++;
-            if(done>=total)finishHwSubmit(hwId,text,pages,s,enc);
-        });
-    }else{
-        finishHwSubmit(hwId,text,pages,s,enc);
-    }
-    /* Clear pending photos for this hw */
-    hwPendingPhotos=hwPendingPhotos.map(function(p){return(p&&p.hwId===hwId)?null:p});
-}
-
-function finishHwSubmit(hwId,text,pages,s,enc){
-    var subMeta={name:s.name,emoji:s.emoji,text:text,ts:Date.now(),pages:pages};
-    fbPut('/hw-submissions/'+enc+'/'+hwId+'/'+myId,subMeta).then(function(){
-        if(!hwSubmissions[hwId])hwSubmissions[hwId]={};
-        hwSubmissions[hwId][myId]=subMeta;
-        renderHwList();
-        toast('✅ Homework submitted!');
-    });
-}
-
-/* Teacher: review submissions overlay */
-function openHwReview(hwId){
-    var hw=hwAssignments[hwId];if(!hw)return;
-    document.getElementById('hwReviewTitle').textContent=hw.title;
-    var body=document.getElementById('hwReviewBody');
-    var subs=hwSubmissions[hwId]||{};
-    var subKeys=Object.keys(subs);
-    if(!subKeys.length){
-        body.innerHTML='<div class="hw-no-subs">No submissions yet.</div>';
-    }else{
-        var html='<div class="hw-review-count">'+subKeys.length+' submission'+(subKeys.length>1?'s':'')+'</div>';
-        /* Sort by timestamp */
-        subKeys.sort(function(a,b){return(subs[a].ts||0)-(subs[b].ts||0)});
-        subKeys.forEach(function(sid){
-            var sub=subs[sid];
-            var sObj=students[parseInt(sid)]||{name:sub.name||'Student',emoji:sub.emoji||'👤'};
-            var dt=new Date(sub.ts||0);
-            var timeStr=dt.getDate()+'/'+(dt.getMonth()+1)+' '+dt.getHours()+':'+(dt.getMinutes()<10?'0':'')+dt.getMinutes();
-            var pageKeys=sub.pages?Object.keys(sub.pages):[];
-            html+='<div class="hw-sub-card"><div class="hw-sub-card-head"><div class="hw-sub-card-emoji">'+sObj.emoji+'</div><div class="hw-sub-card-name">'+escH(sObj.name)+'</div><div class="hw-sub-card-time">'+timeStr+'</div></div>';
-            if(sub.text)html+='<div class="hw-sub-card-text">'+escH(sub.text)+'</div>';
-            if(pageKeys.length>0){
-                html+='<div class="hw-sub-card-imgs" data-hw-imgs="'+hwId+'_'+sid+'">';
-                pageKeys.forEach(function(){html+='<div style="padding:12px;color:var(--t2);font-size:12px"><i class="fas fa-spinner fa-spin"></i></div>'});
-                html+='</div>';
-            }
-            html+='</div>';
-        });
-        body.innerHTML=html;
-        /* Lazy load images */
-        var enc=encodeURIComponent(CC);
-        subKeys.forEach(function(sid){
-            var sub=subs[sid];
-            var pageKeys=sub.pages?Object.keys(sub.pages):[];
-            var container=body.querySelector('[data-hw-imgs="'+hwId+'_'+sid+'"]');
-            if(!container)return;
-            pageKeys.forEach(function(pid,idx){
-                fbGet('/hw-sub-files/'+enc+'/'+hwId+'/'+sid+'/'+pid).then(function(fd){
-                    if(fd&&fd.data&&container.children[idx]){
-                        container.children[idx].innerHTML='<img class="hw-sub-card-img" src="'+fd.data+'">';
-                    }
-                });
-            });
-        });
-    }
-    document.getElementById('hwReviewOverlay').classList.add('open');
-}
-
-document.getElementById('hwReviewClose').addEventListener('click',function(){
-    document.getElementById('hwReviewOverlay').classList.remove('open');
-});
-document.getElementById('hwReviewOverlay').addEventListener('click',function(e){
-    if(e.target===this)this.classList.remove('open');
-});
-
-/* Poll homework assignments + submissions */
-function pollHw(){
-    var enc=encodeURIComponent(CC);
-    fbGet('/hw-assignments/'+enc).then(function(d){
-        hwAssignments=(d&&typeof d==='object')?d:{};
-        fbGet('/hw-submissions/'+enc).then(function(sd){
-            hwSubmissions=(sd&&typeof sd==='object')?sd:{};
-            renderHwList();
-        });
-    });
-}
-
 var myMarkedMeta={};
 
 function pollMarkedWork(){
@@ -5396,7 +4978,6 @@ function pollStatus(){
         setInterval(pollSpinnerPick,5000);
         setInterval(pollGroupDisc,6000);
         setInterval(pollGroupWork,6000);
-        setInterval(pollHw,8000);
     }else{
         setInterval(pollData,2000);
         setInterval(pollStatus,3000);
@@ -5410,7 +4991,6 @@ function pollStatus(){
         setInterval(pollGroupDisc,5000);
         setInterval(pollGroupWork,5000);
         setInterval(pollGwDrafts,15000);
-        setInterval(pollHw,8000);
     }
     setTimeout(pollNotes,500);
     setTimeout(pollStatus,1000);
@@ -5422,7 +5002,6 @@ function pollStatus(){
     setTimeout(pollGroupDisc,900);
     setTimeout(pollGroupWork,1100);
     if(!isStudent)setTimeout(pollGwDrafts,1300);
-    setTimeout(pollHw,1400);
 })();
 </script>
 </body>
