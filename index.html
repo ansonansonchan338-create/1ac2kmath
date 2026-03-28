@@ -124,6 +124,20 @@
         body.student-mode .student-only{display:block}
         .student-only-flex{display:none}
         body.student-mode .student-only-flex{display:flex}
+        /* Visitor mode: hide seat-specific and submission features */
+        body.visitor-mode .my-card-wrap{display:none!important}
+        body.visitor-mode .cw-section.student-only{display:none!important}
+        body.visitor-mode .grp-student-banner{display:none!important}
+        body.visitor-mode .gw-student-section{display:none!important}
+        body.visitor-mode .seating .cbtns{display:none}
+        body.visitor-mode .seating .sc{pointer-events:none;opacity:.7}
+        body.visitor-mode .cw-marked-section.student-only{display:none!important}
+        /* Visitor login button */
+        .login-visitor-wrap{text-align:center;margin-top:20px;max-width:600px;width:100%}
+        .login-visitor-btn{padding:14px 28px;border:2px dashed var(--brd);border-radius:16px;background:none;font-family:'Fredoka',sans-serif;font-size:15px;font-weight:600;color:var(--t2);cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:8px}
+        .login-visitor-btn:hover{border-color:var(--info);color:var(--info);background:rgba(59,130,246,.05)}
+        .login-visitor-btn:active{transform:scale(.96)}
+        .login-visitor-btn i{font-size:18px}
 
         /* REACT BAR */
         .react-bar{display:flex;align-items:center;justify-content:center;gap:6px;padding:10px 12px;background:var(--bg2);border-radius:14px;margin:8px 12px}
@@ -415,6 +429,61 @@
         .cm-file i{font-size:18px}
         .cm-yt{margin-top:8px;border-radius:10px;overflow:hidden}
         .cm-yt iframe{width:100%;height:180px;border:none;border-radius:10px}
+        /* Per-message reactions */
+        .cm-reactions{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px}
+        .cm-react-pill{display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:10px;background:var(--bg1);border:1.5px solid var(--brd);font-size:12px;cursor:pointer;transition:all .15s;user-select:none;-webkit-user-select:none}
+        .cm-react-pill:hover{border-color:var(--acc)}
+        .cm-react-pill.mine{border-color:var(--acc);background:rgba(255,107,53,.1)}
+        .cm-react-pill .rp-count{font-family:'Fredoka',sans-serif;font-weight:600;font-size:11px;color:var(--t2)}
+        .chat-msg.mine .cm-react-pill{background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.3)}
+        .chat-msg.mine .cm-react-pill.mine{border-color:#fff;background:rgba(255,255,255,.3)}
+        .chat-msg.mine .cm-react-pill .rp-count{color:rgba(255,255,255,.8)}
+
+        /* React / Reply action bar */
+        .cm-actions{display:none;gap:3px;margin-top:5px}
+        .cm-bubble:hover .cm-actions,.cm-bubble.show-actions .cm-actions{display:flex}
+        .cm-act-btn{padding:3px 8px;border:1.5px solid var(--brd);border-radius:8px;background:var(--bg1);font-size:11px;font-family:'Fredoka',sans-serif;font-weight:600;color:var(--t2);cursor:pointer;display:flex;align-items:center;gap:3px;transition:all .15s;white-space:nowrap}
+        .cm-act-btn:hover{border-color:var(--acc);color:var(--acc)}
+        .chat-msg.mine .cm-act-btn{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.3);color:rgba(255,255,255,.75)}
+        .chat-msg.mine .cm-act-btn:hover{border-color:#fff;color:#fff}
+
+        /* Emoji picker dropdown */
+        .cm-emoji-picker{display:none;flex-wrap:wrap;gap:2px;padding:5px;background:var(--bgc);border:1.5px solid var(--brd);border-radius:12px;box-shadow:var(--shh);position:absolute;bottom:100%;left:0;z-index:20;margin-bottom:4px;min-width:180px}
+        .cm-emoji-picker.open{display:flex}
+        .cm-emoji-pick{width:30px;height:30px;border:none;border-radius:8px;background:none;font-size:17px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .1s}
+        .cm-emoji-pick:hover{background:var(--bg1);transform:scale(1.15)}
+
+        /* Reply quote */
+        .cm-reply-quote{padding:5px 10px;margin-bottom:5px;border-left:3px solid var(--acc);border-radius:4px;background:rgba(0,0,0,.04);font-size:12px;line-height:1.3;color:var(--t2);cursor:pointer;max-height:40px;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+        .chat-msg.mine .cm-reply-quote{background:rgba(255,255,255,.12);border-left-color:rgba(255,255,255,.5);color:rgba(255,255,255,.7)}
+        .cm-reply-quote .rq-name{font-family:'Fredoka',sans-serif;font-weight:700;font-size:11px;color:var(--info);display:block;margin-bottom:1px}
+        .chat-msg.mine .cm-reply-quote .rq-name{color:rgba(255,255,255,.85)}
+
+        /* Replies section */
+        .cm-replies{margin-top:8px;padding-top:6px;border-top:1px solid var(--brd)}
+        .chat-msg.mine .cm-replies{border-top-color:rgba(255,255,255,.2)}
+        .cm-reply-item{display:flex;gap:6px;align-items:flex-start;margin-bottom:5px}
+        .cm-reply-ava{font-size:15px;flex-shrink:0}
+        .cm-reply-body{flex:1;min-width:0}
+        .cm-reply-author{font-family:'Fredoka',sans-serif;font-size:10px;font-weight:600;color:var(--t2)}
+        .chat-msg.mine .cm-reply-author{color:rgba(255,255,255,.6)}
+        .cm-reply-text{font-size:13px;line-height:1.3;word-wrap:break-word}
+        .cm-reply-time{font-size:9px;color:var(--t2);margin-top:1px}
+        .chat-msg.mine .cm-reply-time{color:rgba(255,255,255,.5)}
+        .cm-replies-toggle{font-family:'Fredoka',sans-serif;font-size:11px;font-weight:600;color:var(--info);cursor:pointer;padding:3px 0;display:flex;align-items:center;gap:4px}
+        .chat-msg.mine .cm-replies-toggle{color:rgba(255,255,255,.8)}
+        .cm-reply-del{display:none;background:none;border:none;color:var(--neg);font-size:9px;cursor:pointer;padding:1px 3px;margin-left:4px;opacity:.6}
+        .cm-reply-del:hover{opacity:1}
+        .cm-reply-item:hover .cm-reply-del{display:inline}
+
+        /* Reply input bar (above main chat input) */
+        .chat-reply-bar{display:none;padding:8px 12px;background:var(--bg2);border-top:1.5px solid var(--brd);align-items:center;gap:8px}
+        .chat-reply-bar.show{display:flex}
+        .chat-reply-info{flex:1;font-size:12px;font-family:'Nunito',sans-serif;font-weight:600;color:var(--t2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+        .chat-reply-info span{color:var(--info);font-weight:700}
+        .chat-reply-cancel{width:28px;height:28px;border:1.5px solid var(--brd);border-radius:8px;background:var(--bgc);color:var(--t2);font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s}
+        .chat-reply-cancel:hover{border-color:var(--neg);color:var(--neg)}
+
         .chat-input-wrap{padding:10px 12px;background:var(--bg2);border-top:1.5px solid var(--brd);display:flex;gap:8px;align-items:flex-end}
         .chat-attach-btn{width:42px;height:42px;border:1.5px solid var(--brd);border-radius:12px;background:var(--bgc);color:var(--t2);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s}
         .chat-attach-btn:hover{border-color:var(--acc);color:var(--acc)}
@@ -742,6 +811,9 @@
         <p>Tap your name to join the class</p>
     </div>
     <div class="login-grid" id="loginGrid"></div>
+    <div class="login-visitor-wrap">
+        <button class="login-visitor-btn" id="loginVisitorBtn"><i class="fas fa-user-secret"></i> Join as Visitor</button>
+    </div>
 </div>
 
 <!-- MAIN APP -->
@@ -1011,6 +1083,10 @@
             <div class="chat-msgs" id="chatMsgs">
                 <div class="chat-empty" id="chatEmpty">No messages yet. Start the conversation!</div>
             </div>
+            <div class="chat-reply-bar" id="chatReplyBar">
+                <div class="chat-reply-info"><i class="fas fa-reply" style="margin-right:4px"></i> Replying to <span id="chatReplyName"></span></div>
+                <button class="chat-reply-cancel" id="chatReplyCancel"><i class="fas fa-times"></i></button>
+            </div>
             <div class="chat-input-wrap">
                 <button class="chat-attach-btn" id="chatAttach" title="Attach image"><i class="fas fa-paperclip"></i></button>
                 <div class="chat-input-col">
@@ -1197,6 +1273,9 @@ var P='/classboard/'+encodeURIComponent(CC);
 var storage=window['local'+'Storage'];
 var urlP=new URLSearchParams(window.location.search);
 var isStudent=urlP.has('student');
+var isVisitor=false;
+var visitorName='Visitor';
+var visitorEmoji='👁️';
 var myId=null;
 var students=[];
 var i;
@@ -1206,6 +1285,10 @@ var activeId=null;
 var prevSnap={};
 var chatMsgsData=[];
 var lastChatTs=0;
+var msgReactions={};  /* {msgKey:{emoji:{uid:true,...},...}} */
+var msgReplies={};    /* {msgKey:{replyKey:{text,author,emoji,aid,ts},...}} */
+var replyToMsg=null;  /* {key,author} when replying */
+var MSG_EMOJIS=['👍','❤️','😂','🔥','👏','😮','😢','🎉'];
 var notesData=[];
 var chatUnread=0;
 var currentTab='tabBoard';
@@ -1305,11 +1388,45 @@ function buildLogin(){
 }
 
 function doLogin(id){
-    myId=id;
-    try{storage.setItem('cb_myid',String(id))}catch(e){}
+    myId=id;isVisitor=false;
+    document.body.classList.remove('visitor-mode');
+    try{storage.setItem('cb_myid',String(id));storage.removeItem('cb_visitor')}catch(e){}
     loginScr.classList.add('hidden');
     mainApp.style.display='';
     setupStudentUI();
+}
+
+/* Visitor login */
+document.getElementById('loginVisitorBtn').addEventListener('click',function(){
+    showVisitorNameModal();
+});
+
+function showVisitorNameModal(){
+    var bg=document.createElement('div');
+    bg.className='confirm-bg show';bg.style.zIndex='2500';
+    bg.innerHTML='<div class="confirm-box" style="max-width:340px"><div style="font-size:36px;text-align:center;margin-bottom:8px">👁️</div><div style="font-family:Fredoka,sans-serif;font-size:17px;font-weight:700;text-align:center;margin-bottom:12px">Join as Visitor</div><input id="visitorNameInput" type="text" maxlength="20" placeholder="Enter your name…" style="width:100%;padding:12px 14px;border:1.5px solid var(--brd);border-radius:12px;font-family:Nunito,sans-serif;font-size:16px;font-weight:600;background:var(--bg1);color:var(--t1);outline:none;margin-bottom:12px;transition:border-color .2s"><div class="cb"><button class="cbtn cc" id="visitorCancelBtn">Cancel</button><button class="cbtn cd" id="visitorJoinBtn" style="background:var(--info)">Join</button></div></div>';
+    document.body.appendChild(bg);
+    var inp=document.getElementById('visitorNameInput');
+    inp.focus();
+    document.getElementById('visitorCancelBtn').addEventListener('click',function(){bg.remove()});
+    document.getElementById('visitorJoinBtn').addEventListener('click',function(){
+        var name=inp.value.trim();
+        if(!name){inp.style.borderColor='var(--neg)';return}
+        doVisitorLogin(name);
+        bg.remove();
+    });
+    inp.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();document.getElementById('visitorJoinBtn').click()}});
+}
+
+function doVisitorLogin(name){
+    isVisitor=true;
+    visitorName=name;
+    myId=null;
+    document.body.classList.add('visitor-mode');
+    try{storage.setItem('cb_visitor',name)}catch(e){}
+    loginScr.classList.add('hidden');
+    mainApp.style.display='';
+    document.getElementById('headerSub').textContent='👁️ '+name+' (Visitor)';
 }
 
 function setupStudentUI(){
@@ -1333,12 +1450,23 @@ function updateMyPts(){
 if(isStudent){
     mainApp.style.display='none';
     loginScr.classList.remove('hidden');
-    try{var saved=storage.getItem('cb_myid');if(saved!==null){myId=parseInt(saved);if(myId>=0&&myId<14){loginScr.classList.add('hidden');mainApp.style.display=''}else myId=null}}catch(e){}
+    /* Check saved session */
+    try{
+        var savedVisitor=storage.getItem('cb_visitor');
+        if(savedVisitor){
+            doVisitorLogin(savedVisitor);
+        }else{
+            var saved=storage.getItem('cb_myid');
+            if(saved!==null){myId=parseInt(saved);if(myId>=0&&myId<14){loginScr.classList.add('hidden');mainApp.style.display=''}else myId=null}
+        }
+    }catch(e){}
 }
 
 document.getElementById('btnLogout').addEventListener('click',function(){
-    try{storage.removeItem('cb_myid')}catch(e){}
-    myId=null;loginScr.classList.remove('hidden');mainApp.style.display='none';buildLogin();
+    try{storage.removeItem('cb_myid');storage.removeItem('cb_visitor')}catch(e){}
+    myId=null;isVisitor=false;
+    document.body.classList.remove('visitor-mode');
+    loginScr.classList.remove('hidden');mainApp.style.display='none';buildLogin();
 });
 
 /* ===== BUILD SEAT CARDS ===== */
@@ -2054,9 +2182,25 @@ document.getElementById('cfpRemove').addEventListener('click',function(){
 function sendChat(){
     var txt=chatInput.value.trim();
     if(!txt&&!pendingChatFile)return;
-    var author=isStudent?(myId!==null?students[myId].name:'Student'):'Mr. Chow';
-    var emoji=isStudent?(myId!==null?students[myId].emoji:'😊'):'🧑‍🏫';
-    var aid=isStudent?(myId!==null?myId:-1):-1;
+    var author,emoji,aid;
+    if(!isStudent){author='Mr. Chow';emoji='🧑‍🏫';aid=-1}
+    else if(isVisitor){author=visitorName;emoji=visitorEmoji;aid=-2}
+    else if(myId!==null){author=students[myId].name;emoji=students[myId].emoji;aid=myId}
+    else{author='Student';emoji='😊';aid=-1}
+    var enc=encodeURIComponent(CC);
+
+    /* If replying to a message, post as reply thread */
+    if(replyToMsg&&txt&&!pendingChatFile){
+        var replyData={text:txt,author:author,emoji:emoji,aid:aid,ts:Date.now()};
+        fbPost('/msg-replies/'+enc+'/'+replyToMsg.key,replyData).then(function(){
+            pollMsgReplies();
+        });
+        replyToMsg=null;
+        document.getElementById('chatReplyBar').classList.remove('show');
+        chatInput.value='';chatInput.style.height='42px';
+        toast('💬 Reply sent');
+        return;
+    }
 
     if(pendingChatFile){
         var file=pendingChatFile;
@@ -2065,22 +2209,24 @@ function sendChat(){
 
         if(isImage){
             compressImage(file,800,600,0.6,function(dataUrl){
-                fbPut('/forum-files/'+encodeURIComponent(CC)+'/'+fileId,{data:dataUrl,name:file.name,type:'image/jpeg'});
-                fbPost('/forum/'+encodeURIComponent(CC),{text:txt,author:author,emoji:emoji,aid:aid,ts:Date.now(),file:{name:file.name,type:'image/jpeg',id:fileId}});
+                fbPut('/forum-files/'+enc+'/'+fileId,{data:dataUrl,name:file.name,type:'image/jpeg'});
+                fbPost('/forum/'+enc,{text:txt,author:author,emoji:emoji,aid:aid,ts:Date.now(),file:{name:file.name,type:'image/jpeg',id:fileId}});
             });
         }else{
             var reader=new FileReader();
             reader.onload=function(){
-                fbPut('/forum-files/'+encodeURIComponent(CC)+'/'+fileId,{data:reader.result,name:file.name,type:file.type});
-                fbPost('/forum/'+encodeURIComponent(CC),{text:txt,author:author,emoji:emoji,aid:aid,ts:Date.now(),file:{name:file.name,type:file.type,id:fileId}});
+                fbPut('/forum-files/'+enc+'/'+fileId,{data:reader.result,name:file.name,type:file.type});
+                fbPost('/forum/'+enc,{text:txt,author:author,emoji:emoji,aid:aid,ts:Date.now(),file:{name:file.name,type:file.type,id:fileId}});
             };
             reader.readAsDataURL(file);
         }
         pendingChatFile=null;chatFileInput.value='';
         document.getElementById('chatFilePrev').style.display='none';
     }else{
-        fbPost('/forum/'+encodeURIComponent(CC),{text:txt,author:author,emoji:emoji,aid:aid,ts:Date.now()});
+        fbPost('/forum/'+enc,{text:txt,author:author,emoji:emoji,aid:aid,ts:Date.now()});
     }
+    /* Clear reply state if any */
+    if(replyToMsg){replyToMsg=null;document.getElementById('chatReplyBar').classList.remove('show')}
     chatInput.value='';chatInput.style.height='42px';
 }
 
@@ -2107,9 +2253,13 @@ document.getElementById('liveComment').addEventListener('keydown',function(e){if
 
 function sendLiveComment(){
     var el=document.getElementById('liveComment');
-    var txt=el.value.trim();if(!txt||myId===null)return;
-    var s=students[myId];
-    fbPost('/forum/'+encodeURIComponent(CC),{text:txt,author:s.name,emoji:s.emoji,aid:myId,ts:Date.now()});
+    var txt=el.value.trim();if(!txt&&!isVisitor)if(myId===null)return;
+    var author,emoji,aid;
+    if(isVisitor){author=visitorName;emoji=visitorEmoji;aid=-2}
+    else if(myId!==null){author=students[myId].name;emoji=students[myId].emoji;aid=myId}
+    else return;
+    if(!txt)return;
+    fbPost('/forum/'+encodeURIComponent(CC),{text:txt,author:author,emoji:emoji,aid:aid,ts:Date.now()});
     el.value='';
     toast('💬 Comment sent');
 }
@@ -2137,11 +2287,12 @@ function renderChat(){
     if(chatMsgsData.length===0){chatEmptyEl.style.display='';return}
     chatEmptyEl.style.display='none';
     chatMsgsEl.innerHTML=chatMsgsData.map(function(m){
-        var mine=(isStudent&&m.aid===myId)||(!isStudent&&m.aid===-1);
+        var mine=(isVisitor&&m.aid===-2&&m.author===visitorName)||(isStudent&&!isVisitor&&m.aid===myId)||(!isStudent&&m.aid===-1);
         var dt=new Date(m.ts);var time=dt.getHours()+':'+(dt.getMinutes()<10?'0':'')+dt.getMinutes();
         var textHtml=escH(m.text||'').replace(/\n/g,'<br>');
         var ytId=detectYouTube(m.text||'');
         var fileHtml='';
+        var mk=m._k;
 
         if(m.file){
             var isImg=m.file.type&&m.file.type.indexOf('image')!==-1;
@@ -2156,11 +2307,67 @@ function renderChat(){
             textHtml+='<div class="cm-yt"><iframe src="https://www.youtube.com/embed/'+ytId+'" allowfullscreen></iframe></div>';
         }
 
-        var delHtml=(!isStudent)?'<button class="cm-del" data-mk="'+escH(m._k)+'"'+(m.file?' data-fid="'+escH(m.file.id)+'"':'')+'><i class="fas fa-trash-alt"></i></button>':'';
-        return'<div class="chat-msg'+(mine?' mine':'')+'"><div class="cm-ava">'+escH(m.emoji||'😊')+'</div><div class="cm-bubble">'+delHtml+'<div class="cm-author">'+escH(m.author)+'</div><div class="cm-text">'+textHtml+'</div>'+fileHtml+'<div class="cm-time">'+time+'</div></div></div>';
+        /* Reply quote (if this message is a reply) */
+        var replyQuoteHtml='';
+        if(m.replyTo){
+            var origMsg=chatMsgsData.find(function(mm){return mm._k===m.replyTo});
+            if(origMsg){
+                replyQuoteHtml='<div class="cm-reply-quote" data-scroll-to="'+escH(m.replyTo)+'"><span class="rq-name">'+escH(origMsg.author)+'</span>'+escH((origMsg.text||'').substring(0,80))+(origMsg.text&&origMsg.text.length>80?'…':'')+'</div>';
+            }
+        }
+
+        /* Per-message reactions */
+        var reactionsHtml='';
+        var rObj=msgReactions[mk];
+        if(rObj){
+            var uid=isVisitor?'v_'+visitorName:isStudent?(myId!==null?'s'+myId:'anon'):'teacher';
+            var pills=[];
+            MSG_EMOJIS.forEach(function(em){
+                if(!rObj[em])return;
+                var uids=Object.keys(rObj[em]);
+                if(!uids.length)return;
+                var isMine=rObj[em][uid]?true:false;
+                pills.push('<span class="cm-react-pill'+(isMine?' mine':'')+'" data-rmk="'+escH(mk)+'" data-rem="'+em+'">'+em+' <span class="rp-count">'+uids.length+'</span></span>');
+            });
+            if(pills.length)reactionsHtml='<div class="cm-reactions">'+pills.join('')+'</div>';
+        }
+
+        /* Replies */
+        var repliesHtml='';
+        var reps=msgReplies[mk];
+        if(reps){
+            var repKeys=Object.keys(reps).sort(function(a,b){return(reps[a].ts||0)-(reps[b].ts||0)});
+            if(repKeys.length>0){
+                var showAll=repKeys.length<=3;
+                var visibleKeys=showAll?repKeys:repKeys.slice(-2);
+                repliesHtml='<div class="cm-replies">';
+                if(!showAll)repliesHtml='<div class="cm-replies"><div class="cm-replies-toggle" data-expand-mk="'+escH(mk)+'"><i class="fas fa-comments"></i> View all '+repKeys.length+' replies</div>';
+                repliesHtml+='<div class="cm-replies-list" data-replies-mk="'+escH(mk)+'" data-expanded="'+(showAll?'1':'0')+'">';
+                (showAll?repKeys:visibleKeys).forEach(function(rk){
+                    var r=reps[rk];
+                    var rdt=new Date(r.ts||0);var rtime=rdt.getHours()+':'+(rdt.getMinutes()<10?'0':'')+rdt.getMinutes();
+                    var canDel=(!isStudent)||(isStudent&&r.aid===myId);
+                    repliesHtml+='<div class="cm-reply-item"><div class="cm-reply-ava">'+escH(r.emoji||'😊')+'</div><div class="cm-reply-body"><div class="cm-reply-author">'+escH(r.author)+'</div><div class="cm-reply-text">'+escH(r.text||'').replace(/\n/g,'<br>')+'</div><div class="cm-reply-time">'+rtime+(canDel?'<button class="cm-reply-del" data-del-mk="'+escH(mk)+'" data-del-rk="'+escH(rk)+'" title="Delete"><i class="fas fa-trash-alt"></i></button>':'')+'</div></div></div>';
+                });
+                repliesHtml+='</div></div>';
+            }
+        }
+
+        /* Action buttons: emoji + reply */
+        var actionsHtml='<div class="cm-actions" style="position:relative">';
+        actionsHtml+='<div class="cm-emoji-picker" data-picker-mk="'+escH(mk)+'">';
+        MSG_EMOJIS.forEach(function(em){actionsHtml+='<button class="cm-emoji-pick" data-pick-mk="'+escH(mk)+'" data-pick-em="'+em+'">'+em+'</button>'});
+        actionsHtml+='</div>';
+        actionsHtml+='<button class="cm-act-btn" data-emoji-toggle="'+escH(mk)+'"><i class="fas fa-smile"></i></button>';
+        actionsHtml+='<button class="cm-act-btn" data-reply-mk="'+escH(mk)+'" data-reply-author="'+escH(m.author)+'"><i class="fas fa-reply"></i> Reply</button>';
+        actionsHtml+='</div>';
+
+        var delHtml=(!isStudent)?'<button class="cm-del" data-mk="'+escH(mk)+'"'+(m.file?' data-fid="'+escH(m.file.id)+'"':'')+'><i class="fas fa-trash-alt"></i></button>':'';
+        return'<div class="chat-msg'+(mine?' mine':'')+'" data-msg-k="'+escH(mk)+'"><div class="cm-ava">'+escH(m.emoji||'😊')+'</div><div class="cm-bubble">'+delHtml+'<div class="cm-author">'+escH(m.author)+'</div>'+replyQuoteHtml+'<div class="cm-text">'+textHtml+'</div>'+fileHtml+reactionsHtml+actionsHtml+repliesHtml+'<div class="cm-time">'+time+'</div></div></div>';
     }).join('');
     scrollChat();
     loadChatImages();
+    wireChatActions();
 }
 
 function loadChatImages(){
@@ -2210,10 +2417,192 @@ chatMsgsEl.addEventListener('click',function(e){
     var enc=encodeURIComponent(CC);
     fbDel('/forum/'+enc+'/'+mk);
     if(fid)fbDel('/forum-files/'+enc+'/'+fid);
+    fbDel('/msg-reactions/'+enc+'/'+mk);
+    fbDel('/msg-replies/'+enc+'/'+mk);
+    delete msgReactions[mk];
+    delete msgReplies[mk];
     chatMsgsData=chatMsgsData.filter(function(m){return m._k!==mk});
     renderChat();
     toast('🗑️ Message deleted');
 });
+
+/* ===== CHAT ACTIONS: Reactions + Replies ===== */
+var openPickerMk=null;
+function wireChatActions(){
+    /* Emoji picker toggle */
+    chatMsgsEl.querySelectorAll('[data-emoji-toggle]').forEach(function(btn){
+        btn.addEventListener('click',function(e){
+            e.stopPropagation();
+            var mk=this.dataset.emojiToggle;
+            var picker=chatMsgsEl.querySelector('[data-picker-mk="'+mk+'"]');
+            if(!picker)return;
+            var isOpen=picker.classList.contains('open');
+            /* Close all pickers first */
+            chatMsgsEl.querySelectorAll('.cm-emoji-picker.open').forEach(function(p){p.classList.remove('open')});
+            if(!isOpen){picker.classList.add('open');openPickerMk=mk}
+            else{openPickerMk=null}
+        });
+    });
+    /* Emoji pick */
+    chatMsgsEl.querySelectorAll('[data-pick-mk]').forEach(function(btn){
+        btn.addEventListener('click',function(e){
+            e.stopPropagation();
+            var mk=this.dataset.pickMk;
+            var em=this.dataset.pickEm;
+            toggleMsgReaction(mk,em);
+            chatMsgsEl.querySelectorAll('.cm-emoji-picker.open').forEach(function(p){p.classList.remove('open')});
+            openPickerMk=null;
+        });
+    });
+    /* Toggle reaction via pill tap */
+    chatMsgsEl.querySelectorAll('.cm-react-pill').forEach(function(pill){
+        pill.addEventListener('click',function(e){
+            e.stopPropagation();
+            toggleMsgReaction(this.dataset.rmk,this.dataset.rem);
+        });
+    });
+    /* Reply button */
+    chatMsgsEl.querySelectorAll('[data-reply-mk]').forEach(function(btn){
+        btn.addEventListener('click',function(e){
+            e.stopPropagation();
+            var mk=this.dataset.replyMk;
+            var author=this.dataset.replyAuthor;
+            setReplyTo(mk,author);
+        });
+    });
+    /* Expand replies */
+    chatMsgsEl.querySelectorAll('[data-expand-mk]').forEach(function(btn){
+        btn.addEventListener('click',function(){
+            var mk=this.dataset.expandMk;
+            expandReplies(mk);
+        });
+    });
+    /* Delete reply */
+    chatMsgsEl.querySelectorAll('[data-del-mk]').forEach(function(btn){
+        btn.addEventListener('click',function(e){
+            e.stopPropagation();
+            var mk=this.dataset.delMk;
+            var rk=this.dataset.delRk;
+            deleteReply(mk,rk);
+        });
+    });
+    /* Scroll to quoted message */
+    chatMsgsEl.querySelectorAll('.cm-reply-quote').forEach(function(el){
+        el.addEventListener('click',function(){
+            var targetK=this.dataset.scrollTo;
+            var targetEl=chatMsgsEl.querySelector('[data-msg-k="'+targetK+'"]');
+            if(targetEl){targetEl.scrollIntoView({behavior:'smooth',block:'center'});targetEl.style.outline='2px solid var(--acc)';setTimeout(function(){targetEl.style.outline=''},1500)}
+        });
+    });
+}
+
+/* Tap bubble to show actions on touch devices */
+chatMsgsEl.addEventListener('click',function(e){
+    var bubble=e.target.closest('.cm-bubble');
+    if(!bubble)return;
+    /* Don't toggle if clicking an interactive element inside */
+    if(e.target.closest('.cm-act-btn,.cm-emoji-pick,.cm-react-pill,.cm-del,.cm-reply-del,.cm-replies-toggle,.cm-reply-quote,.cm-img,.cm-file,.cm-yt'))return;
+    /* Toggle show-actions class */
+    var wasOpen=bubble.classList.contains('show-actions');
+    chatMsgsEl.querySelectorAll('.cm-bubble.show-actions').forEach(function(b){b.classList.remove('show-actions')});
+    if(!wasOpen)bubble.classList.add('show-actions');
+});
+
+/* Close emoji pickers on outside click */
+document.addEventListener('click',function(e){
+    if(openPickerMk&&!e.target.closest('.cm-emoji-picker')&&!e.target.closest('[data-emoji-toggle]')){
+        chatMsgsEl.querySelectorAll('.cm-emoji-picker.open').forEach(function(p){p.classList.remove('open')});
+        openPickerMk=null;
+    }
+});
+
+/* Toggle a reaction */
+function toggleMsgReaction(mk,em){
+    var uid=isVisitor?'v_'+visitorName:isStudent?(myId!==null?'s'+myId:'anon'):'teacher';
+    var enc=encodeURIComponent(CC);
+    var path='/msg-reactions/'+enc+'/'+mk+'/'+em+'/'+uid;
+    if(!msgReactions[mk])msgReactions[mk]={};
+    if(!msgReactions[mk][em])msgReactions[mk][em]={};
+    if(msgReactions[mk][em][uid]){
+        delete msgReactions[mk][em][uid];
+        if(!Object.keys(msgReactions[mk][em]).length)delete msgReactions[mk][em];
+        fbDel(path);
+    }else{
+        msgReactions[mk][em][uid]=true;
+        fbPut(path,true);
+    }
+    renderChat();
+}
+
+/* Reply system */
+function setReplyTo(mk,author){
+    replyToMsg={key:mk,author:author};
+    document.getElementById('chatReplyName').textContent=author;
+    document.getElementById('chatReplyBar').classList.add('show');
+    chatInput.focus();
+}
+document.getElementById('chatReplyCancel').addEventListener('click',function(){
+    replyToMsg=null;
+    document.getElementById('chatReplyBar').classList.remove('show');
+});
+
+/* Expand all replies */
+function expandReplies(mk){
+    var reps=msgReplies[mk];
+    if(!reps)return;
+    var listEl=chatMsgsEl.querySelector('[data-replies-mk="'+mk+'"]');
+    var toggleEl=chatMsgsEl.querySelector('[data-expand-mk="'+mk+'"]');
+    if(!listEl)return;
+    var repKeys=Object.keys(reps).sort(function(a,b){return(reps[a].ts||0)-(reps[b].ts||0)});
+    var html='';
+    repKeys.forEach(function(rk){
+        var r=reps[rk];
+        var rdt=new Date(r.ts||0);var rtime=rdt.getHours()+':'+(rdt.getMinutes()<10?'0':'')+rdt.getMinutes();
+        var canDel=(!isStudent)||(isStudent&&r.aid===myId);
+        html+='<div class="cm-reply-item"><div class="cm-reply-ava">'+escH(r.emoji||'😊')+'</div><div class="cm-reply-body"><div class="cm-reply-author">'+escH(r.author)+'</div><div class="cm-reply-text">'+escH(r.text||'').replace(/\n/g,'<br>')+'</div><div class="cm-reply-time">'+rtime+(canDel?'<button class="cm-reply-del" data-del-mk="'+escH(mk)+'" data-del-rk="'+escH(rk)+'" title="Delete"><i class="fas fa-trash-alt"></i></button>':'')+'</div></div></div>';
+    });
+    listEl.innerHTML=html;
+    listEl.dataset.expanded='1';
+    if(toggleEl)toggleEl.style.display='none';
+    /* Re-wire delete buttons */
+    listEl.querySelectorAll('[data-del-mk]').forEach(function(btn){
+        btn.addEventListener('click',function(e){
+            e.stopPropagation();
+            deleteReply(this.dataset.delMk,this.dataset.delRk);
+        });
+    });
+}
+
+/* Delete a reply */
+function deleteReply(mk,rk){
+    var enc=encodeURIComponent(CC);
+    fbDel('/msg-replies/'+enc+'/'+mk+'/'+rk);
+    if(msgReplies[mk])delete msgReplies[mk][rk];
+    renderChat();
+    toast('Reply deleted');
+}
+
+/* Poll message reactions + replies */
+function pollMsgReactions(){
+    var enc=encodeURIComponent(CC);
+    fbGet('/msg-reactions/'+enc).then(function(d){
+        var newData=(d&&typeof d==='object')?d:{};
+        if(JSON.stringify(newData)!==JSON.stringify(msgReactions)){
+            msgReactions=newData;
+            renderChat();
+        }
+    });
+}
+function pollMsgReplies(){
+    var enc=encodeURIComponent(CC);
+    fbGet('/msg-replies/'+enc).then(function(d){
+        var newData=(d&&typeof d==='object')?d:{};
+        if(JSON.stringify(newData)!==JSON.stringify(msgReplies)){
+            msgReplies=newData;
+            renderChat();
+        }
+    });
+}
 
 /* ===== IMAGE VIEWER ===== */
 var imgViewer=document.getElementById('imgViewer');
@@ -4978,6 +5367,8 @@ function pollStatus(){
         setInterval(pollSpinnerPick,5000);
         setInterval(pollGroupDisc,6000);
         setInterval(pollGroupWork,6000);
+        setInterval(pollMsgReactions,8000);
+        setInterval(pollMsgReplies,6000);
     }else{
         setInterval(pollData,2000);
         setInterval(pollStatus,3000);
@@ -4991,6 +5382,8 @@ function pollStatus(){
         setInterval(pollGroupDisc,5000);
         setInterval(pollGroupWork,5000);
         setInterval(pollGwDrafts,15000);
+        setInterval(pollMsgReactions,6000);
+        setInterval(pollMsgReplies,5000);
     }
     setTimeout(pollNotes,500);
     setTimeout(pollStatus,1000);
@@ -5002,6 +5395,8 @@ function pollStatus(){
     setTimeout(pollGroupDisc,900);
     setTimeout(pollGroupWork,1100);
     if(!isStudent)setTimeout(pollGwDrafts,1300);
+    setTimeout(pollMsgReactions,1500);
+    setTimeout(pollMsgReplies,1600);
 })();
 </script>
 </body>
