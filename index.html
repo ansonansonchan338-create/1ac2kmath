@@ -29,6 +29,10 @@
         .h-right{display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:flex-end}
         .hb{width:38px;height:38px;border:1.5px solid var(--brd);border-radius:10px;background:var(--bgc);color:var(--t2);display:flex;align-items:center;justify-content:center;font-size:15px;cursor:pointer;transition:all .2s;position:relative;flex-shrink:0}
         .hb:hover{border-color:var(--acc);color:var(--acc)}
+        .live-b{display:inline-flex;align-items:center;gap:5px;background:rgba(239,68,68,.1);color:#EF4444;font-family:'Fredoka',sans-serif;font-size:11px;font-weight:700;padding:4px 10px;border-radius:16px;letter-spacing:.5px;white-space:nowrap;opacity:0;transition:opacity .3s}
+        .live-b.on{opacity:1}
+        .live-b .ld{width:7px;height:7px;background:#EF4444;border-radius:50%;animation:lp 1.5s ease-in-out infinite}
+        @keyframes lp{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.7)}}
         .sync-d{position:absolute;top:-3px;right:-3px;width:9px;height:9px;border-radius:50%;background:var(--pos);border:2px solid var(--bgc);display:none}
         .sync-d.online{display:block}.sync-d.offline{display:block;background:var(--neg)}.sync-d.syncing{display:block;background:#F59E0B;animation:pu 1s infinite}
         @keyframes pu{0%,100%{opacity:1}50%{opacity:.4}}
@@ -142,7 +146,47 @@
         .rb:active{transform:scale(.82);border-color:var(--acc)}
         .rb.cd{opacity:.35;pointer-events:none}
 
-        /* WHITEBOARD (shared with CW draw overlay) */
+        /* LIVE TAB */
+        .live-area{padding:12px}
+        .share-start{text-align:center;padding:40px 20px}
+        .share-start-btn{padding:16px 32px;border:none;border-radius:16px;background:linear-gradient(135deg,#EF4444,#DC2626);color:#fff;font-family:'Fredoka',sans-serif;font-size:18px;font-weight:700;cursor:pointer;box-shadow:0 6px 24px rgba(239,68,68,.3);transition:transform .2s;display:inline-flex;align-items:center;gap:10px}
+        .share-start-btn:active{transform:scale(.95)}
+        .share-start-btn i{font-size:22px}
+        .share-hint{font-size:13px;color:var(--t2);margin-top:12px;font-weight:600}
+        .sharing-active{display:none}
+        .sharing-active.on{display:block}
+        .share-status{display:flex;align-items:center;justify-content:center;gap:8px;padding:10px;background:rgba(239,68,68,.08);border:1.5px solid rgba(239,68,68,.2);border-radius:12px;font-family:'Fredoka',sans-serif;font-size:14px;font-weight:700;color:#EF4444;margin-bottom:12px}
+        .share-status .ld{width:8px;height:8px;background:#EF4444;border-radius:50%;animation:lp 1.5s ease-in-out infinite}
+        .share-preview{width:100%;border-radius:12px;border:1.5px solid var(--brd);background:#000}
+        .share-stop-btn{width:100%;padding:14px;border:none;border-radius:12px;background:var(--neg);color:#fff;font-family:'Fredoka',sans-serif;font-size:16px;font-weight:700;cursor:pointer;margin-top:12px;transition:transform .15s}
+        .share-stop-btn:active{transform:scale(.97)}
+        .live-text-section{margin-top:16px;padding-top:16px;border-top:1.5px solid var(--brd)}
+        .live-editor{width:100%;min-height:120px;background:var(--bgc);border:2px solid var(--brd);border-radius:14px;padding:14px;font-family:'Nunito',sans-serif;font-size:16px;color:var(--t1);resize:vertical;outline:none;transition:border-color .2s;line-height:1.6}
+        .live-editor:focus{border-color:var(--acc)}
+        .live-label{font-family:'Fredoka',sans-serif;font-size:13px;font-weight:600;color:var(--t2);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+        .live-label i{color:var(--neg)}
+
+        /* Student screen view */
+        .screen-view{position:relative;background:#111;border-radius:14px;overflow:hidden;min-height:200px;display:flex;align-items:center;justify-content:center}
+        .screen-img{width:100%;display:block;border-radius:14px}
+        .screen-waiting{text-align:center;padding:60px 20px;color:#999;font-family:'Fredoka',sans-serif;font-size:15px;font-weight:600}
+        .screen-waiting i{display:block;font-size:48px;margin-bottom:12px;opacity:.5}
+        .live-text-viewer{width:100%;min-height:60px;background:var(--bgc);border:1.5px solid var(--brd);border-radius:14px;padding:14px;font-family:'Nunito',sans-serif;font-size:16px;color:var(--t1);line-height:1.6;white-space:pre-wrap;word-wrap:break-word;margin-top:12px}
+        .live-comment-bar{display:flex;gap:8px;margin-top:10px;align-items:center}
+        .live-comment-input{flex:1;background:var(--bgc);border:1.5px solid var(--brd);border-radius:12px;padding:10px 14px;font-family:'Nunito',sans-serif;font-size:16px;color:var(--t1);outline:none}
+        .live-comment-input:focus{border-color:var(--acc)}
+        .live-comment-send{width:42px;height:42px;border:none;border-radius:12px;background:var(--acc);color:#fff;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+
+        /* LIVE MODE TABS */
+        .live-modes{display:flex;gap:4px;margin-bottom:12px;background:var(--bg2);border-radius:12px;padding:4px;border:1.5px solid var(--brd)}
+        .lm-btn{flex:1;padding:10px 6px;border:none;border-radius:10px;background:none;font-family:'Fredoka',sans-serif;font-size:13px;font-weight:600;cursor:pointer;color:var(--t2);transition:all .2s;white-space:nowrap}
+        .lm-btn.active{background:var(--bgc);color:var(--acc);box-shadow:var(--sh)}
+        .lm-panel{display:none}.lm-panel.active{display:block}
+
+        /* WHITEBOARD */
+        .wb-wrap{position:relative;background:#fff;border-radius:14px;border:2px solid var(--brd);overflow:hidden}
+        .wb-canvas{display:block;width:100%;touch-action:none;cursor:crosshair}
+        .wb-bar{display:flex;align-items:center;gap:8px;padding:10px 0;flex-wrap:wrap}
         .wb-colors{display:flex;gap:6px;flex-wrap:wrap}
         .wb-c{width:30px;height:30px;border-radius:50%;border:3px solid transparent;cursor:pointer;padding:0;transition:all .15s;-webkit-appearance:none;appearance:none}
         .wb-c.active{border-color:var(--acc);transform:scale(1.15)}
@@ -158,6 +202,27 @@
         .wb-hl-c{width:26px;height:26px;border-radius:50%;border:2.5px solid transparent;cursor:pointer;padding:0;opacity:.55;transition:all .15s;-webkit-appearance:none;appearance:none}
         .wb-hl-c.active{border-color:var(--acc);opacity:1;transform:scale(1.12)}
         .cwv-bar .wb-hl-c{width:22px;height:22px}
+        .wb-live-btn{width:100%;padding:14px;border:none;border-radius:14px;font-family:'Fredoka',sans-serif;font-size:16px;font-weight:700;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:4px}
+        .wb-live-btn.off{background:linear-gradient(135deg,#EF4444,#DC2626);color:#fff;box-shadow:0 6px 24px rgba(239,68,68,.3)}
+        .wb-live-btn.on{background:var(--bgc);border:2px solid #EF4444;color:#EF4444}
+        .wb-live-btn:active{transform:scale(.97)}
+
+        /* COLLAB PANEL */
+        .collab-panel{margin-top:12px;padding:12px;background:var(--bgc);border:1.5px solid var(--brd);border-radius:14px}
+        .collab-title{font-family:'Fredoka',sans-serif;font-size:14px;font-weight:700;color:var(--t2);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+        .collab-active{display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--pos-bg);border:1.5px solid var(--pos);border-radius:10px;margin-bottom:8px;font-family:'Fredoka',sans-serif;font-size:14px;font-weight:600;color:var(--pos)}
+        .collab-revoke{padding:4px 10px;border:1.5px solid var(--neg);border-radius:8px;background:var(--neg-bg);color:var(--neg);font-family:'Fredoka',sans-serif;font-size:12px;font-weight:600;cursor:pointer;margin-left:auto;white-space:nowrap}
+        .collab-grid{display:flex;flex-wrap:wrap;gap:6px}
+        .collab-btn{padding:6px 10px;border:1.5px solid var(--brd);border-radius:8px;background:var(--bg2);font-family:'Fredoka',sans-serif;font-size:12px;font-weight:600;cursor:pointer;color:var(--t1);transition:all .15s;display:flex;align-items:center;gap:4px}
+        .collab-btn:hover{border-color:var(--acc);color:var(--acc)}
+        .collab-btn.granted{border-color:var(--pos);background:var(--pos-bg);color:var(--pos)}
+
+        /* STUDENT DRAW */
+        .student-draw-banner{background:linear-gradient(135deg,var(--pos),#16A34A);color:#fff;padding:10px 14px;border-radius:12px;margin-bottom:10px;display:flex;align-items:center;gap:8px;font-family:'Fredoka',sans-serif;font-size:14px;font-weight:600;animation:sdp 2s infinite}
+        @keyframes sdp{0%,100%{box-shadow:0 0 0 0 rgba(45,156,74,.4)}50%{box-shadow:0 0 0 8px rgba(45,156,74,0)}}
+        .student-wb-wrap{position:relative;background:#fff;border-radius:14px;border:2px solid var(--pos);overflow:hidden}
+        .student-wb-canvas{display:block;width:100%;touch-action:none;cursor:crosshair}
+        .student-wb-bar{display:flex;align-items:center;gap:8px;padding:8px 0;flex-wrap:wrap}
 
         /* CLASSWORK */
         .cw-section{margin:10px 12px;padding:14px;background:var(--bgc);border-radius:16px;border:1.5px solid var(--brd)}
@@ -327,6 +392,16 @@
         .cw-marked-btn{flex:1;padding:8px;border:1.5px solid var(--brd);border-radius:10px;background:var(--bgc);font-family:'Fredoka',sans-serif;font-size:12px;font-weight:600;cursor:pointer;color:var(--t1);display:flex;align-items:center;justify-content:center;gap:5px;transition:all .2s}
         .cw-marked-btn:hover{border-color:var(--info);color:var(--info)}
         .cw-marked-btn.dl:hover{border-color:var(--pos);color:var(--pos)}
+
+        /* PHOTO MODE */
+        .photo-area{text-align:center;padding:20px 0}
+        .photo-btn{padding:16px 20px;border:2px dashed var(--brd);border-radius:16px;background:var(--bgc);font-family:'Fredoka',sans-serif;font-size:16px;font-weight:700;cursor:pointer;color:var(--t2);display:flex;align-items:center;justify-content:center;gap:10px;transition:all .2s;width:100%}
+        .photo-btn:hover{border-color:var(--acc);color:var(--acc)}
+        .photo-btn i{font-size:22px}
+        .photo-prev{margin-top:14px;border-radius:14px;overflow:hidden;border:2px solid var(--brd)}
+        .photo-prev img{width:100%;display:block}
+        .photo-share-btn{width:100%;padding:14px;border:none;border-radius:14px;background:linear-gradient(135deg,#EF4444,#DC2626);color:#fff;font-family:'Fredoka',sans-serif;font-size:16px;font-weight:700;cursor:pointer;margin-top:10px;box-shadow:0 6px 24px rgba(239,68,68,.3);transition:transform .2s;display:flex;align-items:center;justify-content:center;gap:8px}
+        .photo-share-btn:active{transform:scale(.97)}
 
         /* CHAT TAB */
         .chat-area{display:flex;flex-direction:column;height:calc(100vh - 140px);height:calc(100dvh - 140px)}
@@ -752,6 +827,7 @@
             </div>
         </div>
         <div class="h-right">
+            <div class="live-b" id="liveB"><span class="ld"></span>LIVE</div>
             <button class="hb teacher-only" id="btnShare" title="Share"><i class="fas fa-qrcode"></i></button>
             <button class="hb teacher-only" id="btnSync" title="Sync"><i class="fas fa-cloud"></i><span class="sync-d" id="syncDot"></span></button>
             <button class="hb teacher-only" id="btnGroups" title="Group Discussion"><i class="fas fa-users"></i></button>
@@ -866,6 +942,141 @@
         <div class="seating" id="seating"></div>
     </div>
 
+    <!-- TAB: LIVE -->
+    <div class="tc" id="tabLive">
+        <div class="live-area">
+            <!-- TEACHER VIEW -->
+            <div class="teacher-only" id="liveTeacher">
+                <div class="live-modes" id="liveModes">
+                    <button class="lm-btn active" data-lm="board">🖊️ Board</button>
+                    <button class="lm-btn" data-lm="photo">📸 Photo</button>
+                    <button class="lm-btn" data-lm="screen">📺 Screen</button>
+                </div>
+                <!-- WHITEBOARD MODE -->
+                <div class="lm-panel active" id="lmBoard">
+                    <div class="wb-wrap" id="wbWrap">
+                        <canvas class="wb-canvas" id="wbCanvas"></canvas>
+                    </div>
+                    <div class="wb-bar">
+                        <div class="wb-colors" id="wbColors">
+                            <button class="wb-c active" data-c="#222" style="background:#222"></button>
+                            <button class="wb-c" data-c="#EF4444" style="background:#EF4444"></button>
+                            <button class="wb-c" data-c="#3B82F6" style="background:#3B82F6"></button>
+                            <button class="wb-c" data-c="#22C55E" style="background:#22C55E"></button>
+                            <button class="wb-c" data-c="#F97316" style="background:#F97316"></button>
+                            <button class="wb-c" data-c="#A855F7" style="background:#A855F7"></button>
+                        </div>
+                        <div class="wb-sizes" id="wbSizes">
+                            <button class="wb-sz" data-sz="3">S</button>
+                            <button class="wb-sz active" data-sz="6">M</button>
+                            <button class="wb-sz" data-sz="12">L</button>
+                        </div>
+                        <div class="wb-tools">
+                            <button class="wb-t" id="wbHighlight" title="Highlighter"><i class="fas fa-highlighter"></i></button>
+                            <div class="wb-hl-colors" id="wbHlColors" style="display:none">
+                                <button class="wb-hl-c active" data-hc="rgba(250,204,21,0.4)" style="background:#FACC15"></button>
+                                <button class="wb-hl-c" data-hc="rgba(52,211,153,0.4)" style="background:#34D399"></button>
+                                <button class="wb-hl-c" data-hc="rgba(251,146,60,0.4)" style="background:#FB923C"></button>
+                                <button class="wb-hl-c" data-hc="rgba(147,130,220,0.4)" style="background:#9382DC"></button>
+                                <button class="wb-hl-c" data-hc="rgba(244,114,182,0.4)" style="background:#F472B6"></button>
+                            </div>
+                            <button class="wb-t" id="wbEraser" title="Eraser"><i class="fas fa-eraser"></i></button>
+                            <button class="wb-t" id="wbUndo" title="Undo"><i class="fas fa-undo"></i></button>
+                            <button class="wb-t" id="wbClear" title="Clear"><i class="fas fa-trash-alt"></i></button>
+                        </div>
+                    </div>
+                    <button class="wb-live-btn off" id="wbLiveBtn">🔴 Go Live</button>
+                    <div class="collab-panel" id="collabPanel">
+                        <div class="collab-title"><i class="fas fa-users"></i> Invite Student to Draw</div>
+                        <div class="collab-active" id="collabActive" style="display:none">
+                            <span id="collabName"></span>
+                            <button class="collab-revoke" id="collabRevoke"><i class="fas fa-times"></i> Revoke</button>
+                        </div>
+                        <div class="collab-grid" id="collabGrid"></div>
+                    </div>
+                </div>
+                <!-- PHOTO MODE -->
+                <div class="lm-panel" id="lmPhoto">
+                    <div class="photo-area">
+                        <button class="photo-btn" id="photoBtn"><i class="fas fa-camera"></i> Take / Choose Photo</button>
+                        <div class="photo-prev" id="photoPrev" style="display:none">
+                            <img id="photoImg" alt="Photo preview">
+                        </div>
+                        <button class="photo-share-btn" id="photoShareBtn" style="display:none">🔴 Share Photo Live</button>
+                    </div>
+                </div>
+                <!-- SCREEN SHARE MODE -->
+                <div class="lm-panel" id="lmScreen">
+                    <div class="share-start" id="shareStart">
+                        <button class="share-start-btn" id="startShareBtn"><i class="fas fa-desktop"></i> Start Screen Share</button>
+                        <div class="share-hint">Share your screen with students in real-time</div>
+                        <div class="share-hint" id="shareNotSupported" style="display:none;color:var(--warn)"><i class="fas fa-info-circle"></i> Screen sharing requires a desktop browser (Chrome/Edge). On iPad, use <b>Board</b> or <b>Photo</b> mode instead.</div>
+                    </div>
+                    <div class="sharing-active" id="sharingActive">
+                        <div class="share-status"><span class="ld"></span> LIVE — Sharing your screen</div>
+                        <canvas class="share-preview" id="shareCanvas"></canvas>
+                        <button class="share-stop-btn" id="stopShareBtn"><i class="fas fa-stop-circle"></i> Stop Sharing</button>
+                    </div>
+                </div>
+                <div class="live-text-section">
+                    <div class="live-label"><i class="fas fa-pen"></i> Quick Text Board (students see this too)</div>
+                    <textarea class="live-editor" id="liveEditor" placeholder="Type here to share text with students instantly..."></textarea>
+                </div>
+            </div>
+            <!-- STUDENT VIEW -->
+            <div class="student-only" id="liveStudent">
+                <div class="screen-view" id="screenView">
+                    <img class="screen-img" id="screenImg" style="display:none" alt="Teacher screen">
+                    <div class="screen-waiting" id="screenWaiting">
+                        <i class="fas fa-tv"></i>
+                        <div>Waiting for teacher to share screen...</div>
+                    </div>
+                </div>
+                <div id="studentDrawSection" style="display:none">
+                    <div class="student-draw-banner"><i class="fas fa-pencil-alt"></i> <span id="sDrawLabel">You have drawing control!</span></div>
+                    <div class="student-wb-wrap" id="sWbWrap">
+                        <canvas class="student-wb-canvas" id="sWbCanvas"></canvas>
+                    </div>
+                    <div class="student-wb-bar">
+                        <div class="wb-colors" id="sWbColors">
+                            <button class="wb-c active" data-c="#222" style="background:#222"></button>
+                            <button class="wb-c" data-c="#EF4444" style="background:#EF4444"></button>
+                            <button class="wb-c" data-c="#3B82F6" style="background:#3B82F6"></button>
+                            <button class="wb-c" data-c="#22C55E" style="background:#22C55E"></button>
+                            <button class="wb-c" data-c="#F97316" style="background:#F97316"></button>
+                            <button class="wb-c" data-c="#A855F7" style="background:#A855F7"></button>
+                        </div>
+                        <div class="wb-sizes" id="sWbSizes">
+                            <button class="wb-sz" data-sz="3">S</button>
+                            <button class="wb-sz active" data-sz="6">M</button>
+                            <button class="wb-sz" data-sz="12">L</button>
+                        </div>
+                        <div class="wb-tools">
+                            <button class="wb-t" id="sWbHighlight" title="Highlighter"><i class="fas fa-highlighter"></i></button>
+                            <div class="wb-hl-colors" id="sWbHlColors" style="display:none">
+                                <button class="wb-hl-c active" data-hc="rgba(250,204,21,0.4)" style="background:#FACC15"></button>
+                                <button class="wb-hl-c" data-hc="rgba(52,211,153,0.4)" style="background:#34D399"></button>
+                                <button class="wb-hl-c" data-hc="rgba(251,146,60,0.4)" style="background:#FB923C"></button>
+                                <button class="wb-hl-c" data-hc="rgba(147,130,220,0.4)" style="background:#9382DC"></button>
+                                <button class="wb-hl-c" data-hc="rgba(244,114,182,0.4)" style="background:#F472B6"></button>
+                            </div>
+                            <button class="wb-t" id="sWbEraser" title="Eraser"><i class="fas fa-eraser"></i></button>
+                            <button class="wb-t" id="sWbUndo" title="Undo"><i class="fas fa-undo"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="live-text-viewer" id="liveTextViewer" style="display:none"></div>
+                <div class="react-bar student-only-flex" id="liveReactBar" style="margin:10px 0">
+                    <span class="react-bar-l">React</span>
+                </div>
+                <div class="live-comment-bar">
+                    <input type="text" class="live-comment-input" id="liveComment" placeholder="Quick comment..." maxlength="200">
+                    <button class="live-comment-send" id="liveCommentSend"><i class="fas fa-paper-plane"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- TAB: CHAT -->
     <div class="tc" id="tabChat">
         <div class="chat-area">
@@ -903,6 +1114,7 @@
     <!-- TAB BAR -->
     <nav class="tab-bar" id="tabBarEl">
         <button class="tab-btn active" data-tab="tabBoard"><i class="fas fa-th-large"></i><span>Board</span></button>
+        <button class="tab-btn" data-tab="tabLive"><i class="fas fa-broadcast-tower"></i><span>Live</span></button>
         <button class="tab-btn" data-tab="tabChat"><i class="fas fa-comments"></i><span>Chat</span><span class="badge" id="chatBadge">0</span></button>
         <button class="tab-btn" data-tab="tabNotes"><i class="fas fa-book"></i><span>Notes</span></button>
     </nav>
@@ -1005,6 +1217,7 @@
 <div class="react-con" id="reactCon"></div>
 <input type="file" id="noteFileInput" accept=".pdf,image/*,.doc,.docx,.ppt,.pptx,.xls,.xlsx" style="display:none">
 <input type="file" id="chatFileInput" accept="image/*,.pdf" style="display:none">
+<input type="file" id="photoInput" accept="image/*" style="display:none">
 <input type="file" id="cwSubmitInput" accept="image/*" multiple style="display:none">
 <input type="file" id="cwAttachInput" accept="image/*,.pdf" style="display:none">
 <input type="file" id="gwSubmitInput" accept="image/*" multiple style="display:none">
@@ -1079,6 +1292,11 @@ var MSG_EMOJIS=['👍','❤️','😂','🔥','👏','😮','😢','🎉'];
 var notesData=[];
 var chatUnread=0;
 var currentTab='tabBoard';
+var shareStream=null;
+var shareInterval=null;
+var screenShareLive=false;
+var screenPollTimer=null;
+var liveTimer=null;
 var pendingChatFile=null;
 var pendingNoteFile=null;
 var fileCache={};
