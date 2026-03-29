@@ -29,10 +29,6 @@
         .h-right{display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:flex-end}
         .hb{width:38px;height:38px;border:1.5px solid var(--brd);border-radius:10px;background:var(--bgc);color:var(--t2);display:flex;align-items:center;justify-content:center;font-size:15px;cursor:pointer;transition:all .2s;position:relative;flex-shrink:0}
         .hb:hover{border-color:var(--acc);color:var(--acc)}
-        .live-b{display:inline-flex;align-items:center;gap:5px;background:rgba(239,68,68,.1);color:#EF4444;font-family:'Fredoka',sans-serif;font-size:11px;font-weight:700;padding:4px 10px;border-radius:16px;letter-spacing:.5px;white-space:nowrap;opacity:0;transition:opacity .3s}
-        .live-b.on{opacity:1}
-        .live-b .ld{width:7px;height:7px;background:#EF4444;border-radius:50%;animation:lp 1.5s ease-in-out infinite}
-        @keyframes lp{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.7)}}
         .sync-d{position:absolute;top:-3px;right:-3px;width:9px;height:9px;border-radius:50%;background:var(--pos);border:2px solid var(--bgc);display:none}
         .sync-d.online{display:block}.sync-d.offline{display:block;background:var(--neg)}.sync-d.syncing{display:block;background:#F59E0B;animation:pu 1s infinite}
         @keyframes pu{0%,100%{opacity:1}50%{opacity:.4}}
@@ -146,47 +142,7 @@
         .rb:active{transform:scale(.82);border-color:var(--acc)}
         .rb.cd{opacity:.35;pointer-events:none}
 
-        /* LIVE TAB */
-        .live-area{padding:12px}
-        .share-start{text-align:center;padding:40px 20px}
-        .share-start-btn{padding:16px 32px;border:none;border-radius:16px;background:linear-gradient(135deg,#EF4444,#DC2626);color:#fff;font-family:'Fredoka',sans-serif;font-size:18px;font-weight:700;cursor:pointer;box-shadow:0 6px 24px rgba(239,68,68,.3);transition:transform .2s;display:inline-flex;align-items:center;gap:10px}
-        .share-start-btn:active{transform:scale(.95)}
-        .share-start-btn i{font-size:22px}
-        .share-hint{font-size:13px;color:var(--t2);margin-top:12px;font-weight:600}
-        .sharing-active{display:none}
-        .sharing-active.on{display:block}
-        .share-status{display:flex;align-items:center;justify-content:center;gap:8px;padding:10px;background:rgba(239,68,68,.08);border:1.5px solid rgba(239,68,68,.2);border-radius:12px;font-family:'Fredoka',sans-serif;font-size:14px;font-weight:700;color:#EF4444;margin-bottom:12px}
-        .share-status .ld{width:8px;height:8px;background:#EF4444;border-radius:50%;animation:lp 1.5s ease-in-out infinite}
-        .share-preview{width:100%;border-radius:12px;border:1.5px solid var(--brd);background:#000}
-        .share-stop-btn{width:100%;padding:14px;border:none;border-radius:12px;background:var(--neg);color:#fff;font-family:'Fredoka',sans-serif;font-size:16px;font-weight:700;cursor:pointer;margin-top:12px;transition:transform .15s}
-        .share-stop-btn:active{transform:scale(.97)}
-        .live-text-section{margin-top:16px;padding-top:16px;border-top:1.5px solid var(--brd)}
-        .live-editor{width:100%;min-height:120px;background:var(--bgc);border:2px solid var(--brd);border-radius:14px;padding:14px;font-family:'Nunito',sans-serif;font-size:16px;color:var(--t1);resize:vertical;outline:none;transition:border-color .2s;line-height:1.6}
-        .live-editor:focus{border-color:var(--acc)}
-        .live-label{font-family:'Fredoka',sans-serif;font-size:13px;font-weight:600;color:var(--t2);margin-bottom:8px;display:flex;align-items:center;gap:6px}
-        .live-label i{color:var(--neg)}
-
-        /* Student screen view */
-        .screen-view{position:relative;background:#111;border-radius:14px;overflow:hidden;min-height:200px;display:flex;align-items:center;justify-content:center}
-        .screen-img{width:100%;display:block;border-radius:14px}
-        .screen-waiting{text-align:center;padding:60px 20px;color:#999;font-family:'Fredoka',sans-serif;font-size:15px;font-weight:600}
-        .screen-waiting i{display:block;font-size:48px;margin-bottom:12px;opacity:.5}
-        .live-text-viewer{width:100%;min-height:60px;background:var(--bgc);border:1.5px solid var(--brd);border-radius:14px;padding:14px;font-family:'Nunito',sans-serif;font-size:16px;color:var(--t1);line-height:1.6;white-space:pre-wrap;word-wrap:break-word;margin-top:12px}
-        .live-comment-bar{display:flex;gap:8px;margin-top:10px;align-items:center}
-        .live-comment-input{flex:1;background:var(--bgc);border:1.5px solid var(--brd);border-radius:12px;padding:10px 14px;font-family:'Nunito',sans-serif;font-size:16px;color:var(--t1);outline:none}
-        .live-comment-input:focus{border-color:var(--acc)}
-        .live-comment-send{width:42px;height:42px;border:none;border-radius:12px;background:var(--acc);color:#fff;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-
-        /* LIVE MODE TABS */
-        .live-modes{display:flex;gap:4px;margin-bottom:12px;background:var(--bg2);border-radius:12px;padding:4px;border:1.5px solid var(--brd)}
-        .lm-btn{flex:1;padding:10px 6px;border:none;border-radius:10px;background:none;font-family:'Fredoka',sans-serif;font-size:13px;font-weight:600;cursor:pointer;color:var(--t2);transition:all .2s;white-space:nowrap}
-        .lm-btn.active{background:var(--bgc);color:var(--acc);box-shadow:var(--sh)}
-        .lm-panel{display:none}.lm-panel.active{display:block}
-
-        /* WHITEBOARD */
-        .wb-wrap{position:relative;background:#fff;border-radius:14px;border:2px solid var(--brd);overflow:hidden}
-        .wb-canvas{display:block;width:100%;touch-action:none;cursor:crosshair}
-        .wb-bar{display:flex;align-items:center;gap:8px;padding:10px 0;flex-wrap:wrap}
+        /* WHITEBOARD (shared with CW draw overlay) */
         .wb-colors{display:flex;gap:6px;flex-wrap:wrap}
         .wb-c{width:30px;height:30px;border-radius:50%;border:3px solid transparent;cursor:pointer;padding:0;transition:all .15s;-webkit-appearance:none;appearance:none}
         .wb-c.active{border-color:var(--acc);transform:scale(1.15)}
@@ -202,27 +158,6 @@
         .wb-hl-c{width:26px;height:26px;border-radius:50%;border:2.5px solid transparent;cursor:pointer;padding:0;opacity:.55;transition:all .15s;-webkit-appearance:none;appearance:none}
         .wb-hl-c.active{border-color:var(--acc);opacity:1;transform:scale(1.12)}
         .cwv-bar .wb-hl-c{width:22px;height:22px}
-        .wb-live-btn{width:100%;padding:14px;border:none;border-radius:14px;font-family:'Fredoka',sans-serif;font-size:16px;font-weight:700;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:4px}
-        .wb-live-btn.off{background:linear-gradient(135deg,#EF4444,#DC2626);color:#fff;box-shadow:0 6px 24px rgba(239,68,68,.3)}
-        .wb-live-btn.on{background:var(--bgc);border:2px solid #EF4444;color:#EF4444}
-        .wb-live-btn:active{transform:scale(.97)}
-
-        /* COLLAB PANEL */
-        .collab-panel{margin-top:12px;padding:12px;background:var(--bgc);border:1.5px solid var(--brd);border-radius:14px}
-        .collab-title{font-family:'Fredoka',sans-serif;font-size:14px;font-weight:700;color:var(--t2);margin-bottom:8px;display:flex;align-items:center;gap:6px}
-        .collab-active{display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--pos-bg);border:1.5px solid var(--pos);border-radius:10px;margin-bottom:8px;font-family:'Fredoka',sans-serif;font-size:14px;font-weight:600;color:var(--pos)}
-        .collab-revoke{padding:4px 10px;border:1.5px solid var(--neg);border-radius:8px;background:var(--neg-bg);color:var(--neg);font-family:'Fredoka',sans-serif;font-size:12px;font-weight:600;cursor:pointer;margin-left:auto;white-space:nowrap}
-        .collab-grid{display:flex;flex-wrap:wrap;gap:6px}
-        .collab-btn{padding:6px 10px;border:1.5px solid var(--brd);border-radius:8px;background:var(--bg2);font-family:'Fredoka',sans-serif;font-size:12px;font-weight:600;cursor:pointer;color:var(--t1);transition:all .15s;display:flex;align-items:center;gap:4px}
-        .collab-btn:hover{border-color:var(--acc);color:var(--acc)}
-        .collab-btn.granted{border-color:var(--pos);background:var(--pos-bg);color:var(--pos)}
-
-        /* STUDENT DRAW */
-        .student-draw-banner{background:linear-gradient(135deg,var(--pos),#16A34A);color:#fff;padding:10px 14px;border-radius:12px;margin-bottom:10px;display:flex;align-items:center;gap:8px;font-family:'Fredoka',sans-serif;font-size:14px;font-weight:600;animation:sdp 2s infinite}
-        @keyframes sdp{0%,100%{box-shadow:0 0 0 0 rgba(45,156,74,.4)}50%{box-shadow:0 0 0 8px rgba(45,156,74,0)}}
-        .student-wb-wrap{position:relative;background:#fff;border-radius:14px;border:2px solid var(--pos);overflow:hidden}
-        .student-wb-canvas{display:block;width:100%;touch-action:none;cursor:crosshair}
-        .student-wb-bar{display:flex;align-items:center;gap:8px;padding:8px 0;flex-wrap:wrap}
 
         /* CLASSWORK */
         .cw-section{margin:10px 12px;padding:14px;background:var(--bgc);border-radius:16px;border:1.5px solid var(--brd)}
@@ -349,8 +284,6 @@
         .cwv-head{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--bg2);border-bottom:1.5px solid var(--brd);flex-shrink:0}
         .cwv-name{font-family:'Fredoka',sans-serif;font-size:16px;font-weight:700;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-right:8px}
         .cwv-tools{display:flex;gap:6px;flex-shrink:0}
-        .cwv-share{padding:6px 12px;border:none;border-radius:8px;background:linear-gradient(135deg,#EF4444,#DC2626);color:#fff;font-family:'Fredoka',sans-serif;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:5px}
-        .cwv-share:active{transform:scale(.95)}
         .cwv-close{width:36px;height:36px;border:1.5px solid var(--brd);border-radius:10px;background:var(--bgc);color:var(--t2);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center}
         .cwv-wrap{flex:1;overflow:auto;display:block;padding:10px;background:#1a1a1a;-webkit-overflow-scrolling:touch;position:relative;text-align:center}
         .cwv-wrap .cwv-loading{display:flex;align-items:center;justify-content:center;min-height:200px}
@@ -392,16 +325,6 @@
         .cw-marked-btn{flex:1;padding:8px;border:1.5px solid var(--brd);border-radius:10px;background:var(--bgc);font-family:'Fredoka',sans-serif;font-size:12px;font-weight:600;cursor:pointer;color:var(--t1);display:flex;align-items:center;justify-content:center;gap:5px;transition:all .2s}
         .cw-marked-btn:hover{border-color:var(--info);color:var(--info)}
         .cw-marked-btn.dl:hover{border-color:var(--pos);color:var(--pos)}
-
-        /* PHOTO MODE */
-        .photo-area{text-align:center;padding:20px 0}
-        .photo-btn{padding:16px 20px;border:2px dashed var(--brd);border-radius:16px;background:var(--bgc);font-family:'Fredoka',sans-serif;font-size:16px;font-weight:700;cursor:pointer;color:var(--t2);display:flex;align-items:center;justify-content:center;gap:10px;transition:all .2s;width:100%}
-        .photo-btn:hover{border-color:var(--acc);color:var(--acc)}
-        .photo-btn i{font-size:22px}
-        .photo-prev{margin-top:14px;border-radius:14px;overflow:hidden;border:2px solid var(--brd)}
-        .photo-prev img{width:100%;display:block}
-        .photo-share-btn{width:100%;padding:14px;border:none;border-radius:14px;background:linear-gradient(135deg,#EF4444,#DC2626);color:#fff;font-family:'Fredoka',sans-serif;font-size:16px;font-weight:700;cursor:pointer;margin-top:10px;box-shadow:0 6px 24px rgba(239,68,68,.3);transition:transform .2s;display:flex;align-items:center;justify-content:center;gap:8px}
-        .photo-share-btn:active{transform:scale(.97)}
 
         /* CHAT TAB */
         .chat-area{display:flex;flex-direction:column;height:calc(100vh - 140px);height:calc(100dvh - 140px)}
@@ -798,7 +721,7 @@
         /* RESPONSIVE */
         @media(max-width:768px){.header{padding:8px 12px}.app-t{font-size:18px}.sc{padding:8px 5px 6px;border-radius:12px}.sp{font-size:26px}.se{font-size:20px}.sn{font-size:11px}.pb{width:38px;height:32px;font-size:17px}.whiteboard{margin:8px 10px 4px;padding:10px 14px}.wb-t{font-size:28px}.seating{padding:4px 6px 6px}}
         @media(max-width:520px){.sc{width:calc(33.33% - 6px)}.seat-row{flex-wrap:wrap}.sp{font-size:24px}.pb{width:36px;height:30px;font-size:16px}}
-        @media(min-width:1024px){.seating{max-width:860px;margin:0 auto}.whiteboard{max-width:860px;margin-left:auto;margin-right:auto}.progress-strip{max-width:860px;margin-left:auto;margin-right:auto}.my-card-wrap{max-width:860px;margin-left:auto;margin-right:auto}.live-area{max-width:860px;margin:0 auto}}
+        @media(min-width:1024px){.seating{max-width:860px;margin:0 auto}.whiteboard{max-width:860px;margin-left:auto;margin-right:auto}.progress-strip{max-width:860px;margin-left:auto;margin-right:auto}.my-card-wrap{max-width:860px;margin-left:auto;margin-right:auto}}
     </style>
 </head>
 <body>
@@ -827,7 +750,6 @@
             </div>
         </div>
         <div class="h-right">
-            <div class="live-b" id="liveB"><span class="ld"></span>LIVE</div>
             <button class="hb teacher-only" id="btnShare" title="Share"><i class="fas fa-qrcode"></i></button>
             <button class="hb teacher-only" id="btnSync" title="Sync"><i class="fas fa-cloud"></i><span class="sync-d" id="syncDot"></span></button>
             <button class="hb teacher-only" id="btnGroups" title="Group Discussion"><i class="fas fa-users"></i></button>
@@ -942,141 +864,6 @@
         <div class="seating" id="seating"></div>
     </div>
 
-    <!-- TAB: LIVE -->
-    <div class="tc" id="tabLive">
-        <div class="live-area">
-            <!-- TEACHER VIEW -->
-            <div class="teacher-only" id="liveTeacher">
-                <div class="live-modes" id="liveModes">
-                    <button class="lm-btn active" data-lm="board">🖊️ Board</button>
-                    <button class="lm-btn" data-lm="photo">📸 Photo</button>
-                    <button class="lm-btn" data-lm="screen">📺 Screen</button>
-                </div>
-                <!-- WHITEBOARD MODE -->
-                <div class="lm-panel active" id="lmBoard">
-                    <div class="wb-wrap" id="wbWrap">
-                        <canvas class="wb-canvas" id="wbCanvas"></canvas>
-                    </div>
-                    <div class="wb-bar">
-                        <div class="wb-colors" id="wbColors">
-                            <button class="wb-c active" data-c="#222" style="background:#222"></button>
-                            <button class="wb-c" data-c="#EF4444" style="background:#EF4444"></button>
-                            <button class="wb-c" data-c="#3B82F6" style="background:#3B82F6"></button>
-                            <button class="wb-c" data-c="#22C55E" style="background:#22C55E"></button>
-                            <button class="wb-c" data-c="#F97316" style="background:#F97316"></button>
-                            <button class="wb-c" data-c="#A855F7" style="background:#A855F7"></button>
-                        </div>
-                        <div class="wb-sizes" id="wbSizes">
-                            <button class="wb-sz" data-sz="3">S</button>
-                            <button class="wb-sz active" data-sz="6">M</button>
-                            <button class="wb-sz" data-sz="12">L</button>
-                        </div>
-                        <div class="wb-tools">
-                            <button class="wb-t" id="wbHighlight" title="Highlighter"><i class="fas fa-highlighter"></i></button>
-                            <div class="wb-hl-colors" id="wbHlColors" style="display:none">
-                                <button class="wb-hl-c active" data-hc="rgba(250,204,21,0.4)" style="background:#FACC15"></button>
-                                <button class="wb-hl-c" data-hc="rgba(52,211,153,0.4)" style="background:#34D399"></button>
-                                <button class="wb-hl-c" data-hc="rgba(251,146,60,0.4)" style="background:#FB923C"></button>
-                                <button class="wb-hl-c" data-hc="rgba(147,130,220,0.4)" style="background:#9382DC"></button>
-                                <button class="wb-hl-c" data-hc="rgba(244,114,182,0.4)" style="background:#F472B6"></button>
-                            </div>
-                            <button class="wb-t" id="wbEraser" title="Eraser"><i class="fas fa-eraser"></i></button>
-                            <button class="wb-t" id="wbUndo" title="Undo"><i class="fas fa-undo"></i></button>
-                            <button class="wb-t" id="wbClear" title="Clear"><i class="fas fa-trash-alt"></i></button>
-                        </div>
-                    </div>
-                    <button class="wb-live-btn off" id="wbLiveBtn">🔴 Go Live</button>
-                    <div class="collab-panel" id="collabPanel">
-                        <div class="collab-title"><i class="fas fa-users"></i> Invite Student to Draw</div>
-                        <div class="collab-active" id="collabActive" style="display:none">
-                            <span id="collabName"></span>
-                            <button class="collab-revoke" id="collabRevoke"><i class="fas fa-times"></i> Revoke</button>
-                        </div>
-                        <div class="collab-grid" id="collabGrid"></div>
-                    </div>
-                </div>
-                <!-- PHOTO MODE -->
-                <div class="lm-panel" id="lmPhoto">
-                    <div class="photo-area">
-                        <button class="photo-btn" id="photoBtn"><i class="fas fa-camera"></i> Take / Choose Photo</button>
-                        <div class="photo-prev" id="photoPrev" style="display:none">
-                            <img id="photoImg" alt="Photo preview">
-                        </div>
-                        <button class="photo-share-btn" id="photoShareBtn" style="display:none">🔴 Share Photo Live</button>
-                    </div>
-                </div>
-                <!-- SCREEN SHARE MODE -->
-                <div class="lm-panel" id="lmScreen">
-                    <div class="share-start" id="shareStart">
-                        <button class="share-start-btn" id="startShareBtn"><i class="fas fa-desktop"></i> Start Screen Share</button>
-                        <div class="share-hint">Share your screen with students in real-time</div>
-                        <div class="share-hint" id="shareNotSupported" style="display:none;color:var(--warn)"><i class="fas fa-info-circle"></i> Screen sharing requires a desktop browser (Chrome/Edge). On iPad, use <b>Board</b> or <b>Photo</b> mode instead.</div>
-                    </div>
-                    <div class="sharing-active" id="sharingActive">
-                        <div class="share-status"><span class="ld"></span> LIVE — Sharing your screen</div>
-                        <canvas class="share-preview" id="shareCanvas"></canvas>
-                        <button class="share-stop-btn" id="stopShareBtn"><i class="fas fa-stop-circle"></i> Stop Sharing</button>
-                    </div>
-                </div>
-                <div class="live-text-section">
-                    <div class="live-label"><i class="fas fa-pen"></i> Quick Text Board (students see this too)</div>
-                    <textarea class="live-editor" id="liveEditor" placeholder="Type here to share text with students instantly..."></textarea>
-                </div>
-            </div>
-            <!-- STUDENT VIEW -->
-            <div class="student-only" id="liveStudent">
-                <div class="screen-view" id="screenView">
-                    <img class="screen-img" id="screenImg" style="display:none" alt="Teacher screen">
-                    <div class="screen-waiting" id="screenWaiting">
-                        <i class="fas fa-tv"></i>
-                        <div>Waiting for teacher to share screen...</div>
-                    </div>
-                </div>
-                <div id="studentDrawSection" style="display:none">
-                    <div class="student-draw-banner"><i class="fas fa-pencil-alt"></i> <span id="sDrawLabel">You have drawing control!</span></div>
-                    <div class="student-wb-wrap" id="sWbWrap">
-                        <canvas class="student-wb-canvas" id="sWbCanvas"></canvas>
-                    </div>
-                    <div class="student-wb-bar">
-                        <div class="wb-colors" id="sWbColors">
-                            <button class="wb-c active" data-c="#222" style="background:#222"></button>
-                            <button class="wb-c" data-c="#EF4444" style="background:#EF4444"></button>
-                            <button class="wb-c" data-c="#3B82F6" style="background:#3B82F6"></button>
-                            <button class="wb-c" data-c="#22C55E" style="background:#22C55E"></button>
-                            <button class="wb-c" data-c="#F97316" style="background:#F97316"></button>
-                            <button class="wb-c" data-c="#A855F7" style="background:#A855F7"></button>
-                        </div>
-                        <div class="wb-sizes" id="sWbSizes">
-                            <button class="wb-sz" data-sz="3">S</button>
-                            <button class="wb-sz active" data-sz="6">M</button>
-                            <button class="wb-sz" data-sz="12">L</button>
-                        </div>
-                        <div class="wb-tools">
-                            <button class="wb-t" id="sWbHighlight" title="Highlighter"><i class="fas fa-highlighter"></i></button>
-                            <div class="wb-hl-colors" id="sWbHlColors" style="display:none">
-                                <button class="wb-hl-c active" data-hc="rgba(250,204,21,0.4)" style="background:#FACC15"></button>
-                                <button class="wb-hl-c" data-hc="rgba(52,211,153,0.4)" style="background:#34D399"></button>
-                                <button class="wb-hl-c" data-hc="rgba(251,146,60,0.4)" style="background:#FB923C"></button>
-                                <button class="wb-hl-c" data-hc="rgba(147,130,220,0.4)" style="background:#9382DC"></button>
-                                <button class="wb-hl-c" data-hc="rgba(244,114,182,0.4)" style="background:#F472B6"></button>
-                            </div>
-                            <button class="wb-t" id="sWbEraser" title="Eraser"><i class="fas fa-eraser"></i></button>
-                            <button class="wb-t" id="sWbUndo" title="Undo"><i class="fas fa-undo"></i></button>
-                        </div>
-                    </div>
-                </div>
-                <div class="live-text-viewer" id="liveTextViewer" style="display:none"></div>
-                <div class="react-bar student-only-flex" id="liveReactBar" style="margin:10px 0">
-                    <span class="react-bar-l">React</span>
-                </div>
-                <div class="live-comment-bar">
-                    <input type="text" class="live-comment-input" id="liveComment" placeholder="Quick comment..." maxlength="200">
-                    <button class="live-comment-send" id="liveCommentSend"><i class="fas fa-paper-plane"></i></button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- TAB: CHAT -->
     <div class="tc" id="tabChat">
         <div class="chat-area">
@@ -1114,7 +901,6 @@
     <!-- TAB BAR -->
     <nav class="tab-bar" id="tabBarEl">
         <button class="tab-btn active" data-tab="tabBoard"><i class="fas fa-th-large"></i><span>Board</span></button>
-        <button class="tab-btn" data-tab="tabLive"><i class="fas fa-broadcast-tower"></i><span>Live</span></button>
         <button class="tab-btn" data-tab="tabChat"><i class="fas fa-comments"></i><span>Chat</span><span class="badge" id="chatBadge">0</span></button>
         <button class="tab-btn" data-tab="tabNotes"><i class="fas fa-book"></i><span>Notes</span></button>
     </nav>
@@ -1145,7 +931,6 @@
             <div class="cwv-name" id="cwvName"></div>
             <div class="cwv-tools">
                 <button class="cwv-save" id="cwvSave"><i class="fas fa-save"></i> Save to Student</button>
-                <button class="cwv-share" id="cwvShare"><i class="fas fa-broadcast-tower"></i> Share Live</button>
                 <button class="cwv-close" id="cwvClose"><i class="fas fa-times"></i></button>
             </div>
         </div>
@@ -1217,7 +1002,6 @@
 <div class="react-con" id="reactCon"></div>
 <input type="file" id="noteFileInput" accept=".pdf,image/*,.doc,.docx,.ppt,.pptx,.xls,.xlsx" style="display:none">
 <input type="file" id="chatFileInput" accept="image/*,.pdf" style="display:none">
-<input type="file" id="photoInput" accept="image/*" style="display:none">
 <input type="file" id="cwSubmitInput" accept="image/*" multiple style="display:none">
 <input type="file" id="cwAttachInput" accept="image/*,.pdf" style="display:none">
 <input type="file" id="gwSubmitInput" accept="image/*" multiple style="display:none">
@@ -1292,11 +1076,6 @@ var MSG_EMOJIS=['👍','❤️','😂','🔥','👏','😮','😢','🎉'];
 var notesData=[];
 var chatUnread=0;
 var currentTab='tabBoard';
-var shareStream=null;
-var shareInterval=null;
-var screenShareLive=false;
-var screenPollTimer=null;
-var liveTimer=null;
 var pendingChatFile=null;
 var pendingNoteFile=null;
 var fileCache={};
@@ -1369,7 +1148,6 @@ document.querySelectorAll('.tab-btn').forEach(function(b){
         b.classList.add('active');
         currentTab=t;
         if(t==='tabChat'){chatUnread=0;document.getElementById('chatBadge').classList.remove('show');scrollChat()}
-        if(t==='tabLive')setTimeout(function(){if(!isStudent)initWhiteboard();if(isStudent&&studentDrawMode&&!sWbInited)initStudentWb()},60);
     });
 });
 
@@ -1764,396 +1542,9 @@ document.getElementById('clearAllStatus').addEventListener('click',function(){
     toast('🧹 All status cleared');
 });
 
-/* ===== LIVE MODE TABS ===== */
-var currentLiveMode='board';
-var wbInitialized=false;
-var wbLive=false;
-var wbUploadTimer=null;
-var wbDrawing=false;
-var wbColor='#222';
-var wbSize=6;
-var wbErasing=false;
-var wbHighlighting=false;
-var wbHlColor='rgba(250,204,21,0.4)';
-var wbHistory=[];
-var wbMaxHistory=15;
-var wbCtx=null;
-var wbEl=null;
-var photoDataUrl=null;
-var photoInput2=document.getElementById('photoInput');
+/* (Live mode removed) */
 
-/* Mode switching */
-document.querySelectorAll('.lm-btn').forEach(function(btn){
-    btn.addEventListener('click',function(){
-        var mode=btn.dataset.lm;
-        if(mode===currentLiveMode)return;
-        currentLiveMode=mode;
-        document.querySelectorAll('.lm-btn').forEach(function(b){b.classList.remove('active')});
-        btn.classList.add('active');
-        document.querySelectorAll('.lm-panel').forEach(function(p){p.classList.remove('active')});
-        var panelId='lm'+mode.charAt(0).toUpperCase()+mode.slice(1);
-        document.getElementById(panelId).classList.add('active');
-        if(mode==='board')setTimeout(initWhiteboard,60);
-    });
-});
-
-/* Whiteboard init */
-function initWhiteboard(){
-    if(wbInitialized)return;
-    wbEl=document.getElementById('wbCanvas');
-    var wrap=document.getElementById('wbWrap');
-    if(!wrap||wrap.offsetWidth===0)return;
-    var w=wrap.offsetWidth;
-    var h=Math.round(w*3/4);
-    var dpr=Math.min(window.devicePixelRatio||1,4);
-    wbEl.width=w*dpr;wbEl.height=h*dpr;
-    wbEl.style.height=h+'px';
-    wbCtx=wbEl.getContext('2d');
-    wbCtx.scale(dpr,dpr);
-    wbCtx.imageSmoothingEnabled=true;wbCtx.imageSmoothingQuality='high';
-    wbCtx.fillStyle='#fff';
-    wbCtx.fillRect(0,0,w,h);
-    wbCtx.lineCap='round';wbCtx.lineJoin='round';
-    saveWbState();
-    wbEl.addEventListener('pointerdown',wbDown);
-    wbEl.addEventListener('pointermove',wbMove);
-    wbEl.addEventListener('pointerup',wbUp);
-    wbEl.addEventListener('pointercancel',wbUp);
-    wbInitialized=true;
-}
-
-function getWbPos(e){var rect=wbEl.getBoundingClientRect();return{x:e.clientX-rect.left,y:e.clientY-rect.top}}
-
-var wbPoints=[];
-var wbStrokeId=null;
-
-function wbPalmReject(e){
-    if(e.pointerType==='touch'&&(e.width>25||e.height>25))return true;
-    return false;
-}
-
-function wbDown(e){
-    if(wbPalmReject(e))return;
-    e.preventDefault();
-    wbDrawing=true;
-    wbStrokeId=e.pointerId;
-    wbEl.setPointerCapture(e.pointerId);
-    var pos=getWbPos(e);
-    var pressure=e.pressure||0.5;
-    wbPoints=[{x:pos.x,y:pos.y,p:pressure}];
-    wbCtx.globalCompositeOperation='source-over';
-    wbCtx.lineCap='round';wbCtx.lineJoin='round';
-    if(wbHighlighting){
-        wbCtx.strokeStyle=wbHlColor;
-        wbCtx.lineWidth=wbSize*4;
-    }else if(wbErasing){
-        wbCtx.strokeStyle='#fff';
-        wbCtx.lineWidth=wbSize*3;
-    }else{
-        wbCtx.strokeStyle=wbColor;
-        wbCtx.lineWidth=wbSize;
-    }
-}
-
-function wbMove(e){
-    if(!wbDrawing||e.pointerId!==wbStrokeId)return;
-    e.preventDefault();
-    var pos=getWbPos(e);
-    var pressure=e.pressure||0.5;
-    wbPoints.push({x:pos.x,y:pos.y,p:pressure});
-    var pts=wbPoints;
-    var len=pts.length;
-    if(len<2)return;
-    wbCtx.beginPath();
-    if(len===2){
-        wbCtx.moveTo(pts[0].x,pts[0].y);
-        wbCtx.lineTo(pts[1].x,pts[1].y);
-    }else{
-        var i=len-2;
-        var p0=pts[i-1],p1=pts[i],p2=pts[i+1];
-        var mx1=(p0.x+p1.x)/2,my1=(p0.y+p1.y)/2;
-        var mx2=(p1.x+p2.x)/2,my2=(p1.y+p2.y)/2;
-        wbCtx.moveTo(mx1,my1);
-        wbCtx.quadraticCurveTo(p1.x,p1.y,mx2,my2);
-    }
-    if(!wbHighlighting&&!wbErasing&&e.pointerType==='pen'){
-        wbCtx.lineWidth=wbSize*(0.4+pressure*1.2);
-    }
-    wbCtx.stroke();
-}
-
-function wbUp(e){
-    if(!wbDrawing)return;
-    if(e&&e.pointerId!==undefined&&e.pointerId!==wbStrokeId)return;
-    wbDrawing=false;wbStrokeId=null;
-    if(wbPoints.length===1){
-        var pt=wbPoints[0];
-        wbCtx.beginPath();
-        wbCtx.arc(pt.x,pt.y,wbCtx.lineWidth/2,0,Math.PI*2);
-        wbCtx.fillStyle=wbCtx.strokeStyle;
-        wbCtx.fill();
-    }
-    wbCtx.beginPath();
-    wbPoints=[];
-    saveWbState();
-    scheduleWbUpload();
-}
-
-function saveWbState(){
-    if(!wbCtx)return;
-    wbHistory.push(wbCtx.getImageData(0,0,wbEl.width,wbEl.height));
-    if(wbHistory.length>wbMaxHistory)wbHistory.shift();
-}
-
-function scheduleWbUpload(){
-    if(!wbLive)return;
-    clearTimeout(wbUploadTimer);
-    wbUploadTimer=setTimeout(uploadWbFrame,500);
-}
-
-function uploadWbFrame(){
-    if(!wbEl||!wbLive)return;
-    var ec=document.createElement('canvas');
-    var ow=wbEl.width,oh=wbEl.height;
-    var ew=1920,eh=Math.round(1920*oh/ow);
-    ec.width=ew;ec.height=eh;
-    var ectx=ec.getContext('2d');ectx.imageSmoothingEnabled=true;ectx.imageSmoothingQuality='high';
-    ectx.drawImage(wbEl,0,0,ew,eh);
-    var dataUrl=ec.toDataURL('image/jpeg',0.88);
-    fbPut('/screenshare/'+encodeURIComponent(CC)+'/frame',{data:dataUrl,ts:Date.now()});
-}
-
-/* Color selection */
-document.getElementById('wbColors').addEventListener('click',function(e){
-    var btn=e.target.closest('.wb-c');if(!btn)return;
-    wbColor=btn.dataset.c;wbErasing=false;wbHighlighting=false;
-    document.getElementById('wbEraser').classList.remove('active');
-    document.getElementById('wbHighlight').classList.remove('active','hl-active');
-    document.getElementById('wbHlColors').style.display='none';
-    document.querySelectorAll('#wbColors .wb-c').forEach(function(b){b.classList.remove('active')});
-    btn.classList.add('active');
-});
-
-/* Size selection */
-document.getElementById('wbSizes').addEventListener('click',function(e){
-    var btn=e.target.closest('.wb-sz');if(!btn)return;
-    wbSize=parseInt(btn.dataset.sz);
-    document.querySelectorAll('#wbSizes .wb-sz').forEach(function(b){b.classList.remove('active')});
-    btn.classList.add('active');
-});
-
-/* Highlighter toggle */
-document.getElementById('wbHighlight').addEventListener('click',function(){
-    wbHighlighting=!wbHighlighting;wbErasing=false;
-    document.getElementById('wbEraser').classList.remove('active');
-    this.classList.toggle('hl-active',wbHighlighting);
-    document.getElementById('wbHlColors').style.display=wbHighlighting?'flex':'none';
-});
-document.getElementById('wbHlColors').addEventListener('click',function(e){
-    var btn=e.target.closest('.wb-hl-c');if(!btn)return;
-    wbHlColor=btn.dataset.hc;
-    document.querySelectorAll('#wbHlColors .wb-hl-c').forEach(function(b){b.classList.remove('active')});
-    btn.classList.add('active');
-});
-
-/* Eraser toggle */
-document.getElementById('wbEraser').addEventListener('click',function(){
-    wbErasing=!wbErasing;wbHighlighting=false;
-    document.getElementById('wbHighlight').classList.remove('active','hl-active');
-    document.getElementById('wbHlColors').style.display='none';
-    this.classList.toggle('active',wbErasing);
-});
-
-/* Undo */
-document.getElementById('wbUndo').addEventListener('click',function(){
-    if(wbHistory.length<2)return;
-    wbHistory.pop();
-    var prev=wbHistory[wbHistory.length-1];
-    wbCtx.putImageData(prev,0,0);
-    scheduleWbUpload();
-});
-
-/* Clear */
-document.getElementById('wbClear').addEventListener('click',function(){
-    if(!wbCtx)return;
-    wbCtx.save();wbCtx.setTransform(1,0,0,1,0,0);
-    wbCtx.fillStyle='#fff';wbCtx.fillRect(0,0,wbEl.width,wbEl.height);
-    wbCtx.restore();
-    saveWbState();scheduleWbUpload();
-});
-
-/* Whiteboard Go Live toggle */
-function stopWbLive(){
-    wbLive=false;
-    var btn=document.getElementById('wbLiveBtn');
-    btn.className='wb-live-btn off';btn.textContent='🔴 Go Live';
-}
-
-document.getElementById('wbLiveBtn').addEventListener('click',function(){
-    if(wbLive){
-        stopWbLive();
-        fbPut('/screenshare/'+encodeURIComponent(CC)+'/status',{live:false,ts:Date.now()});
-        fbDel('/screenshare/'+encodeURIComponent(CC)+'/frame');
-    }else{
-        if(shareStream)stopSharing();
-        wbLive=true;
-        this.className='wb-live-btn on';this.textContent='⏹ Stop Live';
-        document.getElementById('liveB').classList.add('on');
-        fbPut('/screenshare/'+encodeURIComponent(CC)+'/status',{live:true,ts:Date.now()});
-        uploadWbFrame();
-    }
-});
-
-/* ===== PHOTO MODE ===== */
-document.getElementById('photoBtn').addEventListener('click',function(){photoInput2.click()});
-
-photoInput2.addEventListener('change',function(){
-    var file=photoInput2.files[0];if(!file)return;
-    compressImage(file,1024,768,0.55,function(dataUrl){
-        photoDataUrl=dataUrl;
-        document.getElementById('photoImg').src=dataUrl;
-        document.getElementById('photoPrev').style.display='';
-        document.getElementById('photoShareBtn').style.display='';
-    });
-    photoInput2.value='';
-});
-
-document.getElementById('photoShareBtn').addEventListener('click',function(){
-    if(!photoDataUrl)return;
-    if(wbLive)stopWbLive();
-    if(shareStream)stopSharing();
-    document.getElementById('liveB').classList.add('on');
-    fbPut('/screenshare/'+encodeURIComponent(CC)+'/status',{live:true,ts:Date.now()});
-    fbPut('/screenshare/'+encodeURIComponent(CC)+'/frame',{data:photoDataUrl,ts:Date.now()});
-    toast('📸 Photo shared live!');
-});
-
-/* ===== SCREEN SHARING (TEACHER) ===== */
-var shareCanvas=document.getElementById('shareCanvas');
-var shareCtx=shareCanvas.getContext('2d');
-var shareVideo=document.createElement('video');
-shareVideo.muted=true;
-shareVideo.playsInline=true;
-shareVideo.setAttribute('playsinline','');
-var lastFrameHash='';
-
-if(!navigator.mediaDevices||!navigator.mediaDevices.getDisplayMedia){
-    document.getElementById('shareNotSupported').style.display='';
-}
-
-document.getElementById('startShareBtn').addEventListener('click',function(){
-    if(!navigator.mediaDevices||!navigator.mediaDevices.getDisplayMedia){
-        toast('Screen share needs a desktop browser. Use Board or Photo mode on iPad.',1);return;
-    }
-    if(wbLive)stopWbLive();
-    navigator.mediaDevices.getDisplayMedia({video:{width:{ideal:1280},height:{ideal:720},frameRate:{ideal:5,max:10}},audio:false})
-    .then(function(stream){
-        shareStream=stream;
-        shareVideo.srcObject=stream;
-        shareVideo.play();
-        document.getElementById('shareStart').style.display='none';
-        document.getElementById('sharingActive').classList.add('on');
-        document.getElementById('liveB').classList.add('on');
-        fbPut('/screenshare/'+encodeURIComponent(CC)+'/status',{live:true,ts:Date.now()});
-        shareInterval=setInterval(captureAndUpload,1200);
-        stream.getVideoTracks()[0].addEventListener('ended',stopSharing);
-    })
-    .catch(function(){
-        toast('Screen share cancelled',1);
-    });
-});
-
-function captureAndUpload(){
-    if(!shareVideo.videoWidth)return;
-    var vw=shareVideo.videoWidth,vh=shareVideo.videoHeight;
-    var cw=1920,ch=Math.round(1920*vh/vw)||1080;
-    shareCanvas.width=cw;shareCanvas.height=ch;
-    shareCtx.imageSmoothingEnabled=true;shareCtx.imageSmoothingQuality='high';
-    shareCtx.drawImage(shareVideo,0,0,cw,ch);
-    var dataUrl=shareCanvas.toDataURL('image/jpeg',0.85);
-    var hash=dataUrl.substring(23,223);
-    if(hash===lastFrameHash)return;
-    lastFrameHash=hash;
-    fbPut('/screenshare/'+encodeURIComponent(CC)+'/frame',{data:dataUrl,ts:Date.now()});
-}
-
-document.getElementById('stopShareBtn').addEventListener('click',stopSharing);
-
-function stopSharing(){
-    if(shareStream){shareStream.getTracks().forEach(function(t){t.stop()});shareStream=null}
-    clearInterval(shareInterval);shareInterval=null;lastFrameHash='';
-    document.getElementById('shareStart').style.display='';
-    document.getElementById('sharingActive').classList.remove('on');
-    fbPut('/screenshare/'+encodeURIComponent(CC)+'/status',{live:false,ts:Date.now()});
-    fbDel('/screenshare/'+encodeURIComponent(CC)+'/frame');
-}
-
-/* ===== SCREEN SHARE POLL (STUDENT) ===== */
-var lastScreenTs=0; /* version stamp — only download frame if ts changed */
-function pollScreenStatus(){
-    if(!isStudent)return;
-    fbGet('/screenshare/'+encodeURIComponent(CC)+'/status').then(function(d){
-        var wasLive=screenShareLive;
-        screenShareLive=!!(d&&d.live);
-        if(screenShareLive&&!wasLive){
-            lastScreenTs=0; /* reset so first frame always downloads */
-            pollScreenFrame();
-            if(!screenPollTimer)screenPollTimer=setInterval(pollScreenFrame,2500);
-            document.getElementById('screenWaiting').style.display='none';
-            document.getElementById('liveB').classList.add('on');
-        }else if(!screenShareLive&&wasLive){
-            clearInterval(screenPollTimer);screenPollTimer=null;
-            lastScreenTs=0;
-            document.getElementById('screenImg').style.display='none';
-            document.getElementById('screenWaiting').style.display='';
-        }
-    });
-}
-
-function pollScreenFrame(){
-    if(!screenShareLive)return;
-    /* First check if timestamp changed (lightweight ~50 bytes vs full image ~500KB) */
-    fbGet('/screenshare/'+encodeURIComponent(CC)+'/status').then(function(st){
-        if(!st||!st.live)return;
-        var serverTs=st.ts||0;
-        if(serverTs<=lastScreenTs)return; /* same frame, skip heavy download */
-        lastScreenTs=serverTs;
-        fbGet('/screenshare/'+encodeURIComponent(CC)+'/frame').then(function(d){
-            if(d&&d.data){
-                var img=document.getElementById('screenImg');
-                img.src=d.data;img.style.display='';
-                document.getElementById('screenWaiting').style.display='none';
-            }
-        });
-    });
-}
-
-/* ===== LIVE TEXT BOARD ===== */
-var liveEditor=document.getElementById('liveEditor');
-
-if(!isStudent){
-    liveEditor.addEventListener('input',function(){
-        clearTimeout(liveTimer);
-        liveTimer=setTimeout(function(){
-            fbPut('/liveboard/'+encodeURIComponent(CC),{content:liveEditor.value,ts:Date.now()});
-        },250);
-    });
-}
-
-function pollLive(){
-    fbGet('/liveboard/'+encodeURIComponent(CC)).then(function(d){
-        if(!d)return;
-        if(d.content!==undefined){
-            if(isStudent){
-                var tv=document.getElementById('liveTextViewer');
-                if(d.content){tv.textContent=d.content;tv.style.display=''}
-                else{tv.style.display='none'}
-            }else{
-                if(document.activeElement!==liveEditor)liveEditor.value=d.content;
-            }
-        }
-    });
-}
+/* (Whiteboard, screen share, photo mode, live editor removed) */
 
 /* ===== CHAT/FORUM ===== */
 var chatMsgsEl=document.getElementById('chatMsgs');
@@ -2247,22 +1638,7 @@ function compressImage(file,maxW,maxH,quality,callback){
     img.src=objUrl;
 }
 
-/* Live tab comment */
-document.getElementById('liveCommentSend').addEventListener('click',sendLiveComment);
-document.getElementById('liveComment').addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();sendLiveComment()}});
-
-function sendLiveComment(){
-    var el=document.getElementById('liveComment');
-    var txt=el.value.trim();if(!txt&&!isVisitor)if(myId===null)return;
-    var author,emoji,aid;
-    if(isVisitor){author=visitorName;emoji=visitorEmoji;aid=-2}
-    else if(myId!==null){author=students[myId].name;emoji=students[myId].emoji;aid=myId}
-    else return;
-    if(!txt)return;
-    fbPost('/forum/'+encodeURIComponent(CC),{text:txt,author:author,emoji:emoji,aid:aid,ts:Date.now()});
-    el.value='';
-    toast('💬 Comment sent');
-}
+/* (Live comment removed) */
 
 function pollChat(){
     fbGet('/forum/'+encodeURIComponent(CC)).then(function(d){
@@ -2757,7 +2133,6 @@ function buildReactBtns(container){
     });
 }
 buildReactBtns(document.getElementById('reactBar'));
-buildReactBtns(document.getElementById('liveReactBar'));
 
 function showReaction(em){
     var el=document.createElement('div');el.className='fr';el.textContent=em;
@@ -2782,282 +2157,7 @@ if(!isStudent)setInterval(function(){
     });
 },30000);
 
-/* ===== STUDENT DRAWING COLLABORATION ===== */
-var studentDrawMode=false;
-var sWbInited=false;
-var sWbEl=null;
-var sWbCtx=null;
-var sWbDrawing=false;
-var sWbColor='#222';
-var sWbSize=6;
-var sWbErasing=false;
-var sWbHighlighting=false;
-var sWbHlColor='rgba(250,204,21,0.4)';
-var sWbHistory=[];
-var sWbUploadTimer=null;
-var collabStudentId=null;
-
-/* Teacher: build collab panel */
-if(!isStudent){
-    (function(){
-        var cg=document.getElementById('collabGrid');
-        students.forEach(function(s){
-            var btn=document.createElement('button');
-            btn.className='collab-btn';btn.dataset.sid=s.id;
-            btn.innerHTML=s.emoji+' <span>'+escH(s.name)+'</span>';
-            btn.addEventListener('click',function(){grantDraw(s.id)});
-            cg.appendChild(btn);
-        });
-    })();
-}
-
-function grantDraw(sid){
-    collabStudentId=sid;
-    var s=students[sid];
-    fbPut('/wb-control/'+encodeURIComponent(CC),{sid:sid,name:s.name,ts:Date.now()});
-    document.getElementById('collabActive').style.display='flex';
-    document.getElementById('collabName').textContent=s.emoji+' '+s.name+' is drawing';
-    document.querySelectorAll('.collab-btn').forEach(function(b){b.classList.toggle('granted',parseInt(b.dataset.sid)===sid)});
-    toast('✏️ '+s.name+' can now draw');
-}
-
-if(!isStudent){
-    document.getElementById('collabRevoke').addEventListener('click',function(){
-        fbDel('/wb-control/'+encodeURIComponent(CC));
-        collabStudentId=null;
-        document.getElementById('collabActive').style.display='none';
-        document.querySelectorAll('.collab-btn').forEach(function(b){b.classList.remove('granted')});
-        toast('Drawing permission revoked');
-    });
-}
-
-/* Student: poll for draw control */
-function pollDrawControl(){
-    if(!isStudent||myId===null)return;
-    fbGet('/wb-control/'+encodeURIComponent(CC)).then(function(d){
-        var hasControl=!!(d&&d.sid===myId);
-        if(hasControl&&!studentDrawMode){
-            activateStudentDraw();
-        }else if(!hasControl&&studentDrawMode){
-            deactivateStudentDraw();
-        }
-    });
-}
-
-function activateStudentDraw(){
-    studentDrawMode=true;
-    document.getElementById('studentDrawSection').style.display='';
-    document.getElementById('screenView').style.display='none';
-    toast('✏️ You have drawing control!');
-    /* Force switch to Live tab if not already there */
-    if(currentTab!=='tabLive'){
-        document.querySelectorAll('.tc').forEach(function(el){el.classList.remove('show')});
-        document.getElementById('tabLive').classList.add('show');
-        document.querySelectorAll('.tab-btn').forEach(function(x){x.classList.remove('active')});
-        document.querySelector('[data-tab="tabLive"]').classList.add('active');
-        currentTab='tabLive';
-    }
-    setTimeout(initStudentWb,100);
-}
-
-function deactivateStudentDraw(){
-    studentDrawMode=false;
-    document.getElementById('studentDrawSection').style.display='none';
-    document.getElementById('screenView').style.display='';
-    if(sWbEl&&sWbInited){
-        sWbEl.removeEventListener('pointerdown',sWbDown);
-        sWbEl.removeEventListener('pointermove',sWbMoveH);
-        sWbEl.removeEventListener('pointerup',sWbUpH);
-        sWbEl.removeEventListener('pointercancel',sWbUpH);
-    }
-    sWbInited=false;
-    clearTimeout(sWbUploadTimer);
-    toast('Drawing control ended');
-}
-
-var sWbInitRetries=0;
-function initStudentWb(){
-    if(sWbInited)return;
-    sWbEl=document.getElementById('sWbCanvas');
-    var wrap=document.getElementById('sWbWrap');
-    if(!wrap||wrap.offsetWidth===0){
-        sWbInitRetries++;
-        if(sWbInitRetries<10)setTimeout(initStudentWb,200);
-        return;
-    }
-    sWbInitRetries=0;
-    var w=wrap.offsetWidth;
-    var h=Math.round(w*3/4);
-    var dpr=Math.min(window.devicePixelRatio||1,4);
-    sWbEl.width=w*dpr;sWbEl.height=h*dpr;
-    sWbEl.style.height=h+'px';
-    sWbCtx=sWbEl.getContext('2d');
-    sWbCtx.scale(dpr,dpr);
-    sWbCtx.imageSmoothingEnabled=true;sWbCtx.imageSmoothingQuality='high';
-    sWbCtx.fillStyle='#fff';
-    sWbCtx.fillRect(0,0,w,h);
-    sWbCtx.lineCap='round';sWbCtx.lineJoin='round';
-    /* Load current shared frame as background */
-    var srcImg=document.getElementById('screenImg');
-    if(srcImg&&srcImg.src&&srcImg.style.display!=='none'&&srcImg.naturalWidth>0){
-        sWbCtx.drawImage(srcImg,0,0,w,h);
-    }else{
-        fbGet('/screenshare/'+encodeURIComponent(CC)+'/frame').then(function(d){
-            if(d&&d.data){
-                var bgImg=new Image();
-                bgImg.onload=function(){sWbCtx.drawImage(bgImg,0,0,w,h);sWbHistory=[];sWbHistory.push(sWbCtx.getImageData(0,0,sWbEl.width,sWbEl.height))};
-                bgImg.src=d.data;
-            }
-        });
-    }
-    sWbHistory=[];
-    sWbHistory.push(sWbCtx.getImageData(0,0,sWbEl.width,sWbEl.height));
-    sWbEl.addEventListener('pointerdown',sWbDown);
-    sWbEl.addEventListener('pointermove',sWbMoveH);
-    sWbEl.addEventListener('pointerup',sWbUpH);
-    sWbEl.addEventListener('pointercancel',sWbUpH);
-    sWbInited=true;
-}
-
-function getSWbPos(e){var rect=sWbEl.getBoundingClientRect();return{x:e.clientX-rect.left,y:e.clientY-rect.top}}
-
-var sWbPoints=[];
-var sWbStrokeId=null;
-
-function sWbPalmReject(e){
-    if(e.pointerType==='touch'&&(e.width>25||e.height>25))return true;
-    return false;
-}
-
-function sWbDown(e){
-    if(sWbPalmReject(e))return;
-    e.preventDefault();
-    sWbDrawing=true;
-    sWbStrokeId=e.pointerId;
-    sWbEl.setPointerCapture(e.pointerId);
-    var pos=getSWbPos(e);
-    var pressure=e.pressure||0.5;
-    sWbPoints=[{x:pos.x,y:pos.y,p:pressure}];
-    sWbCtx.globalCompositeOperation='source-over';
-    sWbCtx.lineCap='round';sWbCtx.lineJoin='round';
-    if(sWbHighlighting){
-        sWbCtx.strokeStyle=sWbHlColor;
-        sWbCtx.lineWidth=sWbSize*4;
-    }else if(sWbErasing){
-        sWbCtx.strokeStyle='#fff';
-        sWbCtx.lineWidth=sWbSize*3;
-    }else{
-        sWbCtx.strokeStyle=sWbColor;
-        sWbCtx.lineWidth=sWbSize;
-    }
-}
-
-function sWbMoveH(e){
-    if(!sWbDrawing||e.pointerId!==sWbStrokeId)return;
-    e.preventDefault();
-    var pos=getSWbPos(e);
-    var pressure=e.pressure||0.5;
-    sWbPoints.push({x:pos.x,y:pos.y,p:pressure});
-    var pts=sWbPoints;
-    var len=pts.length;
-    if(len<2)return;
-    sWbCtx.beginPath();
-    if(len===2){
-        sWbCtx.moveTo(pts[0].x,pts[0].y);
-        sWbCtx.lineTo(pts[1].x,pts[1].y);
-    }else{
-        var i=len-2;
-        var p0=pts[i-1],p1=pts[i],p2=pts[i+1];
-        var mx1=(p0.x+p1.x)/2,my1=(p0.y+p1.y)/2;
-        var mx2=(p1.x+p2.x)/2,my2=(p1.y+p2.y)/2;
-        sWbCtx.moveTo(mx1,my1);
-        sWbCtx.quadraticCurveTo(p1.x,p1.y,mx2,my2);
-    }
-    if(!sWbHighlighting&&!sWbErasing&&e.pointerType==='pen'){
-        sWbCtx.lineWidth=sWbSize*(0.4+pressure*1.2);
-    }
-    sWbCtx.stroke();
-}
-
-function sWbUpH(e){
-    if(!sWbDrawing)return;
-    if(e&&e.pointerId!==undefined&&e.pointerId!==sWbStrokeId)return;
-    sWbDrawing=false;sWbStrokeId=null;
-    if(sWbPoints.length===1){
-        var pt=sWbPoints[0];
-        sWbCtx.beginPath();
-        sWbCtx.arc(pt.x,pt.y,sWbCtx.lineWidth/2,0,Math.PI*2);
-        sWbCtx.fillStyle=sWbCtx.strokeStyle;
-        sWbCtx.fill();
-    }
-    sWbCtx.beginPath();
-    sWbPoints=[];
-    sWbHistory.push(sWbCtx.getImageData(0,0,sWbEl.width,sWbEl.height));
-    if(sWbHistory.length>15)sWbHistory.shift();
-    scheduleSWbUpload();
-}
-
-function scheduleSWbUpload(){
-    clearTimeout(sWbUploadTimer);
-    sWbUploadTimer=setTimeout(function(){
-        if(!sWbEl||!studentDrawMode)return;
-        var ec2=document.createElement('canvas');
-        var ew2=1920,eh2=Math.round(1920*sWbEl.height/sWbEl.width);
-        ec2.width=ew2;ec2.height=eh2;
-        var ectx2=ec2.getContext('2d');ectx2.imageSmoothingEnabled=true;ectx2.imageSmoothingQuality='high';
-        ectx2.drawImage(sWbEl,0,0,ew2,eh2);
-        var du2=ec2.toDataURL('image/jpeg',0.88);
-        fbPut('/screenshare/'+encodeURIComponent(CC)+'/frame',{data:du2,ts:Date.now()});
-    },500);
-}
-
-/* Student drawing tool events */
-if(isStudent){
-    document.getElementById('sWbColors').addEventListener('click',function(e){
-        var btn=e.target.closest('.wb-c');if(!btn)return;
-        sWbColor=btn.dataset.c;sWbErasing=false;sWbHighlighting=false;
-        document.getElementById('sWbEraser').classList.remove('active');
-        document.getElementById('sWbHighlight').classList.remove('active','hl-active');
-        document.getElementById('sWbHlColors').style.display='none';
-        document.querySelectorAll('#sWbColors .wb-c').forEach(function(b){b.classList.remove('active')});
-        btn.classList.add('active');
-    });
-
-    document.getElementById('sWbSizes').addEventListener('click',function(e){
-        var btn=e.target.closest('.wb-sz');if(!btn)return;
-        sWbSize=parseInt(btn.dataset.sz);
-        document.querySelectorAll('#sWbSizes .wb-sz').forEach(function(b){b.classList.remove('active')});
-        btn.classList.add('active');
-    });
-
-    document.getElementById('sWbHighlight').addEventListener('click',function(){
-        sWbHighlighting=!sWbHighlighting;sWbErasing=false;
-        document.getElementById('sWbEraser').classList.remove('active');
-        this.classList.toggle('hl-active',sWbHighlighting);
-        document.getElementById('sWbHlColors').style.display=sWbHighlighting?'flex':'none';
-    });
-    document.getElementById('sWbHlColors').addEventListener('click',function(e){
-        var btn=e.target.closest('.wb-hl-c');if(!btn)return;
-        sWbHlColor=btn.dataset.hc;
-        document.querySelectorAll('#sWbHlColors .wb-hl-c').forEach(function(b){b.classList.remove('active')});
-        btn.classList.add('active');
-    });
-
-    document.getElementById('sWbEraser').addEventListener('click',function(){
-        sWbErasing=!sWbErasing;sWbHighlighting=false;
-        document.getElementById('sWbHighlight').classList.remove('active','hl-active');
-        document.getElementById('sWbHlColors').style.display='none';
-        this.classList.toggle('active',sWbErasing);
-    });
-
-    document.getElementById('sWbUndo').addEventListener('click',function(){
-        if(sWbHistory.length<2)return;
-        sWbHistory.pop();
-        var prev=sWbHistory[sWbHistory.length-1];
-        sWbCtx.putImageData(prev,0,0);
-        scheduleSWbUpload();
-    });
-}
+/* (Student drawing collaboration removed) */
 
 /* ===== CLASSWORK SUBMISSION ===== */
 var cwActive=null;
@@ -4077,20 +3177,7 @@ document.getElementById('cwvClearMarks').addEventListener('click',function(){
     cwVHistory=[cwVHistory[0]];
 });
 
-/* Viewer: Share live */
-document.getElementById('cwvShare').addEventListener('click',function(){
-    if(!cwViewerEl||!cwViewerCtx)return;
-    var ec=document.createElement('canvas');
-    var ew=1920,eh=Math.round(1920*cwViewerEl.height/cwViewerEl.width);
-    ec.width=ew;ec.height=eh;
-    var ectx3=ec.getContext('2d');ectx3.imageSmoothingEnabled=true;ectx3.imageSmoothingQuality='high';
-    ectx3.drawImage(cwViewerEl,0,0,ew,eh);
-    var dataUrl=ec.toDataURL('image/jpeg',0.88);
-    fbPut('/screenshare/'+encodeURIComponent(CC)+'/status',{live:true,ts:Date.now()});
-    fbPut('/screenshare/'+encodeURIComponent(CC)+'/frame',{data:dataUrl,ts:Date.now()});
-    document.getElementById('liveB').classList.add('on');
-    toast('📺 Sharing marked work live!');
-});
+/* (Share live removed — Live tab deleted) */
 
 /* Viewer: Save to student */
 document.getElementById('cwvSave').addEventListener('click',function(){
@@ -5319,7 +4406,7 @@ function pollData(){
             if(s&&d[k]){if(d[k].name&&d[k].name!==s.name){s.name=d[k].name;changed=true}if(typeof d[k].points==='number'&&d[k].points!==s.points){var delta=d[k].points-s.points;s.points=d[k].points;updCard(id,delta);changed=true}}
         });
         if(changed){students.forEach(function(s){var n=document.querySelector('[data-nm="'+s.id+'"]');if(n)n.textContent=s.name});updTotal();updCrown();updateMyPts();sLocal()}
-        setSync('online');document.getElementById('liveB').classList.add('on');
+        setSync('online');
     }).catch(function(){setSync('offline')});
 }
 
@@ -5349,7 +4436,7 @@ function pollStatus(){
         if(d&&typeof d==='object'){
             Object.keys(d).forEach(function(k){var id=parseInt(k);if(isNaN(id))return;var s=students.find(function(x){return x.id===id});if(s&&d[k]){if(d[k].name)s.name=d[k].name;if(typeof d[k].points==='number')s.points=d[k].points}});
             refreshAll();sLocal();buildLogin();if(isStudent&&myId!==null)setupStudentUI();
-            setSync('online');document.getElementById('liveB').classList.add('on');
+            setSync('online');
         }
     });
 
@@ -5357,12 +4444,9 @@ function pollStatus(){
     if(isStudent){
         setInterval(pollData,5000);
         setInterval(pollStatus,6000);
-        setInterval(pollLive,4000);
         setInterval(pollChat,5000);
         setInterval(pollReactions,4000);
         setInterval(pollClasswork,5000);
-        setInterval(pollScreenStatus,3000);
-        setInterval(pollDrawControl,3000);
         setInterval(pollMarkedWork,8000);
         setInterval(pollSpinnerPick,5000);
         setInterval(pollGroupDisc,6000);
@@ -5372,7 +4456,6 @@ function pollStatus(){
     }else{
         setInterval(pollData,2000);
         setInterval(pollStatus,3000);
-        setInterval(pollLive,1500);
         setInterval(pollChat,2500);
         setInterval(pollReactions,2500);
         setInterval(pollClasswork,3000);
@@ -5387,11 +4470,10 @@ function pollStatus(){
     }
     setTimeout(pollNotes,500);
     setTimeout(pollStatus,1000);
-    setTimeout(pollLive,500);
     setTimeout(pollChat,1000);
     setTimeout(pollClasswork,800);
     if(!isStudent){setTimeout(pollCwHistory,1200);setTimeout(pollTchrMarked,1500);setTimeout(pollCwDrafts,800)}
-    if(isStudent){setTimeout(pollScreenStatus,1000);setTimeout(pollDrawControl,1200);setTimeout(pollMarkedWork,1500);setTimeout(pollSpinnerPick,2000)}
+    if(isStudent){setTimeout(pollMarkedWork,1500);setTimeout(pollSpinnerPick,2000)}
     setTimeout(pollGroupDisc,900);
     setTimeout(pollGroupWork,1100);
     if(!isStudent)setTimeout(pollGwDrafts,1300);
