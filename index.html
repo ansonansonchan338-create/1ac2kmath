@@ -122,16 +122,12 @@
         body.student-mode .student-only-flex{display:flex}
         /* Visitor mode: hide seat-specific and submission features */
         body.visitor-mode .my-card-wrap{display:none!important}
-        body.visitor-mode .cw-section.student-only #cwSubmitArea{display:none!important}
-        body.visitor-mode .cw-section.student-only #cwAddMoreBtn{display:none!important}
-        body.visitor-mode .cw-section.student-only #cwDrawOnWsBtn{display:none!important}
+        body.visitor-mode .cw-section.student-only{display:none!important}
         body.visitor-mode .grp-student-banner{display:none!important}
         body.visitor-mode .gw-student-section{display:none!important}
         body.visitor-mode .seating .cbtns{display:none}
         body.visitor-mode .seating .sc{pointer-events:none;opacity:.7}
-        body.student-mode #cwvSave,body.student-mode #cwvShare{display:none!important}
-        body.student-mode .cwv-bar{display:none!important}
-        body.student-mode #cwvModeDraw,body.student-mode #cwvModeMove,body.student-mode #cwvModeHint,body.student-mode .cwv-mode-sep{display:none!important}
+        body.visitor-mode .cw-marked-section.student-only{display:none!important}
         /* Visitor login button */
         .login-visitor-wrap{text-align:center;margin-top:20px;max-width:600px;width:100%}
         .login-visitor-btn{padding:14px 28px;border:2px dashed var(--brd);border-radius:16px;background:none;font-family:'Fredoka',sans-serif;font-size:15px;font-weight:600;color:var(--t2);cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:8px}
@@ -244,10 +240,6 @@
         .cw-draft-del{padding:7px 10px;border:1.5px solid var(--brd);border-radius:8px;background:var(--bgc);color:var(--t2);font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
         .cw-draft-del:hover{border-color:var(--neg);color:var(--neg);background:var(--neg-bg)}
         .cw-empty{text-align:center;padding:12px;color:var(--t2);font-style:italic;font-size:13px}
-        .cw-peers{margin-top:14px;padding:12px;background:rgba(255,152,0,.06);border:1.5px solid rgba(255,152,0,.3);border-radius:14px}
-        .cw-peers-head{font-family:'Fredoka',sans-serif;font-size:14px;font-weight:700;color:#e67e22;display:flex;align-items:center;gap:8px;margin-bottom:10px}
-        .cw-peers-head i{font-size:16px}
-        .cw-peers-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(70px,1fr));gap:6px}
         .cw-hist-header{display:flex;align-items:center;gap:8px;margin-top:14px;padding-top:12px;border-top:1.5px solid var(--brd);font-family:'Fredoka',sans-serif;font-size:14px;font-weight:700;color:var(--t2)}
         .cw-hist-header i{color:var(--acc);font-size:13px}
         .cw-hist-list{display:flex;flex-direction:column;gap:8px;margin-top:8px;max-height:400px;overflow-y:auto}
@@ -292,8 +284,6 @@
         .cwv-head{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--bg2);border-bottom:1.5px solid var(--brd);flex-shrink:0}
         .cwv-name{font-family:'Fredoka',sans-serif;font-size:16px;font-weight:700;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-right:8px}
         .cwv-tools{display:flex;gap:6px;flex-shrink:0}
-        .cwv-share{padding:6px 12px;border:none;border-radius:8px;background:linear-gradient(135deg,#EF4444,#DC2626);color:#fff;font-family:'Fredoka',sans-serif;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:5px}
-        .cwv-share:active{transform:scale(.95)}
         .cwv-close{width:36px;height:36px;border:1.5px solid var(--brd);border-radius:10px;background:var(--bgc);color:var(--t2);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center}
         .cwv-wrap{flex:1;overflow:auto;display:block;padding:10px;background:#1a1a1a;-webkit-overflow-scrolling:touch;position:relative;text-align:center}
         .cwv-wrap .cwv-loading{display:flex;align-items:center;justify-content:center;min-height:200px}
@@ -731,7 +721,7 @@
         /* RESPONSIVE */
         @media(max-width:768px){.header{padding:8px 12px}.app-t{font-size:18px}.sc{padding:8px 5px 6px;border-radius:12px}.sp{font-size:26px}.se{font-size:20px}.sn{font-size:11px}.pb{width:38px;height:32px;font-size:17px}.whiteboard{margin:8px 10px 4px;padding:10px 14px}.wb-t{font-size:28px}.seating{padding:4px 6px 6px}}
         @media(max-width:520px){.sc{width:calc(33.33% - 6px)}.seat-row{flex-wrap:wrap}.sp{font-size:24px}.pb{width:36px;height:30px;font-size:16px}}
-        @media(min-width:1024px){.seating{max-width:860px;margin:0 auto}.whiteboard{max-width:860px;margin-left:auto;margin-right:auto}.progress-strip{max-width:860px;margin-left:auto;margin-right:auto}.my-card-wrap{max-width:860px;margin-left:auto;margin-right:auto}.live-area{max-width:860px;margin:0 auto}}
+        @media(min-width:1024px){.seating{max-width:860px;margin:0 auto}.whiteboard{max-width:860px;margin-left:auto;margin-right:auto}.progress-strip{max-width:860px;margin-left:auto;margin-right:auto}.my-card-wrap{max-width:860px;margin-left:auto;margin-right:auto}}
     </style>
 </head>
 <body>
@@ -765,6 +755,7 @@
             <button class="hb teacher-only" id="btnGroups" title="Group Discussion"><i class="fas fa-users"></i></button>
             <button class="hb teacher-only" id="btnRand" title="Random"><i class="fas fa-dice"></i></button>
             <button class="hb" id="btnLB" title="Leaderboard"><i class="fas fa-trophy"></i></button>
+            <button class="hb teacher-only" id="btnReset" title="Reset"><i class="fas fa-rotate-left"></i></button>
             <button class="hb student-only" id="btnLogout" title="Logout"><i class="fas fa-sign-out-alt"></i></button>
         </div>
     </header>
@@ -853,10 +844,6 @@
                     <div class="cw-sub-thumbs" id="cwSubThumbs"></div>
                     <button class="cw-add-more-btn" id="cwAddMoreBtn"><i class="fas fa-plus-circle"></i> Add Another Page</button>
                 </div>
-                <div class="cw-peers" id="cwPeersSection" style="display:none">
-                    <div class="cw-peers-head"><i class="fas fa-users"></i> Classmates' Work</div>
-                    <div class="cw-peers-grid" id="cwPeersGrid"></div>
-                </div>
             </div>
             <div class="cw-empty" id="cwStudentEmpty">No active classwork right now.</div>
             <div class="cw-marked" id="cwMarkedSection" style="display:none">
@@ -921,6 +908,7 @@
 
 <!-- MODALS -->
 <div class="modal-bg teacher-only" id="detailModal"><div class="modal-box"><div class="m-head"><div class="m-emoji" id="mEmoji"></div><input class="m-input" id="mName" type="text" maxlength="20" placeholder="Student name"></div><div class="m-pts" id="mPts">0</div><div class="m-grid"><button class="m-btn mn" data-d="-5">−5</button><button class="m-btn mn" data-d="-2">−2</button><button class="m-btn mn" data-d="-1">−1</button><button class="m-btn mp" data-d="1">+1</button><button class="m-btn mp" data-d="2">+2</button><button class="m-btn mp" data-d="5">+5</button></div><button class="m-close" id="mClose">Done</button></div></div>
+<div class="confirm-bg" id="confirmDlg"><div class="confirm-box"><div class="ci">🔄</div><p>Reset all points to zero?</p><div class="cb"><button class="cbtn cc" id="cCancel">Cancel</button><button class="cbtn cd" id="cConfirm">Reset All</button></div></div></div>
 <div class="lb-bg" id="lbOv"><div class="lb-pan"><div class="lb-ti">🏆 Leaderboard</div><div id="lbList"></div><button class="lb-cl" id="lbCl">Close</button></div></div>
 <div class="rand-ov" id="randOv">
     <div class="spinner-wrap">
@@ -943,7 +931,6 @@
             <div class="cwv-name" id="cwvName"></div>
             <div class="cwv-tools">
                 <button class="cwv-save" id="cwvSave"><i class="fas fa-save"></i> Save to Student</button>
-                <button class="cwv-share" id="cwvShare"><i class="fas fa-broadcast-tower"></i> Share Live</button>
                 <button class="cwv-close" id="cwvClose"><i class="fas fa-times"></i></button>
             </div>
         </div>
@@ -1080,7 +1067,6 @@ var NAMES=['鄧昊賢','吳琸翔','鄒雨軒','苗彧菲','羅梓揚','劉耀�
 for(i=0;i<14;i++)students.push({id:i,name:NAMES[i],points:0,emoji:EMOJIS[i],color:COLORS[i],status:''});
 var activeId=null;
 var prevSnap={};
-var tabVisible=true;
 var chatMsgsData=[];
 var lastChatTs=0;
 var msgReactions={};  /* {msgKey:{emoji:{uid:true,...},...}} */
@@ -1162,7 +1148,6 @@ document.querySelectorAll('.tab-btn').forEach(function(b){
         b.classList.add('active');
         currentTab=t;
         if(t==='tabChat'){chatUnread=0;document.getElementById('chatBadge').classList.remove('show');scrollChat()}
-        if(t==='tabLive')setTimeout(function(){if(!isStudent)initWhiteboard();if(isStudent&&studentDrawMode&&!sWbInited)initStudentWb()},60);
     });
 });
 
@@ -1315,6 +1300,11 @@ document.getElementById('mClose').addEventListener('click',closeDetail);
 detailM.addEventListener('click',function(e){if(e.target===detailM)closeDetail()});
 document.querySelectorAll('.m-btn').forEach(function(b){b.addEventListener('click',function(){if(activeId===null)return;changePts(activeId,parseInt(b.dataset.d));updMPts()})});
 
+/* ===== RESET ===== */
+var confD=document.getElementById('confirmDlg');
+document.getElementById('btnReset').addEventListener('click',function(){confD.classList.add('show')});
+document.getElementById('cCancel').addEventListener('click',function(){confD.classList.remove('show')});
+document.getElementById('cConfirm').addEventListener('click',function(){students.forEach(function(s){s.points=0});refreshAll();saveData();confD.classList.remove('show')});
 
 /* ===== LEADERBOARD ===== */
 var lbOv=document.getElementById('lbOv');
@@ -1506,7 +1496,7 @@ document.getElementById('shareCl').addEventListener('click',function(){shareOv.c
 shareOv.addEventListener('click',function(e){if(e.target===shareOv)shareOv.classList.remove('show')});
 
 /* ===== KEYBOARD ===== */
-document.addEventListener('keydown',function(e){if(e.key==='Escape'){if(cwViewerOpen){closeCwViewer();return}closeDetail();lbOv.classList.remove('show');randOv.classList.remove('show');shareOv.classList.remove('show');document.getElementById('noteModal').classList.remove('show');document.getElementById('imgViewer').classList.remove('show')}});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){if(cwViewerOpen){closeCwViewer();return}closeDetail();confD.classList.remove('show');lbOv.classList.remove('show');randOv.classList.remove('show');shareOv.classList.remove('show');document.getElementById('noteModal').classList.remove('show');document.getElementById('imgViewer').classList.remove('show')}});
 
 /* ===== STATUS SYSTEM ===== */
 document.getElementById('statusBtns').addEventListener('click',function(e){
@@ -1552,397 +1542,9 @@ document.getElementById('clearAllStatus').addEventListener('click',function(){
     toast('🧹 All status cleared');
 });
 
-/* ===== LIVE MODE TABS ===== */
-var currentLiveMode='board';
-var wbInitialized=false;
-var wbLive=false;
-var wbUploadTimer=null;
-var wbDrawing=false;
-var wbColor='#222';
-var wbSize=6;
-var wbErasing=false;
-var wbHighlighting=false;
-var wbHlColor='rgba(250,204,21,0.4)';
-var wbHistory=[];
-var wbMaxHistory=15;
-var wbCtx=null;
-var wbEl=null;
-var photoDataUrl=null;
-var photoInput2=document.getElementById('photoInput');
+/* (Live mode removed) */
 
-/* Mode switching */
-document.querySelectorAll('.lm-btn').forEach(function(btn){
-    btn.addEventListener('click',function(){
-        var mode=btn.dataset.lm;
-        if(mode===currentLiveMode)return;
-        currentLiveMode=mode;
-        document.querySelectorAll('.lm-btn').forEach(function(b){b.classList.remove('active')});
-        btn.classList.add('active');
-        document.querySelectorAll('.lm-panel').forEach(function(p){p.classList.remove('active')});
-        var panelId='lm'+mode.charAt(0).toUpperCase()+mode.slice(1);
-        document.getElementById(panelId).classList.add('active');
-        if(mode==='board')setTimeout(initWhiteboard,60);
-    });
-});
-
-/* Whiteboard init */
-function initWhiteboard(){
-    if(wbInitialized)return;
-    wbEl=document.getElementById('wbCanvas');
-    var wrap=document.getElementById('wbWrap');
-    if(!wrap||wrap.offsetWidth===0)return;
-    var w=wrap.offsetWidth;
-    var h=Math.round(w*3/4);
-    var dpr=Math.min(window.devicePixelRatio||1,4);
-    wbEl.width=w*dpr;wbEl.height=h*dpr;
-    wbEl.style.height=h+'px';
-    wbCtx=wbEl.getContext('2d');
-    wbCtx.scale(dpr,dpr);
-    wbCtx.imageSmoothingEnabled=true;wbCtx.imageSmoothingQuality='high';
-    wbCtx.fillStyle='#fff';
-    wbCtx.fillRect(0,0,w,h);
-    wbCtx.lineCap='round';wbCtx.lineJoin='round';
-    saveWbState();
-    wbEl.addEventListener('pointerdown',wbDown);
-    wbEl.addEventListener('pointermove',wbMove);
-    wbEl.addEventListener('pointerup',wbUp);
-    wbEl.addEventListener('pointercancel',wbUp);
-    wbInitialized=true;
-}
-
-function getWbPos(e){var rect=wbEl.getBoundingClientRect();return{x:e.clientX-rect.left,y:e.clientY-rect.top}}
-
-var wbPoints=[];
-var wbStrokeId=null;
-
-function wbPalmReject(e){
-    if(e.pointerType==='touch'&&(e.width>25||e.height>25))return true;
-    return false;
-}
-
-function wbDown(e){
-    if(wbPalmReject(e))return;
-    e.preventDefault();
-    wbDrawing=true;
-    wbStrokeId=e.pointerId;
-    wbEl.setPointerCapture(e.pointerId);
-    var pos=getWbPos(e);
-    var pressure=e.pressure||0.5;
-    wbPoints=[{x:pos.x,y:pos.y,p:pressure}];
-    wbCtx.globalCompositeOperation='source-over';
-    wbCtx.lineCap='round';wbCtx.lineJoin='round';
-    if(wbHighlighting){
-        wbCtx.strokeStyle=wbHlColor;
-        wbCtx.lineWidth=wbSize*4;
-    }else if(wbErasing){
-        wbCtx.strokeStyle='#fff';
-        wbCtx.lineWidth=wbSize*3;
-    }else{
-        wbCtx.strokeStyle=wbColor;
-        wbCtx.lineWidth=wbSize;
-    }
-}
-
-function wbMove(e){
-    if(!wbDrawing||e.pointerId!==wbStrokeId)return;
-    e.preventDefault();
-    var pos=getWbPos(e);
-    var pressure=e.pressure||0.5;
-    wbPoints.push({x:pos.x,y:pos.y,p:pressure});
-    var pts=wbPoints;
-    var len=pts.length;
-    if(len<2)return;
-    wbCtx.beginPath();
-    if(len===2){
-        wbCtx.moveTo(pts[0].x,pts[0].y);
-        wbCtx.lineTo(pts[1].x,pts[1].y);
-    }else{
-        var i=len-2;
-        var p0=pts[i-1],p1=pts[i],p2=pts[i+1];
-        var mx1=(p0.x+p1.x)/2,my1=(p0.y+p1.y)/2;
-        var mx2=(p1.x+p2.x)/2,my2=(p1.y+p2.y)/2;
-        wbCtx.moveTo(mx1,my1);
-        wbCtx.quadraticCurveTo(p1.x,p1.y,mx2,my2);
-    }
-    if(!wbHighlighting&&!wbErasing&&e.pointerType==='pen'){
-        wbCtx.lineWidth=wbSize*(0.4+pressure*1.2);
-    }
-    wbCtx.stroke();
-}
-
-function wbUp(e){
-    if(!wbDrawing)return;
-    if(e&&e.pointerId!==undefined&&e.pointerId!==wbStrokeId)return;
-    wbDrawing=false;wbStrokeId=null;
-    if(wbPoints.length===1){
-        var pt=wbPoints[0];
-        wbCtx.beginPath();
-        wbCtx.arc(pt.x,pt.y,wbCtx.lineWidth/2,0,Math.PI*2);
-        wbCtx.fillStyle=wbCtx.strokeStyle;
-        wbCtx.fill();
-    }
-    wbCtx.beginPath();
-    wbPoints=[];
-    saveWbState();
-    scheduleWbUpload();
-}
-
-function saveWbState(){
-    if(!wbCtx)return;
-    wbHistory.push(wbCtx.getImageData(0,0,wbEl.width,wbEl.height));
-    if(wbHistory.length>wbMaxHistory)wbHistory.shift();
-}
-
-function scheduleWbUpload(){
-    if(!wbLive)return;
-    clearTimeout(wbUploadTimer);
-    wbUploadTimer=setTimeout(uploadWbFrame,500);
-}
-
-function uploadWbFrame(){
-    if(!wbEl||!wbLive)return;
-    var ec=document.createElement('canvas');
-    var ow=wbEl.width,oh=wbEl.height;
-    var ew=1920,eh=Math.round(1920*oh/ow);
-    ec.width=ew;ec.height=eh;
-    var ectx=ec.getContext('2d');ectx.imageSmoothingEnabled=true;ectx.imageSmoothingQuality='high';
-    ectx.drawImage(wbEl,0,0,ew,eh);
-    var dataUrl=ec.toDataURL('image/jpeg',0.88);
-    fbPut('/screenshare/'+encodeURIComponent(CC)+'/frame',{data:dataUrl,ts:Date.now()});
-}
-
-/* Color selection */
-document.getElementById('wbColors').addEventListener('click',function(e){
-    var btn=e.target.closest('.wb-c');if(!btn)return;
-    wbColor=btn.dataset.c;wbErasing=false;wbHighlighting=false;
-    document.getElementById('wbEraser').classList.remove('active');
-    document.getElementById('wbHighlight').classList.remove('active','hl-active');
-    document.getElementById('wbHlColors').style.display='none';
-    document.querySelectorAll('#wbColors .wb-c').forEach(function(b){b.classList.remove('active')});
-    btn.classList.add('active');
-});
-
-/* Size selection */
-document.getElementById('wbSizes').addEventListener('click',function(e){
-    var btn=e.target.closest('.wb-sz');if(!btn)return;
-    wbSize=parseInt(btn.dataset.sz);
-    document.querySelectorAll('#wbSizes .wb-sz').forEach(function(b){b.classList.remove('active')});
-    btn.classList.add('active');
-});
-
-/* Highlighter toggle */
-document.getElementById('wbHighlight').addEventListener('click',function(){
-    wbHighlighting=!wbHighlighting;wbErasing=false;
-    document.getElementById('wbEraser').classList.remove('active');
-    this.classList.toggle('hl-active',wbHighlighting);
-    document.getElementById('wbHlColors').style.display=wbHighlighting?'flex':'none';
-});
-document.getElementById('wbHlColors').addEventListener('click',function(e){
-    var btn=e.target.closest('.wb-hl-c');if(!btn)return;
-    wbHlColor=btn.dataset.hc;
-    document.querySelectorAll('#wbHlColors .wb-hl-c').forEach(function(b){b.classList.remove('active')});
-    btn.classList.add('active');
-});
-
-/* Eraser toggle */
-document.getElementById('wbEraser').addEventListener('click',function(){
-    wbErasing=!wbErasing;wbHighlighting=false;
-    document.getElementById('wbHighlight').classList.remove('active','hl-active');
-    document.getElementById('wbHlColors').style.display='none';
-    this.classList.toggle('active',wbErasing);
-});
-
-/* Undo */
-document.getElementById('wbUndo').addEventListener('click',function(){
-    if(wbHistory.length<2)return;
-    wbHistory.pop();
-    var prev=wbHistory[wbHistory.length-1];
-    wbCtx.putImageData(prev,0,0);
-    scheduleWbUpload();
-});
-
-/* Clear */
-document.getElementById('wbClear').addEventListener('click',function(){
-    if(!wbCtx)return;
-    wbCtx.save();wbCtx.setTransform(1,0,0,1,0,0);
-    wbCtx.fillStyle='#fff';wbCtx.fillRect(0,0,wbEl.width,wbEl.height);
-    wbCtx.restore();
-    saveWbState();scheduleWbUpload();
-});
-
-/* Whiteboard Go Live toggle */
-function stopWbLive(){
-    wbLive=false;
-    var btn=document.getElementById('wbLiveBtn');
-    btn.className='wb-live-btn off';btn.textContent='🔴 Go Live';
-}
-
-document.getElementById('wbLiveBtn').addEventListener('click',function(){
-    if(wbLive){
-        stopWbLive();
-        fbPut('/screenshare/'+encodeURIComponent(CC)+'/status',{live:false,ts:Date.now()});
-        fbDel('/screenshare/'+encodeURIComponent(CC)+'/frame');
-    }else{
-        if(shareStream)stopSharing();
-        wbLive=true;
-        this.className='wb-live-btn on';this.textContent='⏹ Stop Live';
-        document.getElementById('liveB').classList.add('on');
-        fbPut('/screenshare/'+encodeURIComponent(CC)+'/status',{live:true,ts:Date.now()});
-        uploadWbFrame();
-    }
-});
-
-/* ===== PHOTO MODE ===== */
-document.getElementById('photoBtn').addEventListener('click',function(){photoInput2.click()});
-
-photoInput2.addEventListener('change',function(){
-    var file=photoInput2.files[0];if(!file)return;
-    compressImage(file,1024,768,0.55,function(dataUrl){
-        photoDataUrl=dataUrl;
-        document.getElementById('photoImg').src=dataUrl;
-        document.getElementById('photoPrev').style.display='';
-        document.getElementById('photoShareBtn').style.display='';
-    });
-    photoInput2.value='';
-});
-
-document.getElementById('photoShareBtn').addEventListener('click',function(){
-    if(!photoDataUrl)return;
-    if(wbLive)stopWbLive();
-    if(shareStream)stopSharing();
-    document.getElementById('liveB').classList.add('on');
-    fbPut('/screenshare/'+encodeURIComponent(CC)+'/status',{live:true,ts:Date.now()});
-    fbPut('/screenshare/'+encodeURIComponent(CC)+'/frame',{data:photoDataUrl,ts:Date.now()});
-    toast('📸 Photo shared live!');
-});
-
-/* ===== SCREEN SHARING (TEACHER) ===== */
-var shareCanvas=document.getElementById('shareCanvas');
-var shareCtx=shareCanvas.getContext('2d');
-var shareVideo=document.createElement('video');
-shareVideo.muted=true;
-shareVideo.playsInline=true;
-shareVideo.setAttribute('playsinline','');
-var lastFrameHash='';
-
-if(!navigator.mediaDevices||!navigator.mediaDevices.getDisplayMedia){
-    document.getElementById('shareNotSupported').style.display='';
-}
-
-document.getElementById('startShareBtn').addEventListener('click',function(){
-    if(!navigator.mediaDevices||!navigator.mediaDevices.getDisplayMedia){
-        toast('Screen share needs a desktop browser. Use Board or Photo mode on iPad.',1);return;
-    }
-    if(wbLive)stopWbLive();
-    navigator.mediaDevices.getDisplayMedia({video:{width:{ideal:1280},height:{ideal:720},frameRate:{ideal:5,max:10}},audio:false})
-    .then(function(stream){
-        shareStream=stream;
-        shareVideo.srcObject=stream;
-        shareVideo.play();
-        document.getElementById('shareStart').style.display='none';
-        document.getElementById('sharingActive').classList.add('on');
-        document.getElementById('liveB').classList.add('on');
-        fbPut('/screenshare/'+encodeURIComponent(CC)+'/status',{live:true,ts:Date.now()});
-        shareInterval=setInterval(captureAndUpload,1200);
-        stream.getVideoTracks()[0].addEventListener('ended',stopSharing);
-    })
-    .catch(function(){
-        toast('Screen share cancelled',1);
-    });
-});
-
-function captureAndUpload(){
-    if(!shareVideo.videoWidth)return;
-    var vw=shareVideo.videoWidth,vh=shareVideo.videoHeight;
-    var cw=1920,ch=Math.round(1920*vh/vw)||1080;
-    shareCanvas.width=cw;shareCanvas.height=ch;
-    shareCtx.imageSmoothingEnabled=true;shareCtx.imageSmoothingQuality='high';
-    shareCtx.drawImage(shareVideo,0,0,cw,ch);
-    var dataUrl=shareCanvas.toDataURL('image/jpeg',0.85);
-    var hash=dataUrl.substring(23,223);
-    if(hash===lastFrameHash)return;
-    lastFrameHash=hash;
-    fbPut('/screenshare/'+encodeURIComponent(CC)+'/frame',{data:dataUrl,ts:Date.now()});
-}
-
-document.getElementById('stopShareBtn').addEventListener('click',stopSharing);
-
-function stopSharing(){
-    if(shareStream){shareStream.getTracks().forEach(function(t){t.stop()});shareStream=null}
-    clearInterval(shareInterval);shareInterval=null;lastFrameHash='';
-    document.getElementById('shareStart').style.display='';
-    document.getElementById('sharingActive').classList.remove('on');
-    fbPut('/screenshare/'+encodeURIComponent(CC)+'/status',{live:false,ts:Date.now()});
-    fbDel('/screenshare/'+encodeURIComponent(CC)+'/frame');
-}
-
-/* ===== SCREEN SHARE POLL (STUDENT) ===== */
-var lastScreenTs=0; /* version stamp — only download frame if ts changed */
-function pollScreenStatus(){
-    if(!isStudent||currentTab!=='tabLive')return;
-    fbGet('/screenshare/'+encodeURIComponent(CC)+'/status').then(function(d){
-        var wasLive=screenShareLive;
-        screenShareLive=!!(d&&d.live);
-        if(screenShareLive&&!wasLive){
-            lastScreenTs=0; /* reset so first frame always downloads */
-            pollScreenFrame();
-            if(!screenPollTimer)screenPollTimer=setInterval(pollScreenFrame,2500);
-            document.getElementById('screenWaiting').style.display='none';
-            document.getElementById('liveB').classList.add('on');
-        }else if(!screenShareLive&&wasLive){
-            clearInterval(screenPollTimer);screenPollTimer=null;
-            lastScreenTs=0;
-            document.getElementById('screenImg').style.display='none';
-            document.getElementById('screenWaiting').style.display='';
-        }
-    });
-}
-
-function pollScreenFrame(){
-    if(!screenShareLive)return;
-    /* First check if timestamp changed (lightweight ~50 bytes vs full image ~500KB) */
-    fbGet('/screenshare/'+encodeURIComponent(CC)+'/status').then(function(st){
-        if(!st||!st.live)return;
-        var serverTs=st.ts||0;
-        if(serverTs<=lastScreenTs)return; /* same frame, skip heavy download */
-        lastScreenTs=serverTs;
-        fbGet('/screenshare/'+encodeURIComponent(CC)+'/frame').then(function(d){
-            if(d&&d.data){
-                var img=document.getElementById('screenImg');
-                img.src=d.data;img.style.display='';
-                document.getElementById('screenWaiting').style.display='none';
-            }
-        });
-    });
-}
-
-/* ===== LIVE TEXT BOARD ===== */
-var liveEditor=document.getElementById('liveEditor');
-
-if(!isStudent){
-    liveEditor.addEventListener('input',function(){
-        clearTimeout(liveTimer);
-        liveTimer=setTimeout(function(){
-            fbPut('/liveboard/'+encodeURIComponent(CC),{content:liveEditor.value,ts:Date.now()});
-        },250);
-    });
-}
-
-function pollLive(){
-    if(currentTab!=='tabLive')return;
-    fbGet('/liveboard/'+encodeURIComponent(CC)).then(function(d){
-        if(!d)return;
-        if(d.content!==undefined){
-            if(isStudent){
-                var tv=document.getElementById('liveTextViewer');
-                if(d.content){tv.textContent=d.content;tv.style.display=''}
-                else{tv.style.display='none'}
-            }else{
-                if(document.activeElement!==liveEditor)liveEditor.value=d.content;
-            }
-        }
-    });
-}
+/* (Whiteboard, screen share, photo mode, live editor removed) */
 
 /* ===== CHAT/FORUM ===== */
 var chatMsgsEl=document.getElementById('chatMsgs');
@@ -2036,22 +1638,7 @@ function compressImage(file,maxW,maxH,quality,callback){
     img.src=objUrl;
 }
 
-/* Live tab comment */
-document.getElementById('liveCommentSend').addEventListener('click',sendLiveComment);
-document.getElementById('liveComment').addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();sendLiveComment()}});
-
-function sendLiveComment(){
-    var el=document.getElementById('liveComment');
-    var txt=el.value.trim();if(!txt&&!isVisitor)if(myId===null)return;
-    var author,emoji,aid;
-    if(isVisitor){author=visitorName;emoji=visitorEmoji;aid=-2}
-    else if(myId!==null){author=students[myId].name;emoji=students[myId].emoji;aid=myId}
-    else return;
-    if(!txt)return;
-    fbPost('/forum/'+encodeURIComponent(CC),{text:txt,author:author,emoji:emoji,aid:aid,ts:Date.now()});
-    el.value='';
-    toast('💬 Comment sent');
-}
+/* (Live comment removed) */
 
 function pollChat(){
     fbGet('/forum/'+encodeURIComponent(CC)).then(function(d){
@@ -2373,7 +1960,6 @@ function deleteReply(mk,rk){
 
 /* Poll message reactions + replies */
 function pollMsgReactions(){
-    if(currentTab!=='tabChat')return;
     var enc=encodeURIComponent(CC);
     fbGet('/msg-reactions/'+enc).then(function(d){
         var newData=(d&&typeof d==='object')?d:{};
@@ -2384,7 +1970,6 @@ function pollMsgReactions(){
     });
 }
 function pollMsgReplies(){
-    if(currentTab!=='tabChat')return;
     var enc=encodeURIComponent(CC);
     fbGet('/msg-replies/'+enc).then(function(d){
         var newData=(d&&typeof d==='object')?d:{};
@@ -2548,7 +2133,6 @@ function buildReactBtns(container){
     });
 }
 buildReactBtns(document.getElementById('reactBar'));
-buildReactBtns(document.getElementById('liveReactBar'));
 
 function showReaction(em){
     var el=document.createElement('div');el.className='fr';el.textContent=em;
@@ -2558,7 +2142,6 @@ function showReaction(em){
 
 var lastReactTs=Date.now();
 function pollReactions(){
-    if(currentTab!=='tabBoard'&&currentTab!=='tabLive')return; /* only poll when viewing relevant tab */
     fbGet('/reactions/'+encodeURIComponent(CC)).then(function(d){
         if(!d||typeof d!=='object')return;var now=Date.now();
         Object.keys(d).forEach(function(k){var r=d[k];if(r&&r.emoji&&r.ts&&r.ts>lastReactTs&&(now-r.ts<10000))showReaction(r.emoji)});
@@ -2566,291 +2149,15 @@ function pollReactions(){
     });
 }
 
-/* Clean old reactions (teacher) — less frequent */
+/* Clean old reactions (teacher) */
 if(!isStudent)setInterval(function(){
-    if(!tabVisible)return;
     fbGet('/reactions/'+encodeURIComponent(CC)).then(function(d){
         if(!d||typeof d!=='object')return;var now=Date.now();
         Object.keys(d).forEach(function(k){if(d[k]&&d[k].ts&&(now-d[k].ts>60000))fbDel('/reactions/'+encodeURIComponent(CC)+'/'+k)});
     });
-},60000);
+},30000);
 
-/* ===== STUDENT DRAWING COLLABORATION ===== */
-var studentDrawMode=false;
-var sWbInited=false;
-var sWbEl=null;
-var sWbCtx=null;
-var sWbDrawing=false;
-var sWbColor='#222';
-var sWbSize=6;
-var sWbErasing=false;
-var sWbHighlighting=false;
-var sWbHlColor='rgba(250,204,21,0.4)';
-var sWbHistory=[];
-var sWbUploadTimer=null;
-var collabStudentId=null;
-
-/* Teacher: build collab panel */
-if(!isStudent){
-    (function(){
-        var cg=document.getElementById('collabGrid');
-        students.forEach(function(s){
-            var btn=document.createElement('button');
-            btn.className='collab-btn';btn.dataset.sid=s.id;
-            btn.innerHTML=s.emoji+' <span>'+escH(s.name)+'</span>';
-            btn.addEventListener('click',function(){grantDraw(s.id)});
-            cg.appendChild(btn);
-        });
-    })();
-}
-
-function grantDraw(sid){
-    collabStudentId=sid;
-    var s=students[sid];
-    fbPut('/wb-control/'+encodeURIComponent(CC),{sid:sid,name:s.name,ts:Date.now()});
-    document.getElementById('collabActive').style.display='flex';
-    document.getElementById('collabName').textContent=s.emoji+' '+s.name+' is drawing';
-    document.querySelectorAll('.collab-btn').forEach(function(b){b.classList.toggle('granted',parseInt(b.dataset.sid)===sid)});
-    toast('✏️ '+s.name+' can now draw');
-}
-
-if(!isStudent){
-    document.getElementById('collabRevoke').addEventListener('click',function(){
-        fbDel('/wb-control/'+encodeURIComponent(CC));
-        collabStudentId=null;
-        document.getElementById('collabActive').style.display='none';
-        document.querySelectorAll('.collab-btn').forEach(function(b){b.classList.remove('granted')});
-        toast('Drawing permission revoked');
-    });
-}
-
-/* Student: poll for draw control */
-function pollDrawControl(){
-    if(!isStudent||myId===null||currentTab!=='tabLive')return;
-    fbGet('/wb-control/'+encodeURIComponent(CC)).then(function(d){
-        var hasControl=!!(d&&d.sid===myId);
-        if(hasControl&&!studentDrawMode){
-            activateStudentDraw();
-        }else if(!hasControl&&studentDrawMode){
-            deactivateStudentDraw();
-        }
-    });
-}
-
-function activateStudentDraw(){
-    studentDrawMode=true;
-    document.getElementById('studentDrawSection').style.display='';
-    document.getElementById('screenView').style.display='none';
-    toast('✏️ You have drawing control!');
-    /* Force switch to Live tab if not already there */
-    if(currentTab!=='tabLive'){
-        document.querySelectorAll('.tc').forEach(function(el){el.classList.remove('show')});
-        document.getElementById('tabLive').classList.add('show');
-        document.querySelectorAll('.tab-btn').forEach(function(x){x.classList.remove('active')});
-        document.querySelector('[data-tab="tabLive"]').classList.add('active');
-        currentTab='tabLive';
-    }
-    setTimeout(initStudentWb,100);
-}
-
-function deactivateStudentDraw(){
-    studentDrawMode=false;
-    document.getElementById('studentDrawSection').style.display='none';
-    document.getElementById('screenView').style.display='';
-    if(sWbEl&&sWbInited){
-        sWbEl.removeEventListener('pointerdown',sWbDown);
-        sWbEl.removeEventListener('pointermove',sWbMoveH);
-        sWbEl.removeEventListener('pointerup',sWbUpH);
-        sWbEl.removeEventListener('pointercancel',sWbUpH);
-    }
-    sWbInited=false;
-    clearTimeout(sWbUploadTimer);
-    toast('Drawing control ended');
-}
-
-var sWbInitRetries=0;
-function initStudentWb(){
-    if(sWbInited)return;
-    sWbEl=document.getElementById('sWbCanvas');
-    var wrap=document.getElementById('sWbWrap');
-    if(!wrap||wrap.offsetWidth===0){
-        sWbInitRetries++;
-        if(sWbInitRetries<10)setTimeout(initStudentWb,200);
-        return;
-    }
-    sWbInitRetries=0;
-    var w=wrap.offsetWidth;
-    var h=Math.round(w*3/4);
-    var dpr=Math.min(window.devicePixelRatio||1,4);
-    sWbEl.width=w*dpr;sWbEl.height=h*dpr;
-    sWbEl.style.height=h+'px';
-    sWbCtx=sWbEl.getContext('2d');
-    sWbCtx.scale(dpr,dpr);
-    sWbCtx.imageSmoothingEnabled=true;sWbCtx.imageSmoothingQuality='high';
-    sWbCtx.fillStyle='#fff';
-    sWbCtx.fillRect(0,0,w,h);
-    sWbCtx.lineCap='round';sWbCtx.lineJoin='round';
-    /* Load current shared frame as background */
-    var srcImg=document.getElementById('screenImg');
-    if(srcImg&&srcImg.src&&srcImg.style.display!=='none'&&srcImg.naturalWidth>0){
-        sWbCtx.drawImage(srcImg,0,0,w,h);
-    }else{
-        fbGet('/screenshare/'+encodeURIComponent(CC)+'/frame').then(function(d){
-            if(d&&d.data){
-                var bgImg=new Image();
-                bgImg.onload=function(){sWbCtx.drawImage(bgImg,0,0,w,h);sWbHistory=[];sWbHistory.push(sWbCtx.getImageData(0,0,sWbEl.width,sWbEl.height))};
-                bgImg.src=d.data;
-            }
-        });
-    }
-    sWbHistory=[];
-    sWbHistory.push(sWbCtx.getImageData(0,0,sWbEl.width,sWbEl.height));
-    sWbEl.addEventListener('pointerdown',sWbDown);
-    sWbEl.addEventListener('pointermove',sWbMoveH);
-    sWbEl.addEventListener('pointerup',sWbUpH);
-    sWbEl.addEventListener('pointercancel',sWbUpH);
-    sWbInited=true;
-}
-
-function getSWbPos(e){var rect=sWbEl.getBoundingClientRect();return{x:e.clientX-rect.left,y:e.clientY-rect.top}}
-
-var sWbPoints=[];
-var sWbStrokeId=null;
-
-function sWbPalmReject(e){
-    if(e.pointerType==='touch'&&(e.width>25||e.height>25))return true;
-    return false;
-}
-
-function sWbDown(e){
-    if(sWbPalmReject(e))return;
-    e.preventDefault();
-    sWbDrawing=true;
-    sWbStrokeId=e.pointerId;
-    sWbEl.setPointerCapture(e.pointerId);
-    var pos=getSWbPos(e);
-    var pressure=e.pressure||0.5;
-    sWbPoints=[{x:pos.x,y:pos.y,p:pressure}];
-    sWbCtx.globalCompositeOperation='source-over';
-    sWbCtx.lineCap='round';sWbCtx.lineJoin='round';
-    if(sWbHighlighting){
-        sWbCtx.strokeStyle=sWbHlColor;
-        sWbCtx.lineWidth=sWbSize*4;
-    }else if(sWbErasing){
-        sWbCtx.strokeStyle='#fff';
-        sWbCtx.lineWidth=sWbSize*3;
-    }else{
-        sWbCtx.strokeStyle=sWbColor;
-        sWbCtx.lineWidth=sWbSize;
-    }
-}
-
-function sWbMoveH(e){
-    if(!sWbDrawing||e.pointerId!==sWbStrokeId)return;
-    e.preventDefault();
-    var pos=getSWbPos(e);
-    var pressure=e.pressure||0.5;
-    sWbPoints.push({x:pos.x,y:pos.y,p:pressure});
-    var pts=sWbPoints;
-    var len=pts.length;
-    if(len<2)return;
-    sWbCtx.beginPath();
-    if(len===2){
-        sWbCtx.moveTo(pts[0].x,pts[0].y);
-        sWbCtx.lineTo(pts[1].x,pts[1].y);
-    }else{
-        var i=len-2;
-        var p0=pts[i-1],p1=pts[i],p2=pts[i+1];
-        var mx1=(p0.x+p1.x)/2,my1=(p0.y+p1.y)/2;
-        var mx2=(p1.x+p2.x)/2,my2=(p1.y+p2.y)/2;
-        sWbCtx.moveTo(mx1,my1);
-        sWbCtx.quadraticCurveTo(p1.x,p1.y,mx2,my2);
-    }
-    if(!sWbHighlighting&&!sWbErasing&&e.pointerType==='pen'){
-        sWbCtx.lineWidth=sWbSize*(0.4+pressure*1.2);
-    }
-    sWbCtx.stroke();
-}
-
-function sWbUpH(e){
-    if(!sWbDrawing)return;
-    if(e&&e.pointerId!==undefined&&e.pointerId!==sWbStrokeId)return;
-    sWbDrawing=false;sWbStrokeId=null;
-    if(sWbPoints.length===1){
-        var pt=sWbPoints[0];
-        sWbCtx.beginPath();
-        sWbCtx.arc(pt.x,pt.y,sWbCtx.lineWidth/2,0,Math.PI*2);
-        sWbCtx.fillStyle=sWbCtx.strokeStyle;
-        sWbCtx.fill();
-    }
-    sWbCtx.beginPath();
-    sWbPoints=[];
-    sWbHistory.push(sWbCtx.getImageData(0,0,sWbEl.width,sWbEl.height));
-    if(sWbHistory.length>15)sWbHistory.shift();
-    scheduleSWbUpload();
-}
-
-function scheduleSWbUpload(){
-    clearTimeout(sWbUploadTimer);
-    sWbUploadTimer=setTimeout(function(){
-        if(!sWbEl||!studentDrawMode)return;
-        var ec2=document.createElement('canvas');
-        var ew2=1920,eh2=Math.round(1920*sWbEl.height/sWbEl.width);
-        ec2.width=ew2;ec2.height=eh2;
-        var ectx2=ec2.getContext('2d');ectx2.imageSmoothingEnabled=true;ectx2.imageSmoothingQuality='high';
-        ectx2.drawImage(sWbEl,0,0,ew2,eh2);
-        var du2=ec2.toDataURL('image/jpeg',0.88);
-        fbPut('/screenshare/'+encodeURIComponent(CC)+'/frame',{data:du2,ts:Date.now()});
-    },500);
-}
-
-/* Student drawing tool events */
-if(isStudent){
-    document.getElementById('sWbColors').addEventListener('click',function(e){
-        var btn=e.target.closest('.wb-c');if(!btn)return;
-        sWbColor=btn.dataset.c;sWbErasing=false;sWbHighlighting=false;
-        document.getElementById('sWbEraser').classList.remove('active');
-        document.getElementById('sWbHighlight').classList.remove('active','hl-active');
-        document.getElementById('sWbHlColors').style.display='none';
-        document.querySelectorAll('#sWbColors .wb-c').forEach(function(b){b.classList.remove('active')});
-        btn.classList.add('active');
-    });
-
-    document.getElementById('sWbSizes').addEventListener('click',function(e){
-        var btn=e.target.closest('.wb-sz');if(!btn)return;
-        sWbSize=parseInt(btn.dataset.sz);
-        document.querySelectorAll('#sWbSizes .wb-sz').forEach(function(b){b.classList.remove('active')});
-        btn.classList.add('active');
-    });
-
-    document.getElementById('sWbHighlight').addEventListener('click',function(){
-        sWbHighlighting=!sWbHighlighting;sWbErasing=false;
-        document.getElementById('sWbEraser').classList.remove('active');
-        this.classList.toggle('hl-active',sWbHighlighting);
-        document.getElementById('sWbHlColors').style.display=sWbHighlighting?'flex':'none';
-    });
-    document.getElementById('sWbHlColors').addEventListener('click',function(e){
-        var btn=e.target.closest('.wb-hl-c');if(!btn)return;
-        sWbHlColor=btn.dataset.hc;
-        document.querySelectorAll('#sWbHlColors .wb-hl-c').forEach(function(b){b.classList.remove('active')});
-        btn.classList.add('active');
-    });
-
-    document.getElementById('sWbEraser').addEventListener('click',function(){
-        sWbErasing=!sWbErasing;sWbHighlighting=false;
-        document.getElementById('sWbHighlight').classList.remove('active','hl-active');
-        document.getElementById('sWbHlColors').style.display='none';
-        this.classList.toggle('active',sWbErasing);
-    });
-
-    document.getElementById('sWbUndo').addEventListener('click',function(){
-        if(sWbHistory.length<2)return;
-        sWbHistory.pop();
-        var prev=sWbHistory[sWbHistory.length-1];
-        sWbCtx.putImageData(prev,0,0);
-        scheduleSWbUpload();
-    });
-}
+/* (Student drawing collaboration removed) */
 
 /* ===== CLASSWORK SUBMISSION ===== */
 var cwActive=null;
@@ -3320,25 +2627,6 @@ function renderCwStudent(){
             });
         }
     }
-    /* Render classmates' submissions grid */
-    var peersSection=document.getElementById('cwPeersSection');
-    var peersGrid=document.getElementById('cwPeersGrid');
-    peersSection.style.display='';
-    peersGrid.innerHTML='';
-    students.forEach(function(s){
-        if(s.id===myId&&!isVisitor)return; /* skip self for students */
-        var peerSub=cwSubmissions[s.id];
-        var hasPeerSub=!!peerSub;
-        var item=document.createElement('div');
-        item.className='cw-sub-item'+(hasPeerSub?' submitted':'');
-        var pageCount=(peerSub&&peerSub.pages)?Object.keys(peerSub.pages).length:0;
-        var pcBadge=(hasPeerSub&&pageCount>1)?'<span class="cw-page-count">'+pageCount+'p</span>':'';
-        item.innerHTML='<span class="cw-sub-emoji">'+s.emoji+'</span><span class="cw-sub-name">'+escH(s.name.split(' ')[0])+'</span>'+(hasPeerSub?'<i class="fas fa-check-circle cw-sub-check"></i>':'')+pcBadge;
-        if(hasPeerSub){
-            item.addEventListener('click',(function(sid){return function(){openCwViewer(sid)}})(s.id));
-        }
-        peersGrid.appendChild(item);
-    });
     /* Notify student of new task */
     if(cwActive.title&&cwActive.title!==cwLastNotifiedTask){
         cwLastNotifiedTask=cwActive.title;
@@ -3681,7 +2969,6 @@ function cwvPalmReject(e){
 }
 
 function cwvDown(e){
-    if(isStudent)return;
     if(cwvPalmReject(e))return;
     if(!cwvShouldDraw(e))return; /* let browser handle scroll */
     e.preventDefault();
@@ -3890,20 +3177,7 @@ document.getElementById('cwvClearMarks').addEventListener('click',function(){
     cwVHistory=[cwVHistory[0]];
 });
 
-/* Viewer: Share live */
-document.getElementById('cwvShare').addEventListener('click',function(){
-    if(!cwViewerEl||!cwViewerCtx)return;
-    var ec=document.createElement('canvas');
-    var ew=1920,eh=Math.round(1920*cwViewerEl.height/cwViewerEl.width);
-    ec.width=ew;ec.height=eh;
-    var ectx3=ec.getContext('2d');ectx3.imageSmoothingEnabled=true;ectx3.imageSmoothingQuality='high';
-    ectx3.drawImage(cwViewerEl,0,0,ew,eh);
-    var dataUrl=ec.toDataURL('image/jpeg',0.88);
-    fbPut('/screenshare/'+encodeURIComponent(CC)+'/status',{live:true,ts:Date.now()});
-    fbPut('/screenshare/'+encodeURIComponent(CC)+'/frame',{data:dataUrl,ts:Date.now()});
-    document.getElementById('liveB').classList.add('on');
-    toast('📺 Sharing marked work live!');
-});
+/* (Share live removed — Live tab deleted) */
 
 /* Viewer: Save to student */
 document.getElementById('cwvSave').addEventListener('click',function(){
@@ -4769,27 +4043,9 @@ function pollGwDrafts(){
 }
 
 var myMarkedMeta={};
-var visitorMarkedAll={};
 
 function pollMarkedWork(){
-    if(!isStudent)return;
-    if(isVisitor){
-        fbGet('/marked-work/'+encodeURIComponent(CC)).then(function(d){
-            visitorMarkedAll=(d&&typeof d==='object')?d:{};
-            var hasAny=false;
-            for(var k in visitorMarkedAll){if(visitorMarkedAll.hasOwnProperty(k)&&typeof visitorMarkedAll[k]==='object'){hasAny=true;break}}
-            var sec=document.getElementById('cwMarkedSection');
-            if(hasAny){
-                sec.style.display='';
-                document.querySelector('#cwMarkedSection .cw-marked-head').innerHTML='<i class="fas fa-check-double"></i> Students\u2019 Marked Work';
-                renderMarkedListVisitor();
-            }else{
-                sec.style.display='none';
-            }
-        });
-        return;
-    }
-    if(myId===null)return;
+    if(!isStudent||myId===null)return;
     fbGet('/marked-work/'+encodeURIComponent(CC)+'/'+myId).then(function(d){
         if(d&&typeof d==='object'){
             var keys=Object.keys(d);
@@ -4830,70 +4086,12 @@ function renderMarkedList(){
     container.innerHTML=html||'<div style="text-align:center;color:var(--t2);padding:12px;font-size:13px">No marked work yet.</div>';
 }
 
-function renderMarkedListVisitor(){
-    var container=document.getElementById('cwMarkedList');
-    var html='<div class="cw-peers-grid">';
-    var count=0;
-    students.forEach(function(s){
-        var marks=visitorMarkedAll[s.id];
-        if(!marks||typeof marks!=='object')return;
-        var markKeys=Object.keys(marks);
-        if(markKeys.length===0)return;
-        count++;
-        html+='<div class="cw-sub-item submitted" data-vsid="'+s.id+'" style="cursor:pointer">';
-        html+='<span class="cw-sub-emoji">'+s.emoji+'</span>';
-        html+='<span class="cw-sub-name">'+escH(s.name.split(' ')[0])+'</span>';
-        if(markKeys.length>1)html+='<span class="tchr-marked-count">'+markKeys.length+'</span>';
-        html+='</div>';
-    });
-    html+='</div>';
-    if(count===0){
-        container.innerHTML='<div style="text-align:center;color:var(--t2);padding:12px;font-size:13px">No marked work yet.</div>';
-    }else{
-        container.innerHTML=html;
-    }
-}
-
-function openVisitorMarkedList(sid,marks){
-    var s=students[sid];
-    var entries=[];
-    for(var k in marks){
-        if(marks.hasOwnProperty(k)){entries.push({id:k,title:marks[k].title||'Classwork',ts:marks[k].ts||0})}
-    }
-    entries.sort(function(a,b){return b.ts-a.ts});
-    var bg=document.createElement('div');
-    bg.className='confirm-bg show';bg.style.zIndex='2500';
-    var html='<div class="confirm-box" style="max-width:360px;max-height:70vh;overflow:auto"><div style="font-family:Fredoka,sans-serif;font-size:16px;font-weight:700;margin-bottom:10px">'+s.emoji+' '+escH(s.name)+' \u2014 Marked Work</div>';
-    entries.forEach(function(e){
-        var dt=new Date(e.ts);
-        var timeStr=dt.getDate()+'/'+(dt.getMonth()+1)+' '+dt.getHours()+':'+(dt.getMinutes()<10?'0':'')+dt.getMinutes();
-        html+='<div class="cw-marked-item" style="cursor:pointer;margin-bottom:6px" data-msid="'+sid+'" data-mid="'+e.id+'">';
-        html+='<div class="cw-marked-item-head"><span class="cw-marked-item-title">'+escH(e.title)+'</span><span class="cw-marked-item-date">'+timeStr+'</span></div>';
-        html+='</div>';
-    });
-    html+='<button class="cbtn cc" style="margin-top:10px;width:100%">Close</button></div>';
-    bg.innerHTML=html;
-    document.body.appendChild(bg);
-    bg.querySelector('.cc').addEventListener('click',function(){bg.remove()});
-    bg.addEventListener('click',function(ev){if(ev.target===bg)bg.remove()});
-    bg.querySelectorAll('.cw-marked-item').forEach(function(el){
-        el.addEventListener('click',function(){
-            var msid=parseInt(el.getAttribute('data-msid'));
-            var mmid=el.getAttribute('data-mid');
-            bg.remove();
-            loadMarkedFile(mmid,function(dataUrl){openImgViewer(dataUrl)},msid);
-        });
-    });
-}
-
-function loadMarkedFile(markId,cb,sid){
-    var targetSid=(sid!==undefined)?sid:myId;
-    var cacheKey=targetSid+'_'+markId;
-    if(markedFileCache[cacheKey]){cb(markedFileCache[cacheKey]);return}
+function loadMarkedFile(markId,cb){
+    if(markedFileCache[markId]){cb(markedFileCache[markId]);return}
     toast('📥 Loading...');
-    fbGet('/marked-files/'+encodeURIComponent(CC)+'/'+targetSid+'/'+markId).then(function(d){
+    fbGet('/marked-files/'+encodeURIComponent(CC)+'/'+myId+'/'+markId).then(function(d){
         if(d&&d.data){
-            markedFileCache[cacheKey]=d.data;
+            markedFileCache[markId]=d.data;
             cb(d.data);
         }else{
             toast('Could not load file',1);
@@ -4902,14 +4100,6 @@ function loadMarkedFile(markId,cb,sid){
 }
 
 document.getElementById('cwMarkedList').addEventListener('click',function(e){
-    /* Visitor: click on student grid item */
-    var visItem=e.target.closest('.cw-sub-item[data-vsid]');
-    if(visItem){
-        var vsid=parseInt(visItem.getAttribute('data-vsid'));
-        var marks=visitorMarkedAll[vsid];
-        if(marks)openVisitorMarkedList(vsid,marks);
-        return;
-    }
     var viewBtn=e.target.closest('.marked-view-btn');
     var dlBtn=e.target.closest('.marked-dl-btn');
     if(viewBtn){
@@ -5216,7 +4406,7 @@ function pollData(){
             if(s&&d[k]){if(d[k].name&&d[k].name!==s.name){s.name=d[k].name;changed=true}if(typeof d[k].points==='number'&&d[k].points!==s.points){var delta=d[k].points-s.points;s.points=d[k].points;updCard(id,delta);changed=true}}
         });
         if(changed){students.forEach(function(s){var n=document.querySelector('[data-nm="'+s.id+'"]');if(n)n.textContent=s.name});updTotal();updCrown();updateMyPts();sLocal()}
-        setSync('online');document.getElementById('liveB').classList.add('on');
+        setSync('online');
     }).catch(function(){setSync('offline')});
 }
 
@@ -5246,74 +4436,44 @@ function pollStatus(){
         if(d&&typeof d==='object'){
             Object.keys(d).forEach(function(k){var id=parseInt(k);if(isNaN(id))return;var s=students.find(function(x){return x.id===id});if(s&&d[k]){if(d[k].name)s.name=d[k].name;if(typeof d[k].points==='number')s.points=d[k].points}});
             refreshAll();sLocal();buildLogin();if(isStudent&&myId!==null)setupStudentUI();
-            setSync('online');document.getElementById('liveB').classList.add('on');
+            setSync('online');
         }
     });
 
-    /* ===== SMART POLLING ENGINE =====
-       - Pauses ALL polling when tab is hidden (biggest bandwidth saver)
-       - Uses a single setInterval that calls each poller at its own cadence
-       - Slows everything down when idle (no active classwork/groups)
-    */
-    var pollTimers=[];
-    document.addEventListener('visibilitychange',function(){
-        tabVisible=!document.hidden;
-        /* When tab becomes visible again, do one immediate refresh */
-        if(tabVisible){pollAll()}
-    });
-
-    function addPoll(fn,intervalMs){pollTimers.push({fn:fn,interval:intervalMs,elapsed:0})}
-    function pollAll(){pollTimers.forEach(function(p){p.fn();p.elapsed=0})}
-
-    var TICK=3000; /* master tick every 3s */
-    setInterval(function(){
-        if(!tabVisible)return; /* STOP all polling when tab hidden */
-        pollTimers.forEach(function(p){
-            p.elapsed+=TICK;
-            if(p.elapsed>=p.interval){p.elapsed=0;p.fn()}
-        });
-    },TICK);
-
+    /* Start polling — teacher has faster intervals, students are bandwidth-optimized */
     if(isStudent){
-        addPoll(pollData,8000);
-        addPoll(pollStatus,10000);
-        addPoll(pollLive,6000);
-        addPoll(pollChat,6000);
-        addPoll(pollReactions,10000);
-        addPoll(pollClasswork,8000);
-        addPoll(pollScreenStatus,6000);
-        addPoll(pollDrawControl,6000);
-        addPoll(pollMarkedWork,15000);
-        addPoll(pollSpinnerPick,8000);
-        addPoll(pollGroupDisc,10000);
-        addPoll(pollGroupWork,10000);
-        addPoll(pollMsgReactions,12000);
-        addPoll(pollMsgReplies,10000);
+        setInterval(pollData,5000);
+        setInterval(pollStatus,6000);
+        setInterval(pollChat,5000);
+        setInterval(pollReactions,4000);
+        setInterval(pollClasswork,5000);
+        setInterval(pollMarkedWork,8000);
+        setInterval(pollSpinnerPick,5000);
+        setInterval(pollGroupDisc,6000);
+        setInterval(pollGroupWork,6000);
+        setInterval(pollMsgReactions,8000);
+        setInterval(pollMsgReplies,6000);
     }else{
-        addPoll(pollData,5000);
-        addPoll(pollStatus,6000);
-        addPoll(pollLive,5000);
-        addPoll(pollChat,5000);
-        addPoll(pollReactions,8000);
-        addPoll(pollClasswork,6000);
-        addPoll(pollCwHistory,20000);
-        addPoll(pollTchrMarked,15000);
-        addPoll(pollCwDrafts,20000);
-        addPoll(pollGroupDisc,10000);
-        addPoll(pollGroupWork,10000);
-        addPoll(pollGwDrafts,25000);
-        addPoll(pollMsgReactions,10000);
-        addPoll(pollMsgReplies,8000);
+        setInterval(pollData,2000);
+        setInterval(pollStatus,3000);
+        setInterval(pollChat,2500);
+        setInterval(pollReactions,2500);
+        setInterval(pollClasswork,3000);
+        setInterval(pollCwHistory,10000);
+        setInterval(pollTchrMarked,8000);
+        setInterval(pollCwDrafts,12000);
+        setInterval(pollGroupDisc,5000);
+        setInterval(pollGroupWork,5000);
+        setInterval(pollGwDrafts,15000);
+        setInterval(pollMsgReactions,6000);
+        setInterval(pollMsgReplies,5000);
     }
-
-    /* Initial data pull (one-time, not repeated) */
     setTimeout(pollNotes,500);
     setTimeout(pollStatus,1000);
-    setTimeout(pollLive,500);
     setTimeout(pollChat,1000);
     setTimeout(pollClasswork,800);
     if(!isStudent){setTimeout(pollCwHistory,1200);setTimeout(pollTchrMarked,1500);setTimeout(pollCwDrafts,800)}
-    if(isStudent){setTimeout(pollScreenStatus,1000);setTimeout(pollDrawControl,1200);setTimeout(pollMarkedWork,1500);setTimeout(pollSpinnerPick,2000)}
+    if(isStudent){setTimeout(pollMarkedWork,1500);setTimeout(pollSpinnerPick,2000)}
     setTimeout(pollGroupDisc,900);
     setTimeout(pollGroupWork,1100);
     if(!isStudent)setTimeout(pollGwDrafts,1300);
