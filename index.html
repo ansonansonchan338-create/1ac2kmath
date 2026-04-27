@@ -277,6 +277,13 @@
         .cwv-pager-btn:disabled{opacity:.3;cursor:default}
         .cwv-pager-label{font-family:'Fredoka',sans-serif;font-size:13px;font-weight:700;color:var(--t1)}
 
+        /* MULTI-TASK */
+        .cw-active-task-card{margin-bottom:14px;padding-bottom:14px;border-bottom:1.5px dashed var(--brd)}
+        .cw-active-task-card:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none}
+        .cw-student-task-card{margin-bottom:12px;padding:14px;background:var(--bg2);border:1.5px solid var(--brd);border-radius:14px}
+        .cw-student-task-card:last-child{margin-bottom:0}
+        #cwActiveList:empty+.cw-empty{display:block}
+
         /* CLASSWORK VIEWER */
         .cwv-bg{position:fixed;inset:0;background:var(--ov);display:none;flex-direction:column;z-index:2000;padding:0}
         .cwv-bg.show{display:flex}
@@ -789,18 +796,7 @@
                     <button class="cw-draft-save" id="cwDraftSave"><i class="fas fa-bookmark"></i> Save as Draft</button>
                 </div>
             </div>
-            <div id="cwActiveSection" style="display:none">
-                <div class="cw-task-bar">
-                    <span class="cw-task-name" id="cwTaskName"></span>
-                    <button class="cw-end-btn" id="cwEndBtn"><i class="fas fa-stop"></i> End</button>
-                </div>
-                <div class="cw-ws-preview" id="cwWsPreview" style="display:none">
-                    <img id="cwWsThumb" alt="Worksheet"><div class="cw-ws-label"><i class="fas fa-paperclip"></i> Worksheet attached</div>
-                </div>
-                <div class="cw-progress-wrap"><div class="cw-progress-fill" id="cwProgressFill" style="width:0"></div></div>
-                <div class="cw-sub-count" id="cwSubCount">0 / 14 submitted</div>
-                <div class="cw-sub-grid" id="cwSubGrid"></div>
-            </div>
+            <div id="cwActiveList"></div>
             <div class="cw-empty" id="cwEmpty">No active classwork. Tap <b>+ New Task</b> to start.</div>
             <div id="cwDraftsSection" style="display:none">
                 <div class="cw-drafts-header"><i class="fas fa-bookmark"></i> Prepared Tasks <span class="cw-drafts-count" id="cwDraftsCount">0</span></div>
@@ -828,23 +824,7 @@
             </div>
         </div>
         <div class="cw-section student-only" id="cwStudent">
-            <div id="cwStudentActive" style="display:none">
-                <div class="cw-student-task"><i class="fas fa-clipboard-list"></i> <span id="cwStudentTaskName"></span></div>
-                <div class="cw-student-ws" id="cwStudentWs" style="display:none">
-                    <img class="cw-student-ws-img" id="cwStudentWsImg" alt="Worksheet">
-                    <div class="cw-student-ws-bar">
-                        <button class="cw-student-ws-btn" id="cwDrawOnWsBtn"><i class="fas fa-pencil-alt"></i> Draw on Worksheet</button>
-                    </div>
-                </div>
-                <div id="cwSubmitArea">
-                    <button class="cw-submit-btn" id="cwSubmitBtn"><i class="fas fa-camera"></i> Submit Photo of Work</button>
-                </div>
-                <div class="cw-submitted-badge" id="cwSubmittedBadge" style="display:none">
-                    <i class="fas fa-check-circle"></i> <span id="cwSubPageLabel">Work submitted!</span>
-                    <div class="cw-sub-thumbs" id="cwSubThumbs"></div>
-                    <button class="cw-add-more-btn" id="cwAddMoreBtn"><i class="fas fa-plus-circle"></i> Add Another Page</button>
-                </div>
-            </div>
+            <div id="cwStudentList"></div>
             <div class="cw-empty" id="cwStudentEmpty">No active classwork right now.</div>
             <div class="cw-marked" id="cwMarkedSection" style="display:none">
                 <div class="cw-marked-head"><i class="fas fa-check-double"></i> My Marked Work</div>
@@ -2159,13 +2139,14 @@ if(!isStudent)setInterval(function(){
 
 /* (Student drawing collaboration removed) */
 
-/* ===== CLASSWORK SUBMISSION ===== */
-var cwActive=null;
-var cwSubmissions={};
+/* ===== CLASSWORK SUBMISSION (Multi-Task) ===== */
+var cwActiveTasks={};   /* {taskId:{title,ts,active,hasWs}} */
+var cwTaskSubs={};      /* {taskId:{studentId:submission}} */
 var cwHistory={};
-var cwWsImage=null;
+var cwWsImages={};      /* {taskId:imageDataUrl} */
 var cwViewerOpen=false;
 var cwViewerSource=null;
+var cwViewerActiveTask=null; /* taskId when viewing an active task submission */
 var cwViewerCtx=null;
 var cwViewerEl=null;
 var cwVDrawing=false;
@@ -2177,8 +2158,10 @@ var cwVHlColor='rgba(250,204,21,0.4)';
 var cwVHistory=[];
 var cwViewingSid=null;
 var cwSubmitInput=document.getElementById('cwSubmitInput');
-var cwLastNotifiedTask='';
+var cwNotifiedTasks={};  /* {taskId:true} — tracks which tasks student has been notified about */
 var cwEnding=false; /* flag to suppress pollClasswork during end operation */
+var cwPendingSubmitTask=null; /* taskId for pending photo submit */
+var cwPendingDrawTask=null;   /* taskId for pending draw submission */
 
 /* Custom confirm helper */
 function showCwConfirm(message,onConfirm){
@@ -2369,39 +2352,32 @@ document.getElementById('cwDraftsList').addEventListener('click',function(e){
     }
 });
 
-/* Publish draft = create classwork from a saved draft */
+/* Publish draft = create new classwork task from a saved draft */
 function publishDraft(did){
     var dr=cwDrafts[did];
     if(!dr)return;
-    cwEnding=true;
     var enc=encodeURIComponent(CC);
-    archiveCurrentTask(function(){
-        cwActive={title:dr.title,ts:Date.now(),active:true,hasWs:!!dr.hasWs};
-        fbPut('/classwork/'+enc,cwActive);
-        fbDel('/submissions/'+enc);
-        fbDel('/sub-files/'+enc);
-        cwSubmissions={};
-        if(dr.hasWs){
-            /* Load worksheet from draft file and set as active worksheet */
-            fbGet('/cw-draft-files/'+enc+'/'+did).then(function(d){
-                if(d&&d.data){
-                    cwWsImage=d.data;
-                    fbPut('/classwork-ws/'+enc,{data:d.data});
-                }else{
-                    cwWsImage=null;
-                    cwActive.hasWs=false;
-                    fbPut('/classwork/'+enc,cwActive);
-                }
-                renderCwTeacher();
-            });
-        }else{
-            cwWsImage=null;
-            fbDel('/classwork-ws/'+enc);
+    var taskId='cw'+Date.now()+'_'+Math.random().toString(36).substr(2,4);
+    var task={title:dr.title,ts:Date.now(),active:true,hasWs:!!dr.hasWs};
+    cwActiveTasks[taskId]=task;
+    cwTaskSubs[taskId]={};
+    fbPut('/classwork/'+enc+'/'+taskId,task);
+    if(dr.hasWs){
+        fbGet('/cw-draft-files/'+enc+'/'+did).then(function(d){
+            if(d&&d.data){
+                cwWsImages[taskId]=d.data;
+                fbPut('/classwork-ws/'+enc+'/'+taskId,{data:d.data});
+            }else{
+                task.hasWs=false;
+                cwActiveTasks[taskId]=task;
+                fbPut('/classwork/'+enc+'/'+taskId,task);
+            }
             renderCwTeacher();
-        }
-        toast('📋 Task published: '+dr.title);
-        setTimeout(function(){pollCwHistory();cwEnding=false},2000);
-    });
+        });
+    }else{
+        renderCwTeacher();
+    }
+    toast('📋 Task published: '+dr.title);
 }
 
 /* Edit draft = load into create form */
@@ -2430,39 +2406,32 @@ function editDraft(did){
     }
 }
 
-function archiveCurrentTask(cb){
-    if(!cwActive||!cwActive.active||!cwActive.title){if(cb)cb();return}
-    /* Snapshot all data NOW so we're decoupled from live globals */
-    var snapActive=cwActive;
-    var snapSubs=cwSubmissions;
-    var snapWsImage=cwWsImage;
-    var taskId='t'+snapActive.ts+'_'+Math.random().toString(36).substr(2,4);
+function archiveTask(taskId,cb){
+    var task=cwActiveTasks[taskId];
+    if(!task||!task.active||!task.title){if(cb)cb();return}
+    var snapTask=task;
+    var snapSubs=cwTaskSubs[taskId]||{};
+    var snapWsImage=cwWsImages[taskId];
+    var archiveId='t'+snapTask.ts+'_'+Math.random().toString(36).substr(2,4);
     var subKeys=Object.keys(snapSubs);
-    var meta={title:snapActive.title,ts:snapActive.ts,subCount:subKeys.length,hasWs:!!snapActive.hasWs,subs:{}};
+    var meta={title:snapTask.title,ts:snapTask.ts,subCount:subKeys.length,hasWs:!!snapTask.hasWs,subs:{}};
     subKeys.forEach(function(k){
-        var s=snapSubs[k];
-        if(!s)return;
+        var s=snapSubs[k];if(!s)return;
         meta.subs[k]={name:s.name,ts:s.ts};
         if(s.pages)meta.subs[k].pages=s.pages;
     });
     var enc=encodeURIComponent(CC);
-    /* Fire callback immediately — archive files in background */
     if(cb)cb();
-    /* Archive worksheet attachment if present */
-    if(snapActive.hasWs&&snapWsImage){
-        fbPut('/cw-hist-files/'+enc+'/'+taskId+'/_ws',{data:snapWsImage});
+    if(snapTask.hasWs&&snapWsImage){
+        fbPut('/cw-hist-files/'+enc+'/'+archiveId+'/_ws',{data:snapWsImage});
     }
-    /* Save metadata (lightweight) */
-    fbPut('/cw-history/'+enc+'/'+taskId,meta).then(function(){
-        /* Archive all submission files in background (multi-page aware) */
+    fbPut('/cw-history/'+enc+'/'+archiveId,meta).then(function(){
         var jobs=[];
         subKeys.forEach(function(sid){
             var sub=snapSubs[sid];
             var pages=(sub&&sub.pages)?sub.pages:null;
             if(pages){
-                Object.keys(pages).forEach(function(pid){
-                    jobs.push({sid:sid,pid:pid});
-                });
+                Object.keys(pages).forEach(function(pid){jobs.push({sid:sid,pid:pid})});
             }else{
                 jobs.push({sid:sid,pid:null});
             }
@@ -2471,20 +2440,18 @@ function archiveCurrentTask(cb){
         jobs.forEach(function(job){
             var srcPath,destPath,cacheKey;
             if(job.pid){
-                srcPath='/sub-files/'+enc+'/'+job.sid+'/'+job.pid;
-                destPath='/cw-hist-files/'+enc+'/'+taskId+'/'+job.sid+'/'+job.pid;
-                cacheKey='sub_'+job.sid+'_'+job.pid;
+                srcPath='/sub-files/'+enc+'/'+taskId+'/'+job.sid+'/'+job.pid;
+                destPath='/cw-hist-files/'+enc+'/'+archiveId+'/'+job.sid+'/'+job.pid;
+                cacheKey='sub_'+taskId+'_'+job.sid+'_'+job.pid;
             }else{
-                srcPath='/sub-files/'+enc+'/'+job.sid;
-                destPath='/cw-hist-files/'+enc+'/'+taskId+'/'+job.sid;
-                cacheKey='sub_'+job.sid;
+                srcPath='/sub-files/'+enc+'/'+taskId+'/'+job.sid;
+                destPath='/cw-hist-files/'+enc+'/'+archiveId+'/'+job.sid;
+                cacheKey='sub_'+taskId+'_'+job.sid;
             }
             if(fileCache[cacheKey]){
                 fbPut(destPath,{data:fileCache[cacheKey]});
             }else{
-                fbGet(srcPath).then(function(d){
-                    if(d&&d.data){fbPut(destPath,{data:d.data})}
-                });
+                fbGet(srcPath).then(function(d){if(d&&d.data)fbPut(destPath,{data:d.data})});
             }
         });
     });
@@ -2494,206 +2461,257 @@ function createClasswork(){
     var title=document.getElementById('cwCreateInput').value.trim();
     if(!title){toast('Please enter a task title',1);return}
     document.getElementById('cwCreateGo').disabled=true;
-    cwEnding=true;
-    cwEditingDraftId=null; /* clear draft edit state */
-    /* Archive old task in background (callback fires immediately) */
-    archiveCurrentTask(function(){
-        var enc=encodeURIComponent(CC);
-        cwActive={title:title,ts:Date.now(),active:true,hasWs:!!cwAttachData};
-        fbPut('/classwork/'+enc,cwActive);
-        if(cwAttachData){
-            fbPut('/classwork-ws/'+enc,{data:cwAttachData});
-            cwWsImage=cwAttachData;
-        }else{
-            fbDel('/classwork-ws/'+enc);
-            cwWsImage=null;
-        }
-        fbDel('/submissions/'+enc);
-        fbDel('/sub-files/'+enc);
-        cwSubmissions={};
-        cwAttachData=null;
-        document.getElementById('cwAttachPreview').style.display='none';
-        document.getElementById('cwAttachBtn').style.display='';
-        document.getElementById('cwCreate').classList.remove('open');
-        document.getElementById('cwCreateInput').value='';
-        document.getElementById('cwCreateGo').disabled=false;
-        renderCwTeacher();
-        toast('📋 Task created!');
-        setTimeout(function(){pollCwHistory();cwEnding=false},2000);
-    });
+    cwEditingDraftId=null;
+    var enc=encodeURIComponent(CC);
+    var taskId='cw'+Date.now()+'_'+Math.random().toString(36).substr(2,4);
+    var task={title:title,ts:Date.now(),active:true,hasWs:!!cwAttachData};
+    cwActiveTasks[taskId]=task;
+    cwTaskSubs[taskId]={};
+    fbPut('/classwork/'+enc+'/'+taskId,task);
+    if(cwAttachData){
+        fbPut('/classwork-ws/'+enc+'/'+taskId,{data:cwAttachData});
+        cwWsImages[taskId]=cwAttachData;
+    }
+    cwAttachData=null;
+    document.getElementById('cwAttachPreview').style.display='none';
+    document.getElementById('cwAttachBtn').style.display='';
+    document.getElementById('cwCreate').classList.remove('open');
+    document.getElementById('cwCreateInput').value='';
+    document.getElementById('cwCreateGo').disabled=false;
+    renderCwTeacher();
+    toast('📋 Task created!');
 }
 
-/* Teacher: End task */
-document.getElementById('cwEndBtn').addEventListener('click',function(){
+/* Teacher: End a specific task */
+function endClassworkTask(taskId){
     showCwConfirm('End this classwork task? It will be saved to history.',function(){
         cwEnding=true;
         var enc=encodeURIComponent(CC);
-        /* Archive snapshots data then fires callback immediately */
-        archiveCurrentTask(function(){
-            /* Immediately clear local state + UI */
-            cwActive=null;
-            cwSubmissions={};
-            cwWsImage=null;
+        archiveTask(taskId,function(){
+            delete cwActiveTasks[taskId];
+            delete cwTaskSubs[taskId];
+            delete cwWsImages[taskId];
             renderCwTeacher();
             toast('✅ Task ended & archived');
-            /* Delete from Firebase */
-            fbDel('/classwork/'+enc);
-            fbDel('/submissions/'+enc);
-            fbDel('/sub-files/'+enc);
-            /* Refresh history after a short delay for archive write to land */
+            fbDel('/classwork/'+enc+'/'+taskId);
+            fbDel('/submissions/'+enc+'/'+taskId);
+            fbDel('/sub-files/'+enc+'/'+taskId);
+            fbDel('/classwork-ws/'+enc+'/'+taskId);
             setTimeout(function(){pollCwHistory();cwEnding=false},2000);
         });
     });
+}
+
+/* Event delegation for teacher active task list */
+document.getElementById('cwActiveList').addEventListener('click',function(e){
+    var endBtn=e.target.closest('.cw-end-btn');
+    if(endBtn){var tid=endBtn.getAttribute('data-tid');if(tid)endClassworkTask(tid);return}
+    var subItem=e.target.closest('.cw-sub-item.submitted[data-vsid]');
+    if(subItem){
+        var sid=parseInt(subItem.getAttribute('data-vsid'));
+        var vtid=subItem.getAttribute('data-vtid');
+        openCwViewer(sid,null,vtid);
+        return;
+    }
+});
+
+/* Event delegation for student task list */
+document.getElementById('cwStudentList').addEventListener('click',function(e){
+    var submitBtn=e.target.closest('.cw-submit-btn');
+    if(submitBtn){cwPendingSubmitTask=submitBtn.getAttribute('data-tid');cwSubmitInput.click();return}
+    var addMore=e.target.closest('.cw-add-more-btn');
+    if(addMore){cwPendingSubmitTask=addMore.getAttribute('data-tid');cwSubmitInput.click();return}
+    var drawBtn=e.target.closest('.cw-student-ws-btn');
+    if(drawBtn){
+        var dtid=drawBtn.getAttribute('data-tid');
+        var wsImg=cwWsImages[dtid];
+        if(!wsImg){toast('No worksheet loaded',1);return}
+        cwPendingDrawTask=dtid;
+        openDrawOverlay(wsImg);
+        return;
+    }
+    var wsImgEl=e.target.closest('.cw-student-ws-img');
+    if(wsImgEl){var itid=wsImgEl.getAttribute('data-tid');if(cwWsImages[itid])openImgViewer(cwWsImages[itid]);return}
+    var thumb=e.target.closest('.cw-sub-thumb');
+    if(thumb&&thumb.src)openImgViewer(thumb.src);
 });
 
 /* Teacher: Render classwork panel */
 function renderCwTeacher(){
-    if(!cwActive||!cwActive.active){
-        document.getElementById('cwActiveSection').style.display='none';
+    var list=document.getElementById('cwActiveList');
+    var taskIds=Object.keys(cwActiveTasks);
+    if(taskIds.length===0){
+        list.innerHTML='';
         document.getElementById('cwEmpty').style.display='';
-        document.getElementById('cwCreateBtn').style.display='';
         return;
     }
-    document.getElementById('cwActiveSection').style.display='';
     document.getElementById('cwEmpty').style.display='none';
-    document.getElementById('cwCreateBtn').style.display='none';
-    document.getElementById('cwTaskName').textContent=cwActive.title;
-    if(cwWsImage){
-        document.getElementById('cwWsPreview').style.display='';
-        document.getElementById('cwWsThumb').src=cwWsImage;
-    }else{
-        document.getElementById('cwWsPreview').style.display='none';
-    }
-    var subCount=Object.keys(cwSubmissions).length;
-    document.getElementById('cwSubCount').textContent=subCount+' / 14 submitted';
-    var pct=Math.round(subCount/14*100);
-    document.getElementById('cwProgressFill').style.width=pct+'%';
-    var grid=document.getElementById('cwSubGrid');grid.innerHTML='';
-    students.forEach(function(s){
-        var sub=cwSubmissions[s.id];
-        var hasSub=!!sub;
-        var item=document.createElement('div');
-        item.className='cw-sub-item'+(hasSub?' submitted':'');
-        var pageCount=(sub&&sub.pages)?Object.keys(sub.pages).length:0;
-        var pcBadge=(hasSub&&pageCount>1)?'<span class="cw-page-count">'+pageCount+'p</span>':'';
-        item.innerHTML='<span class="cw-sub-emoji">'+s.emoji+'</span><span class="cw-sub-name">'+escH(s.name.split(' ')[0])+'</span>'+(hasSub?'<i class="fas fa-check-circle cw-sub-check"></i>':'')+pcBadge;
-        if(hasSub){
-            item.addEventListener('click',(function(sid){return function(){openCwViewer(sid)}})(s.id));
+    taskIds.sort(function(a,b){return(cwActiveTasks[b].ts||0)-(cwActiveTasks[a].ts||0)});
+    var html='';
+    taskIds.forEach(function(tid){
+        var task=cwActiveTasks[tid];
+        var subs=cwTaskSubs[tid]||{};
+        var subCount=Object.keys(subs).length;
+        var pct=Math.round(subCount/14*100);
+        html+='<div class="cw-active-task-card" data-tid="'+tid+'">';
+        html+='<div class="cw-task-bar"><span class="cw-task-name">'+escH(task.title)+'</span>';
+        html+='<button class="cw-end-btn" data-tid="'+tid+'"><i class="fas fa-stop"></i> End</button></div>';
+        if(cwWsImages[tid]){
+            html+='<div class="cw-ws-preview"><img src="'+cwWsImages[tid]+'" alt="Worksheet"><div class="cw-ws-label"><i class="fas fa-paperclip"></i> Worksheet attached</div></div>';
         }
-        grid.appendChild(item);
+        html+='<div class="cw-progress-wrap"><div class="cw-progress-fill" style="width:'+pct+'%"></div></div>';
+        html+='<div class="cw-sub-count">'+subCount+' / '+students.length+' submitted</div>';
+        html+='<div class="cw-sub-grid">';
+        students.forEach(function(s){
+            var sub=subs[s.id];
+            var hasSub=!!sub;
+            var pageCount=(sub&&sub.pages)?Object.keys(sub.pages).length:0;
+            var pcBadge=(hasSub&&pageCount>1)?'<span class="cw-page-count">'+pageCount+'p</span>':'';
+            html+='<div class="cw-sub-item'+(hasSub?' submitted':'')+'"'+(hasSub?' data-vsid="'+s.id+'" data-vtid="'+tid+'"':'')+'>';
+            html+='<span class="cw-sub-emoji">'+s.emoji+'</span><span class="cw-sub-name">'+escH(s.name.split(' ')[0])+'</span>';
+            if(hasSub)html+='<i class="fas fa-check-circle cw-sub-check"></i>';
+            html+=pcBadge+'</div>';
+        });
+        html+='</div></div>';
     });
+    list.innerHTML=html;
 }
 
 /* Student: Render classwork section */
 function renderCwStudent(){
-    if(!cwActive||!cwActive.active){
-        document.getElementById('cwStudentActive').style.display='none';
+    var list=document.getElementById('cwStudentList');
+    var taskIds=Object.keys(cwActiveTasks);
+    if(taskIds.length===0){
+        list.innerHTML='';
         document.getElementById('cwStudentEmpty').style.display='';
         return;
     }
-    document.getElementById('cwStudentActive').style.display='';
     document.getElementById('cwStudentEmpty').style.display='none';
-    document.getElementById('cwStudentTaskName').textContent=cwActive.title;
-    /* Show worksheet if attached */
-    if(cwWsImage&&cwActive.hasWs){
-        document.getElementById('cwStudentWs').style.display='';
-        document.getElementById('cwStudentWsImg').src=cwWsImage;
-    }else{
-        document.getElementById('cwStudentWs').style.display='none';
-    }
-    var sub=myId!==null?cwSubmissions[myId]:null;
-    var hasSub=!!sub;
-    document.getElementById('cwSubmitArea').style.display=hasSub?'none':'';
-    document.getElementById('cwSubmittedBadge').style.display=hasSub?'':'none';
-    if(hasSub){
-        var pages=sub.pages||{};
-        var pageKeys=Object.keys(pages).sort(function(a,b){return(pages[a].ts||0)-(pages[b].ts||0)});
-        var count=pageKeys.length||1;
-        document.getElementById('cwSubPageLabel').textContent=count+' page'+(count>1?'s':'')+' submitted!';
-        var thumbDiv=document.getElementById('cwSubThumbs');
-        thumbDiv.innerHTML='';
-        var enc=encodeURIComponent(CC);
-        if(pageKeys.length>0){
-            pageKeys.forEach(function(pid,idx){
-                var img=document.createElement('img');
-                img.className='cw-sub-thumb';
-                img.alt='Page '+(idx+1);
-                img.title='Page '+(idx+1);
-                var cacheKey='sub_'+myId+'_'+pid;
-                if(fileCache[cacheKey]){img.src=fileCache[cacheKey]}
-                else{fbGet('/sub-files/'+enc+'/'+myId+'/'+pid).then(function(d){if(d&&d.data){fileCache[cacheKey]=d.data;img.src=d.data}})}
-                img.addEventListener('click',function(){if(img.src)openImgViewer(img.src)});
-                thumbDiv.appendChild(img);
-            });
+    taskIds.sort(function(a,b){return(cwActiveTasks[b].ts||0)-(cwActiveTasks[a].ts||0)});
+    var html='';
+    taskIds.forEach(function(tid){
+        var task=cwActiveTasks[tid];
+        var subs=cwTaskSubs[tid]||{};
+        var sub=myId!==null?subs[myId]:null;
+        var hasSub=!!sub;
+        html+='<div class="cw-student-task-card" data-tid="'+tid+'">';
+        html+='<div class="cw-student-task"><i class="fas fa-clipboard-list"></i> '+escH(task.title)+'</div>';
+        if(cwWsImages[tid]&&task.hasWs){
+            html+='<div class="cw-student-ws">';
+            html+='<img class="cw-student-ws-img" data-tid="'+tid+'" src="'+cwWsImages[tid]+'" alt="Worksheet">';
+            html+='<div class="cw-student-ws-bar">';
+            html+='<button class="cw-student-ws-btn" data-tid="'+tid+'"><i class="fas fa-pencil-alt"></i> Draw on Worksheet</button>';
+            html+='</div></div>';
         }
-    }
-    /* Notify student of new task */
-    if(cwActive.title&&cwActive.title!==cwLastNotifiedTask){
-        cwLastNotifiedTask=cwActive.title;
-        toast('📋 New task: '+cwActive.title);
-    }
+        if(!hasSub){
+            html+='<button class="cw-submit-btn" data-tid="'+tid+'"><i class="fas fa-camera"></i> Submit Photo of Work</button>';
+        }else{
+            var pages=sub.pages||{};
+            var pageKeys=Object.keys(pages).sort(function(a,b){return(pages[a].ts||0)-(pages[b].ts||0)});
+            var count=pageKeys.length||1;
+            html+='<div class="cw-submitted-badge">';
+            html+='<i class="fas fa-check-circle"></i> '+count+' page'+(count>1?'s':'')+' submitted!';
+            html+='<div class="cw-sub-thumbs">';
+            pageKeys.forEach(function(pid,idx){
+                html+='<img class="cw-sub-thumb" data-tid="'+tid+'" data-pid="'+pid+'" data-sid="'+myId+'" alt="Page '+(idx+1)+'" title="Page '+(idx+1)+'">';
+            });
+            html+='</div>';
+            html+='<button class="cw-add-more-btn" data-tid="'+tid+'"><i class="fas fa-plus-circle"></i> Add Another Page</button>';
+            html+='</div>';
+        }
+        html+='</div>';
+    });
+    list.innerHTML=html;
+    /* Load thumbnails */
+    var enc=encodeURIComponent(CC);
+    list.querySelectorAll('.cw-sub-thumb[data-pid]').forEach(function(img){
+        var tid=img.getAttribute('data-tid');
+        var pid=img.getAttribute('data-pid');
+        var sid=img.getAttribute('data-sid');
+        var cacheKey='sub_'+tid+'_'+sid+'_'+pid;
+        if(fileCache[cacheKey]){img.src=fileCache[cacheKey]}
+        else{fbGet('/sub-files/'+enc+'/'+tid+'/'+sid+'/'+pid).then(function(d){if(d&&d.data){fileCache[cacheKey]=d.data;img.src=d.data}})}
+    });
+    /* Notify student of new tasks */
+    taskIds.forEach(function(tid){
+        if(!cwNotifiedTasks[tid]){cwNotifiedTasks[tid]=true;toast('📋 New task: '+cwActiveTasks[tid].title)}
+    });
 }
 
-/* Student: Submit work (multi-page) */
-document.getElementById('cwSubmitBtn').addEventListener('click',function(){cwSubmitInput.click()});
-document.getElementById('cwAddMoreBtn').addEventListener('click',function(){cwSubmitInput.click()});
-
+/* Student: Submit work (multi-page, task-specific) */
 cwSubmitInput.addEventListener('change',function(){
     var files=Array.from(cwSubmitInput.files);if(!files.length)return;
     if(myId===null){toast('Please log in first',1);cwSubmitInput.value='';return}
+    var taskId=cwPendingSubmitTask;
+    if(!taskId){toast('No task selected',1);cwSubmitInput.value='';return}
     var total=files.length;var done=0;
     toast('📤 Uploading '+total+' page'+(total>1?'s':'')+'...');
     var enc=encodeURIComponent(CC);
     var s=students[myId];
-    var existing=cwSubmissions[myId];
+    if(!cwTaskSubs[taskId])cwTaskSubs[taskId]={};
+    var existing=cwTaskSubs[taskId][myId];
     var pages=(existing&&existing.pages)?JSON.parse(JSON.stringify(existing.pages)):{};
     files.forEach(function(file){
         compressImage(file,2400,1800,0.82,function(dataUrl){
             var pid='p'+Date.now()+'_'+Math.random().toString(36).substr(2,4);
-            fbPut('/sub-files/'+enc+'/'+myId+'/'+pid,{data:dataUrl});
+            fbPut('/sub-files/'+enc+'/'+taskId+'/'+myId+'/'+pid,{data:dataUrl});
             pages[pid]={ts:Date.now()};
             done++;
             if(done>=total){
                 var subMeta={name:s.name,ts:Date.now(),pages:pages};
-                fbPut('/submissions/'+enc+'/'+myId,subMeta);
-                cwSubmissions[myId]=subMeta;
+                fbPut('/submissions/'+enc+'/'+taskId+'/'+myId,subMeta);
+                cwTaskSubs[taskId][myId]=subMeta;
                 renderCwStudent();
                 toast('✅ '+total+' page'+(total>1?'s':'')+' submitted!');
             }
         });
     });
     cwSubmitInput.value='';
+    cwPendingSubmitTask=null;
 });
 
-/* Poll classwork */
+/* Poll classwork (multi-task) */
 function pollClasswork(){
-    if(cwEnding)return; /* skip polling during end operation */
+    if(cwEnding)return;
     var enc=encodeURIComponent(CC);
     fbGet('/classwork/'+enc).then(function(d){
-        if(cwEnding)return; /* re-check after async */
-        var prevHasWs=cwActive&&cwActive.hasWs;
-        if(d&&d.active){
-            cwActive=d;
-        }else{
-            cwActive=null;cwWsImage=null;
-        }
-        /* Fetch worksheet image if needed */
-        if(cwActive&&cwActive.hasWs&&!cwWsImage){
-            fbGet('/classwork-ws/'+enc).then(function(ws){
-                if(ws&&ws.data)cwWsImage=ws.data;
-                finishPoll();
-            });
-        }else{
-            if(!cwActive||!cwActive.hasWs)cwWsImage=null;
-            finishPoll();
-        }
-        function finishPoll(){
-            fbGet('/submissions/'+enc).then(function(subs){
-                cwSubmissions=(subs&&typeof subs==='object')?subs:{};
-                if(isStudent)renderCwStudent();
-                else renderCwTeacher();
+        if(cwEnding)return;
+        var newTasks={};
+        if(d&&typeof d==='object'){
+            Object.keys(d).forEach(function(tid){
+                if(d[tid]&&d[tid].active)newTasks[tid]=d[tid];
             });
         }
+        cwActiveTasks=newTasks;
+        var taskIds=Object.keys(cwActiveTasks);
+        /* Clean up ws images and subs for deleted tasks */
+        Object.keys(cwWsImages).forEach(function(tid){if(!cwActiveTasks[tid])delete cwWsImages[tid]});
+        Object.keys(cwTaskSubs).forEach(function(tid){if(!cwActiveTasks[tid])delete cwTaskSubs[tid]});
+        if(taskIds.length===0){
+            cwTaskSubs={};cwWsImages={};
+            if(isStudent)renderCwStudent();else renderCwTeacher();
+            return;
+        }
+        /* Fetch worksheets for tasks that need them */
+        var wsPromises=[];
+        taskIds.forEach(function(tid){
+            if(cwActiveTasks[tid].hasWs&&!cwWsImages[tid]){
+                wsPromises.push(fbGet('/classwork-ws/'+enc+'/'+tid).then(function(ws){if(ws&&ws.data)cwWsImages[tid]=ws.data}));
+            }
+            if(!cwActiveTasks[tid].hasWs)delete cwWsImages[tid];
+        });
+        Promise.all(wsPromises).then(function(){
+            /* Fetch submissions for all active tasks */
+            var subPromises=[];
+            taskIds.forEach(function(tid){
+                subPromises.push(fbGet('/submissions/'+enc+'/'+tid).then(function(subs){
+                    cwTaskSubs[tid]=(subs&&typeof subs==='object')?subs:{};
+                }));
+            });
+            Promise.all(subPromises).then(function(){
+                if(isStudent)renderCwStudent();else renderCwTeacher();
+            });
+        });
     });
 }
 
@@ -2804,9 +2822,10 @@ function resetCwViewerTools(){
     document.getElementById('cwvWrap').classList.add('move-mode');
 }
 
-function openCwViewer(sid,histTaskId){
+function openCwViewer(sid,histTaskId,activeTaskId){
     cwViewingSid=sid;
     cwViewerSource=histTaskId||null;
+    cwViewerActiveTask=activeTaskId||null;
     var s=students[sid];
     document.getElementById('cwvName').textContent=s.emoji+' '+s.name+"'s Work";
     document.getElementById('cwViewerBg').classList.add('show');
@@ -2824,8 +2843,8 @@ function openCwViewer(sid,histTaskId){
     if(histTaskId){
         var histTask=cwHistory[histTaskId];
         sub=histTask&&histTask.subs?histTask.subs[sid]:null;
-    }else{
-        sub=cwSubmissions[sid];
+    }else if(activeTaskId){
+        sub=(cwTaskSubs[activeTaskId]||{})[sid];
     }
     var pages=(sub&&sub.pages)?sub.pages:null;
     if(pages){
@@ -2856,12 +2875,16 @@ function loadCwViewerPage(){
     var pid=cwViewerPages[cwViewerPageIdx];
     var sid=cwViewingSid;
     var htid=cwViewerSource;
+    var atid=cwViewerActiveTask;
     var cachedKey,filePath;
     if(pid==='_single'){
         /* Legacy single-file submission */
         if(htid){
             cachedKey='hist_'+htid+'_'+sid;
             filePath='/cw-hist-files/'+enc+'/'+htid+'/'+sid;
+        }else if(atid){
+            cachedKey='sub_'+atid+'_'+sid;
+            filePath='/sub-files/'+enc+'/'+atid+'/'+sid;
         }else{
             cachedKey='sub_'+sid;
             filePath='/sub-files/'+enc+'/'+sid;
@@ -2870,6 +2893,9 @@ function loadCwViewerPage(){
         if(htid){
             cachedKey='hist_'+htid+'_'+sid+'_'+pid;
             filePath='/cw-hist-files/'+enc+'/'+htid+'/'+sid+'/'+pid;
+        }else if(atid){
+            cachedKey='sub_'+atid+'_'+sid+'_'+pid;
+            filePath='/sub-files/'+enc+'/'+atid+'/'+sid+'/'+pid;
         }else{
             cachedKey='sub_'+sid+'_'+pid;
             filePath='/sub-files/'+enc+'/'+sid+'/'+pid;
@@ -3123,7 +3149,7 @@ function closeCwViewer(){
         cwViewerEl.classList.remove('move-mode');
     }
     document.getElementById('cwvWrap').classList.remove('move-mode');
-    cwViewerCtx=null;cwVHistory=[];
+    cwViewerCtx=null;cwVHistory=[];cwViewerActiveTask=null;
 }
 
 /* No-op: selecting tools no longer forces finger-draw. Pencil always works. */
@@ -3190,7 +3216,7 @@ document.getElementById('cwvSave').addEventListener('click',function(){
     var dataUrl=ec.toDataURL('image/jpeg',0.92);
     var taskTitle='Classwork';
     if(cwViewerSource&&cwHistory[cwViewerSource]){taskTitle=cwHistory[cwViewerSource].title}
-    else if(cwActive){taskTitle=cwActive.title}
+    else if(cwViewerActiveTask&&cwActiveTasks[cwViewerActiveTask]){taskTitle=cwActiveTasks[cwViewerActiveTask].title}
     var markId='m'+Date.now()+'_'+Math.random().toString(36).substr(2,6);
     var basePath='/marked-work/'+encodeURIComponent(CC)+'/'+cwViewingSid+'/'+markId;
     var filePath='/marked-files/'+encodeURIComponent(CC)+'/'+cwViewingSid+'/'+markId;
@@ -4117,18 +4143,13 @@ var cwDCanvas=null,cwDCtx=null,cwDDrawing=false,cwDColor='#222',cwDSize=6;
 var cwDErasing=false,cwDHighlighting=false,cwDHlColor='rgba(250,204,21,0.4)';
 var cwDHistory=[],cwDOpen=false;
 
-document.getElementById('cwDrawOnWsBtn').addEventListener('click',function(){
-    if(!cwWsImage){toast('No worksheet loaded',1);return}
-    openDrawOverlay(cwWsImage);
-});
-document.getElementById('cwStudentWsImg').addEventListener('click',function(){
-    if(cwWsImage)openImgViewer(cwWsImage);
-});
+/* Draw/view worksheet buttons handled via event delegation on cwStudentList */
 
 function openDrawOverlay(imgSrc){
     cwDOpen=true;
     document.getElementById('cwDrawOverlay').style.display='flex';
-    document.getElementById('cwDrawTitle').textContent=cwActive?cwActive.title:'Worksheet';
+    var drawTask=cwPendingDrawTask&&cwActiveTasks[cwPendingDrawTask]?cwActiveTasks[cwPendingDrawTask].title:'Worksheet';
+    document.getElementById('cwDrawTitle').textContent=drawTask;
     cwDColor='#222';cwDSize=6;cwDErasing=false;cwDHighlighting=false;
     document.getElementById('cwDHighlight').classList.remove('active','hl-active');
     document.getElementById('cwDHlColors').style.display='none';
@@ -4250,10 +4271,12 @@ document.getElementById('cwDUndo').addEventListener('click',function(){
     cwDHistory.pop();cwDCtx.putImageData(cwDHistory[cwDHistory.length-1],0,0);
 });
 
-/* Submit drawn worksheet */
+/* Submit drawn worksheet (task-aware) */
 document.getElementById('cwDrawSubmit').addEventListener('click',function(){
     if(!cwDCanvas||!cwDCtx)return;
     if(myId===null){toast('Please log in first',1);return}
+    var taskId=cwPendingDrawTask;
+    if(!taskId){toast('No task selected',1);return}
     toast('📤 Uploading...');
     var ec=document.createElement('canvas');
     var ew=2400,eh=Math.round(2400*cwDCanvas.height/cwDCanvas.width);
@@ -4263,16 +4286,18 @@ document.getElementById('cwDrawSubmit').addEventListener('click',function(){
     var dataUrl=ec.toDataURL('image/jpeg',0.85);
     var enc=encodeURIComponent(CC);
     var s=students[myId];
-    var existing=cwSubmissions[myId];
+    if(!cwTaskSubs[taskId])cwTaskSubs[taskId]={};
+    var existing=cwTaskSubs[taskId][myId];
     var pages=(existing&&existing.pages)?JSON.parse(JSON.stringify(existing.pages)):{};
     var pid='p'+Date.now()+'_'+Math.random().toString(36).substr(2,4);
-    fbPut('/sub-files/'+enc+'/'+myId+'/'+pid,{data:dataUrl});
+    fbPut('/sub-files/'+enc+'/'+taskId+'/'+myId+'/'+pid,{data:dataUrl});
     pages[pid]={ts:Date.now()};
     var subMeta={name:s.name,ts:Date.now(),pages:pages};
-    fbPut('/submissions/'+enc+'/'+myId,subMeta);
-    cwSubmissions[myId]=subMeta;
+    fbPut('/submissions/'+enc+'/'+taskId+'/'+myId,subMeta);
+    cwTaskSubs[taskId][myId]=subMeta;
     renderCwStudent();
     closeDrawOverlay();
+    cwPendingDrawTask=null;
     toast('✅ Worksheet submitted!');
 });
 
