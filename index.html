@@ -725,6 +725,72 @@
         .toast.vis{opacity:1;transform:translateX(-50%) translateY(0)}
         .toast.err{background:var(--neg)}
 
+        /* DIGITAL TOOLS TAB */
+        .dt-area{padding:12px}
+        .dt-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px}
+        .dt-title-bar{font-family:'Fredoka',sans-serif;font-size:18px;font-weight:700;display:flex;align-items:center;gap:8px}
+        .dt-title-bar i{color:var(--info);font-size:20px}
+        .dt-add-btn{padding:8px 16px;border:1.5px solid var(--info);border-radius:10px;background:rgba(59,130,246,.08);color:var(--info);font-family:'Fredoka',sans-serif;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:5px;transition:all .2s;white-space:nowrap}
+        .dt-add-btn:hover{background:var(--info);color:#fff}
+        .dt-search{width:100%;padding:10px 14px 10px 38px;border:1.5px solid var(--brd);border-radius:10px;font-family:'Nunito',sans-serif;font-size:16px;color:var(--t1);background:var(--bgc);outline:none;margin-bottom:10px;transition:border-color .2s}
+        .dt-search:focus{border-color:var(--info)}
+        .dt-search-wrap{position:relative;margin-bottom:10px}
+        .dt-search-wrap i{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--t2);font-size:14px}
+        .dt-cats{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+        .dt-cat-chip{padding:6px 14px;border-radius:18px;font-family:'Fredoka',sans-serif;font-size:12px;font-weight:600;cursor:pointer;border:1.5px solid var(--brd);background:var(--bgc);color:var(--t2);transition:all .2s;user-select:none}
+        .dt-cat-chip:hover{border-color:var(--info);color:var(--info)}
+        .dt-cat-chip.active{background:var(--info);color:#fff;border-color:var(--info)}
+        .dt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+        .dt-card{background:var(--bgc);border:1.5px solid var(--brd);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:10px;transition:all .25s;position:relative;overflow:hidden}
+        .dt-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;transition:opacity .25s}
+        .dt-card:hover{box-shadow:var(--shh);transform:translateY(-2px)}
+        .dt-card-head{display:flex;align-items:flex-start;gap:10px}
+        .dt-card-icon{width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;color:#fff}
+        .dt-card-info{flex:1;min-width:0}
+        .dt-card-name{font-family:'Fredoka',sans-serif;font-size:15px;font-weight:700;line-height:1.3;word-break:break-word}
+        .dt-card-url-text{color:var(--t2);font-size:11px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:170px}
+        .dt-card-desc{color:var(--t2);font-size:13px;line-height:1.5;flex:1}
+        .dt-card-footer{display:flex;align-items:center;justify-content:space-between;gap:6px}
+        .dt-card-tag{display:inline-block;padding:3px 10px;border-radius:10px;font-family:'Fredoka',sans-serif;font-size:11px;font-weight:600;background:rgba(59,130,246,.08);color:var(--info)}
+        .dt-card-link{display:inline-flex;align-items:center;gap:4px;color:var(--info);font-family:'Fredoka',sans-serif;font-size:12px;font-weight:700;text-decoration:none;transition:opacity .2s}
+        .dt-card-link:hover{opacity:.7}
+        .dt-card-actions{display:flex;gap:3px}
+        .dt-card-actions button{width:28px;height:28px;border:none;border-radius:6px;background:transparent;color:var(--t2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:11px;transition:all .15s}
+        .dt-card-actions button:hover{background:var(--bg2);color:var(--t1)}
+        .dt-card-actions button.dt-del:hover{background:var(--neg-bg);color:var(--neg)}
+        .dt-empty{text-align:center;padding:40px 20px;color:var(--t2);font-style:italic;grid-column:1/-1}
+        .dt-empty i{font-size:40px;opacity:.3;display:block;margin-bottom:10px}
+        .dt-empty .dt-empty-sub{font-size:13px;margin-top:4px}
+
+        /* DT Modal */
+        .dt-modal-bg{position:fixed;inset:0;background:var(--ov);display:none;align-items:center;justify-content:center;z-index:1000;padding:20px}
+        .dt-modal-bg.show{display:flex}
+        .dt-modal{background:var(--bg1);border-radius:22px;padding:24px 20px;max-width:440px;width:100%;border:1.5px solid var(--brd);box-shadow:0 20px 60px rgba(0,0,0,.15);animation:mi .3s ease;max-height:90vh;overflow-y:auto}
+        .dt-modal h3{font-family:'Fredoka',sans-serif;font-size:20px;font-weight:700;text-align:center;margin-bottom:16px;display:flex;align-items:center;justify-content:center;gap:8px}
+        .dt-modal h3 i{color:var(--info)}
+        .dt-form-group{margin-bottom:12px}
+        .dt-form-group label{display:block;font-family:'Fredoka',sans-serif;font-size:13px;font-weight:600;color:var(--t2);margin-bottom:5px}
+        .dt-form-input{width:100%;padding:10px 14px;border:1.5px solid var(--brd);border-radius:10px;font-family:'Nunito',sans-serif;font-size:16px;color:var(--t1);background:var(--bg2);outline:none;transition:border-color .2s}
+        .dt-form-input:focus{border-color:var(--info)}
+        .dt-form-textarea{width:100%;min-height:60px;padding:10px 14px;border:1.5px solid var(--brd);border-radius:10px;font-family:'Nunito',sans-serif;font-size:16px;color:var(--t1);background:var(--bg2);outline:none;resize:vertical;transition:border-color .2s;line-height:1.5}
+        .dt-form-textarea:focus{border-color:var(--info)}
+        .dt-form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+        .dt-icon-grid{display:flex;flex-wrap:wrap;gap:5px}
+        .dt-icon-opt{width:36px;height:36px;border-radius:8px;border:2px solid var(--brd);background:var(--bg2);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:15px;transition:all .15s;color:var(--t2)}
+        .dt-icon-opt:hover{border-color:var(--info)}
+        .dt-icon-opt.sel{border-color:var(--info);background:rgba(59,130,246,.1);color:var(--info)}
+        .dt-color-grid{display:flex;flex-wrap:wrap;gap:5px}
+        .dt-color-opt{width:30px;height:30px;border-radius:50%;border:2px solid transparent;cursor:pointer;transition:all .15s}
+        .dt-color-opt:hover{transform:scale(1.15)}
+        .dt-color-opt.sel{border-color:var(--t1);box-shadow:0 0 0 2px var(--bg1)}
+        .dt-modal-btns{display:flex;gap:8px;margin-top:16px}
+        .dt-modal-btns button{flex:1;padding:12px;border:none;border-radius:12px;font-family:'Nunito',sans-serif;font-size:15px;font-weight:800;cursor:pointer}
+        .dt-save-btn{background:var(--info);color:#fff}
+        .dt-save-btn:hover{filter:brightness(1.1)}
+        .dt-cancel-btn{background:var(--bg2);color:var(--t2);border:1.5px solid var(--brd)!important}
+
+        @media(max-width:600px){.dt-grid{grid-template-columns:1fr}.dt-form-row{grid-template-columns:1fr}.dt-card-actions{opacity:1}}
+
         /* RESPONSIVE */
         @media(max-width:768px){.header{padding:8px 12px}.app-t{font-size:18px}.sc{padding:8px 5px 6px;border-radius:12px}.sp{font-size:26px}.se{font-size:20px}.sn{font-size:11px}.pb{width:38px;height:32px;font-size:17px}.whiteboard{margin:8px 10px 4px;padding:10px 14px}.wb-t{font-size:28px}.seating{padding:4px 6px 6px}}
         @media(max-width:520px){.sc{width:calc(33.33% - 6px)}.seat-row{flex-wrap:wrap}.sp{font-size:24px}.pb{width:36px;height:30px;font-size:16px}}
@@ -878,11 +944,69 @@
         </div>
     </div>
 
+    <!-- TAB: DIGITAL TOOLS -->
+    <div class="tc" id="tabTools">
+        <div class="dt-area">
+            <div class="dt-header">
+                <div class="dt-title-bar"><i class="fas fa-laptop-code"></i> Digital Learning Tools</div>
+                <button class="dt-add-btn teacher-only" id="dtAddBtn"><i class="fas fa-plus"></i> Add Tool</button>
+            </div>
+            <div class="dt-search-wrap">
+                <i class="fas fa-search"></i>
+                <input type="text" class="dt-search" id="dtSearch" placeholder="Search tools...">
+            </div>
+            <div class="dt-cats" id="dtCats"></div>
+            <div class="dt-grid" id="dtGrid"></div>
+        </div>
+    </div>
+
+    <!-- DT Modal -->
+    <div class="dt-modal-bg" id="dtModalBg">
+        <div class="dt-modal">
+            <h3><i class="fas fa-laptop-code"></i> <span id="dtModalTitle">Add Tool</span></h3>
+            <div class="dt-form-group">
+                <label>Name *</label>
+                <input type="text" class="dt-form-input" id="dtNameInput" placeholder="e.g. Khan Academy" maxlength="80">
+            </div>
+            <div class="dt-form-group">
+                <label>URL *</label>
+                <input type="text" class="dt-form-input" id="dtUrlInput" placeholder="e.g. khanacademy.org" maxlength="300">
+            </div>
+            <div class="dt-form-group">
+                <label>Description</label>
+                <textarea class="dt-form-textarea" id="dtDescInput" placeholder="Brief description..." maxlength="200"></textarea>
+            </div>
+            <div class="dt-form-row">
+                <div class="dt-form-group">
+                    <label>Category</label>
+                    <input type="text" class="dt-form-input" id="dtCatInput" placeholder="e.g. Math" maxlength="30">
+                </div>
+                <div class="dt-form-group">
+                    <label>Subject</label>
+                    <input type="text" class="dt-form-input" id="dtSubjectInput" placeholder="e.g. Algebra" maxlength="30">
+                </div>
+            </div>
+            <div class="dt-form-group">
+                <label>Icon</label>
+                <div class="dt-icon-grid" id="dtIconGrid"></div>
+            </div>
+            <div class="dt-form-group">
+                <label>Color</label>
+                <div class="dt-color-grid" id="dtColorGrid"></div>
+            </div>
+            <div class="dt-modal-btns">
+                <button class="dt-cancel-btn" id="dtCancelBtn">Cancel</button>
+                <button class="dt-save-btn" id="dtSaveBtn">Save</button>
+            </div>
+        </div>
+    </div>
+
     <!-- TAB BAR -->
     <nav class="tab-bar" id="tabBarEl">
         <button class="tab-btn active" data-tab="tabBoard"><i class="fas fa-th-large"></i><span>Board</span></button>
         <button class="tab-btn" data-tab="tabChat"><i class="fas fa-comments"></i><span>Chat</span><span class="badge" id="chatBadge">0</span></button>
         <button class="tab-btn" data-tab="tabNotes"><i class="fas fa-book"></i><span>Notes</span></button>
+        <button class="tab-btn" data-tab="tabTools"><i class="fas fa-laptop-code"></i><span>Tools</span></button>
     </nav>
 </div>
 
@@ -4451,6 +4575,187 @@ function pollStatus(){
     });
 }
 
+/* ===== DIGITAL TOOLS ===== */
+var dtData=[];
+var dtFilter='All';
+var dtSearchQ='';
+var dtEditId=null;
+var DT_ICONS=['fa-globe','fa-calculator','fa-flask','fa-book-open','fa-pencil-alt','fa-video','fa-music','fa-paint-brush','fa-code','fa-puzzle-piece','fa-microscope','fa-language','fa-brain','fa-graduation-cap','fa-chart-line','fa-robot'];
+var DT_COLORS=['#3B82F6','#10B981','#F59E0B','#EF4444','#8B5CF6','#EC4899','#06B6D4','#F97316','#14B8A6','#6366F1'];
+var dtSelIcon=DT_ICONS[0];
+var dtSelColor=DT_COLORS[0];
+
+function pollDT(){
+    fbGet('/dtools/'+encodeURIComponent(CC)).then(function(d){
+        if(!d||typeof d!=='object'){dtData=[];renderDT();return}
+        dtData=Object.keys(d).map(function(k){return Object.assign({_k:k},d[k])}).sort(function(a,b){return(b.ts||0)-(a.ts||0)});
+        renderDT();
+    });
+}
+
+function getDTCategories(){
+    var cats={};
+    dtData.forEach(function(t){if(t.category)cats[t.category]=true});
+    return Object.keys(cats).sort();
+}
+
+function renderDTCats(){
+    var el=document.getElementById('dtCats');
+    var cats=getDTCategories();
+    if(cats.length===0){el.innerHTML='';return}
+    var html='<div class="dt-cat-chip'+(dtFilter==='All'?' active':'')+'" data-cat="All">All</div>';
+    cats.forEach(function(c){
+        html+='<div class="dt-cat-chip'+(dtFilter===c?' active':'')+'" data-cat="'+escH(c)+'">'+escH(c)+'</div>';
+    });
+    el.innerHTML=html;
+    el.querySelectorAll('.dt-cat-chip').forEach(function(chip){
+        chip.addEventListener('click',function(){dtFilter=chip.dataset.cat;renderDT()});
+    });
+}
+
+function renderDT(){
+    renderDTCats();
+    var grid=document.getElementById('dtGrid');
+    var filtered=dtData.filter(function(t){
+        if(dtFilter!=='All'&&t.category!==dtFilter)return false;
+        if(dtSearchQ){
+            var q=dtSearchQ.toLowerCase();
+            var hay=(t.name||'').toLowerCase()+(t.description||'').toLowerCase()+(t.category||'').toLowerCase()+(t.subject||'').toLowerCase()+(t.url||'').toLowerCase();
+            if(hay.indexOf(q)===-1)return false;
+        }
+        return true;
+    });
+
+    if(filtered.length===0){
+        grid.innerHTML='<div class="dt-empty"><i class="fas fa-laptop-code"></i>'+(dtData.length===0?'No tools shared yet.'+(isStudent?'':'<div class="dt-empty-sub">Click "Add Tool" to share digital learning resources.</div>'):'No tools match your search.')+'</div>';
+        return;
+    }
+
+    grid.innerHTML=filtered.map(function(t){
+        var icon=t.icon||'fa-globe';
+        var color=t.color||'#3B82F6';
+        var urlDisplay='';
+        try{urlDisplay=new URL(t.url).hostname}catch(e2){urlDisplay=t.url||''}
+        var tag=t.category?'<span class="dt-card-tag">'+escH(t.category)+'</span>':'';
+        var subTag=t.subject?'<span class="dt-card-tag" style="background:rgba(16,185,129,.08);color:var(--pos)">'+escH(t.subject)+'</span>':'';
+        var desc=t.description?'<div class="dt-card-desc">'+escH(t.description)+'</div>':'';
+        var teacherBtns=!isStudent?'<div class="dt-card-actions"><button class="dt-edit" data-dk="'+escH(t._k)+'" title="Edit"><i class="fas fa-pen"></i></button><button class="dt-del" data-dk="'+escH(t._k)+'" title="Delete"><i class="fas fa-trash"></i></button></div>':'';
+        var safeUrl=escH(t.url||'#');
+
+        return'<div class="dt-card" style="--dt-accent:'+color+'"><div style="position:absolute;top:0;left:0;right:0;height:3px;background:'+color+'"></div><div class="dt-card-head"><div class="dt-card-icon" style="background:'+color+'"><i class="fas '+icon+'"></i></div><div class="dt-card-info"><div class="dt-card-name">'+escH(t.name)+'</div><div class="dt-card-url-text">'+escH(urlDisplay)+'</div></div></div>'+desc+'<div class="dt-card-footer"><div style="display:flex;gap:4px;flex-wrap:wrap">'+tag+subTag+'</div><div style="display:flex;align-items:center;gap:6px"><a href="'+safeUrl+'" target="_blank" rel="noopener noreferrer" class="dt-card-link">Open <i class="fas fa-external-link-alt" style="font-size:10px"></i></a>'+teacherBtns+'</div></div></div>';
+    }).join('');
+
+    grid.querySelectorAll('.dt-edit').forEach(function(btn){
+        btn.addEventListener('click',function(e){e.stopPropagation();openDTModal(btn.dataset.dk)});
+    });
+    grid.querySelectorAll('.dt-del').forEach(function(btn){
+        btn.addEventListener('click',function(e){
+            e.stopPropagation();
+            var dk=btn.dataset.dk;
+            var t=dtData.find(function(x){return x._k===dk});
+            showDTConfirm('Delete "'+escH(t?t.name:'this tool')+'"?',function(){
+                fbDel('/dtools/'+encodeURIComponent(CC)+'/'+dk);
+                dtData=dtData.filter(function(x){return x._k!==dk});
+                renderDT();toast('🗑️ Tool removed');
+            });
+        });
+    });
+}
+
+function showDTConfirm(msg,onOk){
+    var bg=document.createElement('div');
+    bg.className='confirm-bg show';bg.style.zIndex='2500';
+    bg.innerHTML='<div class="confirm-box"><div class="ci">⚠️</div><p>'+msg+'</p><div class="cb"><button class="cbtn cc" id="dtcCancel">Cancel</button><button class="cbtn cd" id="dtcOk">Delete</button></div></div>';
+    document.body.appendChild(bg);
+    document.getElementById('dtcCancel').addEventListener('click',function(){bg.remove()});
+    document.getElementById('dtcOk').addEventListener('click',function(){bg.remove();onOk()});
+    bg.addEventListener('click',function(ev){if(ev.target===bg)bg.remove()});
+}
+
+function buildDTIconPicker(){
+    var g=document.getElementById('dtIconGrid');
+    g.innerHTML=DT_ICONS.map(function(ic){
+        return'<div class="dt-icon-opt'+(ic===dtSelIcon?' sel':'')+'" data-ic="'+ic+'"><i class="fas '+ic+'"></i></div>';
+    }).join('');
+    g.querySelectorAll('.dt-icon-opt').forEach(function(el){
+        el.addEventListener('click',function(){
+            g.querySelectorAll('.dt-icon-opt').forEach(function(x){x.classList.remove('sel')});
+            el.classList.add('sel');dtSelIcon=el.dataset.ic;
+        });
+    });
+}
+
+function buildDTColorPicker(){
+    var g=document.getElementById('dtColorGrid');
+    g.innerHTML=DT_COLORS.map(function(c){
+        return'<div class="dt-color-opt'+(c===dtSelColor?' sel':'')+'" data-c="'+c+'" style="background:'+c+'"></div>';
+    }).join('');
+    g.querySelectorAll('.dt-color-opt').forEach(function(el){
+        el.addEventListener('click',function(){
+            g.querySelectorAll('.dt-color-opt').forEach(function(x){x.classList.remove('sel')});
+            el.classList.add('sel');dtSelColor=el.dataset.c;
+        });
+    });
+}
+
+function openDTModal(editKey){
+    dtEditId=editKey||null;
+    var m=document.getElementById('dtModalBg');
+    document.getElementById('dtModalTitle').textContent=editKey?'Edit Tool':'Add Tool';
+    if(editKey){
+        var t=dtData.find(function(x){return x._k===editKey});
+        if(t){
+            document.getElementById('dtNameInput').value=t.name||'';
+            document.getElementById('dtUrlInput').value=t.url||'';
+            document.getElementById('dtDescInput').value=t.description||'';
+            document.getElementById('dtCatInput').value=t.category||'';
+            document.getElementById('dtSubjectInput').value=t.subject||'';
+            dtSelIcon=t.icon||DT_ICONS[0];dtSelColor=t.color||DT_COLORS[0];
+        }
+    }else{
+        document.getElementById('dtNameInput').value='';
+        document.getElementById('dtUrlInput').value='';
+        document.getElementById('dtDescInput').value='';
+        document.getElementById('dtCatInput').value='';
+        document.getElementById('dtSubjectInput').value='';
+        dtSelIcon=DT_ICONS[0];dtSelColor=DT_COLORS[0];
+    }
+    buildDTIconPicker();buildDTColorPicker();
+    m.classList.add('show');
+    document.getElementById('dtNameInput').focus();
+}
+
+document.getElementById('dtAddBtn').addEventListener('click',function(){openDTModal(null)});
+document.getElementById('dtCancelBtn').addEventListener('click',function(){document.getElementById('dtModalBg').classList.remove('show')});
+document.getElementById('dtModalBg').addEventListener('click',function(e){if(e.target===document.getElementById('dtModalBg'))document.getElementById('dtModalBg').classList.remove('show')});
+
+document.getElementById('dtSaveBtn').addEventListener('click',function(){
+    var name=document.getElementById('dtNameInput').value.trim();
+    var url=document.getElementById('dtUrlInput').value.trim();
+    if(!name){toast('⚠️ Please add a name',1);return}
+    if(!url){toast('⚠️ Please add a URL',1);return}
+    if(!/^https?:\/\//i.test(url))url='https://'+url;
+    var desc=document.getElementById('dtDescInput').value.trim();
+    var cat=document.getElementById('dtCatInput').value.trim()||'General';
+    var subj=document.getElementById('dtSubjectInput').value.trim();
+    var meta={name:name,url:url,description:desc,category:cat,subject:subj,icon:dtSelIcon,color:dtSelColor,ts:Date.now()};
+
+    if(dtEditId){
+        fbPut('/dtools/'+encodeURIComponent(CC)+'/'+dtEditId,meta);
+        toast('✏️ Tool updated!');
+    }else{
+        var newId=Date.now()+'_'+Math.random().toString(36).substr(2,9);
+        fbPut('/dtools/'+encodeURIComponent(CC)+'/'+newId,meta);
+        toast('🔗 Tool added!');
+    }
+    document.getElementById('dtModalBg').classList.remove('show');
+    setTimeout(pollDT,600);
+});
+
+document.getElementById('dtSearch').addEventListener('input',function(e){
+    dtSearchQ=e.target.value;renderDT();
+});
+
 /* ===== INIT ===== */
 (function init(){
     lLocal();refreshAll();prevSnap={};buildLogin();
@@ -4478,6 +4783,7 @@ function pollStatus(){
         setInterval(pollGroupWork,6000);
         setInterval(pollMsgReactions,8000);
         setInterval(pollMsgReplies,6000);
+        setInterval(pollDT,10000);
     }else{
         setInterval(pollData,2000);
         setInterval(pollStatus,3000);
@@ -4492,7 +4798,9 @@ function pollStatus(){
         setInterval(pollGwDrafts,15000);
         setInterval(pollMsgReactions,6000);
         setInterval(pollMsgReplies,5000);
+        setInterval(pollDT,8000);
     }
+    setTimeout(pollDT,700);
     setTimeout(pollNotes,500);
     setTimeout(pollStatus,1000);
     setTimeout(pollChat,1000);
