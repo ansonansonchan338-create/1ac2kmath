@@ -1184,6 +1184,14 @@ var CLASS_CONFIGS={
             '3A Student 25','3A Student 26','3A Student 27','3A Student 28','3A Student 29','3A Student 30',
             '3A Student 31','3A Student 32','3A Student 33','3A Student 34','3A Student 35','3A Student 36'
         ],
+        studentPasswords:[
+            '221','483','907','314','562','748',
+            '195','826','437','680','259','913',
+            '544','372','861','208','695','147',
+            '783','426','951','634','218','570',
+            '842','396','715','284','669','103',
+            '557','890','341','762','415','928'
+        ],
         loginEmoji:'🏫'
     }
 };
@@ -1219,7 +1227,8 @@ function makeStudentsForClass(){
             points:0,
             emoji:EMOJIS[i%EMOJIS.length],
             color:COLORS[i%COLORS.length],
-            status:''
+            status:'',
+            password:(CURRENT_CLASS.studentPasswords&&CURRENT_CLASS.studentPasswords[i])?CURRENT_CLASS.studentPasswords[i]:''
         });
     }
 }
@@ -1394,12 +1403,40 @@ function buildLogin(){
 }
 
 function doLogin(id){
+    if(CURRENT_CLASS_KEY==='3a'){
+        showStudentPasswordModal(id);
+        return;
+    }
     myId=id;isVisitor=false;
     document.body.classList.remove('visitor-mode');
     try{storage.setItem(skey('myid'),String(id));storage.removeItem(skey('visitor'))}catch(e){}
     loginScr.classList.add('hidden');
     mainApp.style.display='';
     setupStudentUI();
+}
+
+function showStudentPasswordModal(id){
+    var s=students[id];
+    var bg=document.createElement('div');
+    bg.className='confirm-bg show';bg.style.zIndex='2600';
+    bg.innerHTML='<div class="confirm-box" style="max-width:360px"><div class="ci">'+s.emoji+'</div><p>'+escH(s.name)+'</p><input id="studentPwInput" type="password" inputmode="numeric" maxlength="3" placeholder="Enter 3-digit password" style="width:100%;padding:12px 14px;border:1.5px solid var(--brd);border-radius:12px;font-family:Fredoka,sans-serif;font-size:16px;font-weight:600;background:var(--bg1);color:var(--t1);outline:none;margin-bottom:12px;text-align:center;letter-spacing:2px"><div class="cb"><button class="cbtn cc" id="studentPwCancel">Cancel</button><button class="cbtn cd" id="studentPwJoin" style="background:var(--info)">Join</button></div></div>';
+    document.body.appendChild(bg);
+    var inp=bg.querySelector('#studentPwInput');
+    inp.focus();
+    bg.querySelector('#studentPwCancel').addEventListener('click',function(){bg.remove()});
+    bg.querySelector('#studentPwJoin').addEventListener('click',function(){
+        if(inp.value.trim()!==String(s.password||'')){inp.style.borderColor='var(--neg)';inp.value='';inp.placeholder='Wrong password';return}
+        myId=id;isVisitor=false;
+        document.body.classList.remove('visitor-mode');
+        try{storage.setItem(skey('myid'),String(id));storage.removeItem(skey('visitor'))}catch(e){}
+        bg.remove();
+        loginScr.classList.add('hidden');
+        mainApp.style.display='';
+        setupStudentUI();
+    });
+    inp.addEventListener('input',function(){this.value=this.value.replace(/\D/g,'').slice(0,3)});
+    inp.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();bg.querySelector('#studentPwJoin').click()}});
+    bg.addEventListener('click',function(e){if(e.target===bg)bg.remove()});
 }
 
 /* Visitor login */
@@ -1926,8 +1963,8 @@ function renderChat(){
 function loadChatImages(){
     document.querySelectorAll('.cm-img[data-file-id]').forEach(function(el){
         if(el.dataset.loaded)return;
-        var fid=el.dataset.fileId;if(!fid)return;
         el.dataset.loaded='1';
+        var fid=el.dataset.fileId;if(!fid)return;
         if(fileCache[fid]){
             el.innerHTML='<img src="'+fileCache[fid]+'" alt="Image">';
             el.querySelector('img').addEventListener('click',function(){openImgViewer(fileCache[fid])});
