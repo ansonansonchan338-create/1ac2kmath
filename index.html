@@ -776,6 +776,326 @@
         @media(max-width:768px){.header{padding:8px 12px}.app-t{font-size:18px}.sc{padding:8px 5px 6px;border-radius:12px}.sp{font-size:26px}.se{font-size:20px}.sn{font-size:11px}.pb{width:38px;height:32px;font-size:17px}.whiteboard{margin:8px 10px 4px;padding:10px 14px}.wb-t{font-size:28px}.seating{padding:4px 6px 6px}}
         @media(max-width:520px){.sc{width:calc(33.33% - 6px)}.seat-row{flex-wrap:wrap}.sp{font-size:24px}.pb{width:36px;height:30px;font-size:16px}}
         @media(min-width:1024px){.seating{max-width:1160px;margin:0 auto}.whiteboard{max-width:1160px;margin-left:auto;margin-right:auto}.progress-strip{max-width:1160px;margin-left:auto;margin-right:auto}.my-card-wrap{max-width:1160px;margin-left:auto;margin-right:auto}}
+         /* ===== IPAD PRO 12.9 BOARD FIT PATCH ===== */
+    @media screen and (min-width: 1024px) and (max-width: 1400px) and (pointer: coarse) {
+
+        /* tighter overall board spacing */
+        .header{
+            padding:6px 12px;
+        }
+
+        .app-ico{
+            width:34px;
+            height:34px;
+            font-size:16px;
+            border-radius:10px;
+        }
+
+        .app-t{
+            font-size:17px;
+            line-height:1;
+        }
+
+        .app-s{
+            font-size:10px;
+        }
+
+        .hb{
+            width:34px;
+            height:34px;
+            font-size:13px;
+            border-radius:9px;
+        }
+
+        .progress-strip{
+            margin:6px 10px;
+            padding:8px 12px;
+            border-radius:12px;
+        }
+
+        .my-card-wrap{
+            margin:6px 10px;
+            padding:10px 12px;
+            border-radius:14px;
+        }
+
+        .my-card-top{
+            margin-bottom:8px;
+        }
+
+        .mc-emoji{
+            font-size:30px;
+        }
+
+        .mc-name{
+            font-size:16px;
+        }
+
+        .mc-pts{
+            font-size:26px;
+        }
+
+        .status-btns{
+            gap:6px;
+        }
+
+        .st-btn{
+            padding:8px 4px;
+            font-size:11px;
+            border-radius:10px;
+        }
+
+        .st-btn i{
+            font-size:14px;
+        }
+
+        .cw-section{
+            margin:6px 10px;
+            padding:10px 12px;
+            border-radius:14px;
+        }
+
+        .whiteboard{
+            margin:6px 10px 4px;
+            padding:8px 12px;
+            border-radius:12px;
+        }
+
+        .wb-l{
+            font-size:10px;
+            letter-spacing:1px;
+        }
+
+        .wb-t{
+            font-size:24px;
+            line-height:1.05;
+        }
+
+        .desk-l{
+            margin:2px 0 1px;
+            font-size:8px;
+            letter-spacing:2px;
+            opacity:.35;
+        }
+
+        .seating{
+            padding:2px 8px 4px;
+        }
+
+        .seat-row{
+            gap:6px;
+            margin-bottom:6px;
+        }
+
+        .sc{
+            border-radius:12px;
+            padding:6px 4px 5px;
+            box-shadow:0 3px 10px rgba(44,24,16,.07);
+        }
+
+        .ca{
+            left:8px;
+            right:8px;
+            height:2px;
+        }
+
+        .st-ind{
+            width:10px;
+            height:10px;
+            top:4px;
+            left:4px;
+        }
+
+        .crown{
+            font-size:12px;
+            top:-5px;
+            right:4px;
+        }
+
+        .se{
+            font-size:18px;
+            margin-bottom:0;
+        }
+
+        .sn{
+            font-size:10px;
+            line-height:1.1;
+            padding:0 1px;
+        }
+
+        .sp{
+            font-size:22px;
+            margin:2px 0 4px;
+        }
+
+        .cbtns{
+            gap:4px;
+        }
+
+        .pb{
+            width:34px;
+            height:28px;
+            font-size:15px;
+            border-radius:8px;
+        }
+
+        .react-bar{
+            margin:6px 10px;
+            padding:8px 10px;
+            border-radius:12px;
+        }
+
+        .rb{
+            width:34px;
+            height:34px;
+            font-size:18px;
+        }
+
+        .tc{
+            padding-bottom:76px;
+        }
+
+        .tab-bar{
+            padding:4px 8px 12px;
+            padding-bottom:max(12px, env(safe-area-inset-bottom));
+        }
+
+        .tab-btn{
+            padding:4px 2px;
+            gap:2px;
+            font-size:9px;
+        }
+
+        .tab-btn i{
+            font-size:16px;
+        }
+
+        .tab-btn .badge{
+            top:0;
+        }
+    }
+
+    /* ===== IPAD: REDUCE ROW LABEL HEIGHT ===== */
+    @media screen and (min-width: 1024px) and (max-width: 1400px) and (pointer: coarse) {
+        .seating .desk-l{
+            display:none;
+        }
+
+        #deskTopLabel{
+            display:block;
+            margin:4px 0 2px;
+            font-size:9px;
+            letter-spacing:2px;
+            opacity:.4;
+        }
+    }
+
+    /* ===== IPAD: EXTRA DENSE 6-COLUMN CLASS FIT ===== */
+    @media screen and (min-width: 1024px) and (max-width: 1400px) and (pointer: coarse) {
+        .seat-row .sc{
+            min-height:auto;
+        }
+
+        .seat-row{
+            flex-wrap:nowrap;
+        }
+
+        .sc .sn{
+            white-space:nowrap;
+            overflow:hidden;
+            text-overflow:ellipsis;
+            max-width:100%;
+        }
+    }
+
+    /* ===== IPAD: BOARD TAB HEIGHT EFFICIENCY ===== */
+    @media screen and (min-width: 1024px) and (max-width: 1400px) and (pointer: coarse) {
+        #tabBoard{
+            padding-bottom:72px;
+        }
+
+        #tabBoard .progress-strip.teacher-only{
+            margin-bottom:4px;
+        }
+
+        #tabBoard .cw-section.teacher-only,
+        #tabBoard .cw-section.student-only,
+        #tabBoard .my-card-wrap,
+        #tabBoard .grp-student-banner,
+        #tabBoard .gw-student-section,
+        #tabBoard .react-bar{
+            margin-top:6px;
+            margin-bottom:6px;
+        }
+
+        #tabBoard .whiteboard{
+            margin-top:6px;
+            margin-bottom:4px;
+        }
+    }
+
+    /* ===== PORTRAIT TABLET SMALL WARNING STRIP SPACE SAVER ===== */
+    @media screen and (min-width: 768px) and (max-width: 1024px) and (pointer: coarse) {
+        .seat-row{
+            gap:5px;
+        }
+
+        .sc{
+            padding:6px 4px 5px;
+        }
+
+        .sn{
+            font-size:10px;
+        }
+
+        .sp{
+            font-size:22px;
+        }
+
+        .pb{
+            width:32px;
+            height:28px;
+            font-size:14px;
+        }
+    }
+
+    /* ===== IPAD LANDSCAPE ULTRA-FIT FOR SEAT PLAN ===== */
+    @media screen and (orientation: landscape) and (min-width: 1024px) and (max-width: 1400px) and (pointer: coarse) {
+        .whiteboard{
+            padding:6px 10px;
+        }
+
+        .wb-t{
+            font-size:22px;
+        }
+
+        .seat-row{
+            margin-bottom:5px;
+        }
+
+        .sc{
+            padding:5px 4px 4px;
+        }
+
+        .se{
+            font-size:17px;
+        }
+
+        .sn{
+            font-size:9px;
+        }
+
+        .sp{
+            font-size:20px;
+            margin:1px 0 3px;
+        }
+
+        .pb{
+            width:32px;
+            height:26px;
+            font-size:14px;
+        }
+    }
     </style>
 </head>
 <body>
