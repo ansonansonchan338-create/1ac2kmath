@@ -1123,6 +1123,23 @@
         font-size:15px;
     }
 }
+.emoji-pick-btn{
+    border:none;
+    background:var(--bg2);
+    border-radius:12px;
+    font-size:28px;
+    padding:10px 0;
+    cursor:pointer;
+    transition:transform .12s ease, box-shadow .12s ease, background .12s ease;
+}
+.emoji-pick-btn:hover{
+    transform:translateY(-1px);
+    box-shadow:var(--sh);
+    background:var(--bgc);
+}
+.emoji-pick-btn:active{
+    transform:scale(.92);
+}
     </style>
 </head>
 <body>
@@ -1334,8 +1351,14 @@
     </nav>
 </div>
 
-<div class="modal-bg teacher-only" id="detailModal"><div class="modal-box"><div class="m-head"><div class="m-emoji" id="mEmoji"></div><input class="m-input" id="mName" type="text" maxlength="40" placeholder="Student name"></div><div class="m-pts" id="mPts">0</div><div class="m-grid"><button class="m-btn mn" data-d="-5">−5</button><button class="m-btn mn" data-d="-2">−2</button><button class="m-btn mn" data-d="-1">−1</button><button class="m-btn mp" data-d="1">+1</button><button class="m-btn mp" data-d="2">+2</button><button class="m-btn mp" data-d="5">+5</button></div><button class="m-close" id="mClose">Done</button></div></div>
-<div class="confirm-bg" id="confirmDlg"><div class="confirm-box"><div class="ci">🔄</div><p>Reset all points to zero?</p><div class="cb"><button class="cbtn cc" id="cCancel">Cancel</button><button class="cbtn cd" id="cConfirm">Reset All</button></div></div></div>
+<div class="modal-bg teacher-only" id="detailModal"><div class="modal-box"><div class="m-head"><div class="m-emoji" id="mEmoji"></div><input class="m-input" id="mName" type="text" maxlength="40" placeholder="Student name"></div><div class="m-pts" id="mPts">0</div><div class="m-grid"><button class="m-btn mn" data-d="-5">−5</button><button class="m-btn mn" data-d="-2">−2</button><button class="m-btn mn" data-d="-1">−1</button><button class="m-btn mp" data-d="1">+1</button><button class="m-btn mp" data-d="2">+2</button><button class="m-btn mp" data-d="5">+5</button></div><button class="m-sec-btn" id="mChangeEmoji"><i class="fas fa-face-smile"></i> Change Icon</button><button class="m-close" id="mClose">Done</button></div></div><div class="confirm-bg" id="confirmDlg"><div class="confirm-box"><div class="ci">🔄</div><p>Reset all points to zero?</p><div class="cb"><button class="cbtn cc" id="cCancel">Cancel</button><button class="cbtn cd" id="cConfirm">Reset All</button></div></div></div>
+<div class="modal-bg teacher-only" id="emojiModal">
+    <div class="modal-box">
+        <div style="font-family:'Fredoka',sans-serif;font-size:20px;font-weight:700;text-align:center;margin-bottom:12px">😀 Change Student Icon</div>
+        <div id="emojiGrid" style="display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:14px"></div>
+        <button class="m-sec-btn" id="emojiCancel">Cancel</button>
+    </div>
+</div>
 <div class="lb-bg" id="lbOv"><div class="lb-pan"><div class="lb-ti">🏆 Leaderboard</div><div id="lbList"></div><button class="lb-cl" id="lbCl">Close</button></div></div>
 <div class="rand-ov" id="randOv">
     <div class="spinner-wrap">
@@ -1691,9 +1714,7 @@ function resetAppStateForClass(){
 }
 
 /* ===== STORAGE ===== */
-function sLocal(){try{var d=students.map(function(s){return{id:s.id,name:s.name,points:s.points}});storage.setItem(skey('students'),JSON.stringify(d))}catch(e){}}
-function lLocal(){try{var r=storage.getItem(skey('students'));if(!r)return;var d=JSON.parse(r);if(!Array.isArray(d))return;d.forEach(function(r2){var s=students.find(function(x){return x.id===r2.id});if(s){if(r2.name)s.name=r2.name;if(typeof r2.points==='number')s.points=r2.points}})}catch(e){}}
-
+function lLocal(){try{var r=storage.getItem(skey('students'));if(!r)return;var d=JSON.parse(r);if(!Array.isArray(d))return;d.forEach(function(r2){var s=students.find(function(x){return x.id===r2.id});if(s){if(r2.name)s.name=r2.name;if(typeof r2.points==='number')s.points=r2.points;if(r2.emoji)s.emoji=r2.emoji}})}catch(e){}}
 /* ===== FIREBASE HELPERS ===== */
 function fbPut(path,data){return fetch(FB+path+'.json',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)}).catch(function(){})}
 function fbPost(path,data){return fetch(FB+path+'.json',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)}).catch(function(){})}
@@ -1704,7 +1725,7 @@ var syncDot=document.getElementById('syncDot');
 function setSync(s){syncDot.className='sync-d '+s}
 
 var saveTimer=null;
-function saveData(){sLocal();clearTimeout(saveTimer);saveTimer=setTimeout(function(){var d={};students.forEach(function(s){d[s.id]={name:s.name,points:s.points}});fbPut(P,d).then(function(){setSync('online')}).catch(function(){setSync('offline')})},400)}
+function saveData(){sLocal();clearTimeout(saveTimer);saveTimer=setTimeout(function(){var d={};students.forEach(function(s){d[s.id]={name:s.name,points:s.points,emoji:s.emoji}});
 
 /* ===== TOAST ===== */
 function toast(m,err){var el=document.getElementById('toast');el.textContent=m;el.classList.toggle('err',!!err);el.classList.add('vis');clearTimeout(toast._t);toast._t=setTimeout(function(){el.classList.remove('vis','err')},2200)}
@@ -1868,10 +1889,13 @@ function refreshAll(){
     students.forEach(function(s){
         var n=document.querySelector('[data-nm="'+s.id+'"]');
         var p=document.querySelector('[data-pt="'+s.id+'"]');
+        var card=document.querySelector('.sc[data-id="'+s.id+'"] .se');
         if(n)n.textContent=s.name;
+        if(card)card.textContent=s.emoji;
         if(p){p.textContent=s.points;p.className='sp '+(s.points>0?'pos':s.points<0?'neg':'zer')}
     });
     updTotal();updCrown();updateMyPts();
+}
 }
 function updTotal(){
     var t=0;
@@ -1905,7 +1929,41 @@ function closeDetail(){if(activeId!==null){var n=document.getElementById('mName'
 document.getElementById('mClose').addEventListener('click',closeDetail);
 detailM.addEventListener('click',function(e){if(e.target===detailM)closeDetail()});
 document.querySelectorAll('.m-btn').forEach(function(b){b.addEventListener('click',function(){if(activeId===null)return;changePts(activeId,parseInt(b.dataset.d));updMPts()})});
+/* ===== TEACHER CHANGE STUDENT ICON ===== */
+var emojiModal=document.getElementById('emojiModal');
+var emojiGrid=document.getElementById('emojiGrid');
 
+function openEmojiPicker(){
+    if(activeId===null)return;
+    emojiGrid.innerHTML='';
+    EMOJIS.forEach(function(em){
+        var btn=document.createElement('button');
+        btn.className='emoji-pick-btn';
+        btn.type='button';
+        btn.textContent=em;
+        btn.addEventListener('click',function(){
+            students[activeId].emoji=em;
+            var mEmoji=document.getElementById('mEmoji');
+            if(mEmoji)mEmoji.textContent=em;
+            refreshAll();
+            buildLogin();
+            if(isStudent&&myId!==null)setupStudentUI();
+            saveData();
+            emojiModal.classList.remove('show');
+            toast('😀 Student icon updated');
+        });
+        emojiGrid.appendChild(btn);
+    });
+    emojiModal.classList.add('show');
+}
+
+document.getElementById('mChangeEmoji').addEventListener('click',openEmojiPicker);
+document.getElementById('emojiCancel').addEventListener('click',function(){
+    emojiModal.classList.remove('show');
+});
+emojiModal.addEventListener('click',function(e){
+    if(e.target===emojiModal)emojiModal.classList.remove('show');
+});
 /* ===== RESET ===== */
 var confD=document.getElementById('confirmDlg');
 document.getElementById('btnReset').addEventListener('click',function(){confD.classList.add('show')});
@@ -4875,8 +4933,11 @@ function pollData(){
         if(!d||typeof d!=='object')return;
         var changed=false;
         Object.keys(d).forEach(function(k){var id=parseInt(k);if(isNaN(id))return;var s=students.find(function(x){return x.id===id});
-            if(s&&d[k]){if(d[k].name&&d[k].name!==s.name){s.name=d[k].name;changed=true}if(typeof d[k].points==='number'&&d[k].points!==s.points){var delta=d[k].points-s.points;s.points=d[k].points;updCard(id,delta);changed=true}}
-        });
+if(s&&d[k]){
+    if(d[k].name&&d[k].name!==s.name){s.name=d[k].name;changed=true}
+    if(d[k].emoji&&d[k].emoji!==s.emoji){s.emoji=d[k].emoji;changed=true}
+    if(typeof d[k].points==='number'&&d[k].points!==s.points){var delta=d[k].points-s.points;s.points=d[k].points;updCard(id,delta);changed=true}
+}        });
         if(changed){students.forEach(function(s){var n=document.querySelector('[data-nm="'+s.id+'"]');if(n)n.textContent=s.name});updTotal();updCrown();updateMyPts();sLocal();buildLogin()}
         setSync('online');
     }).catch(function(){setSync('offline')});
@@ -5086,8 +5147,7 @@ function bootPulls(){
 
     fbGet(P).then(function(d){
         if(d&&typeof d==='object'){
-            Object.keys(d).forEach(function(k){var id=parseInt(k);if(isNaN(id))return;var s=students.find(function(x){return x.id===id});if(s&&d[k]){if(d[k].name)s.name=d[k].name;if(typeof d[k].points==='number')s.points=d[k].points}});
-            refreshAll();sLocal();buildLogin();if(isStudent&&myId!==null)setupStudentUI();
+Object.keys(d).forEach(function(k){var id=parseInt(k);if(isNaN(id))return;var s=students.find(function(x){return x.id===id});if(s&&d[k]){if(d[k].name)s.name=d[k].name;if(typeof d[k].points==='number')s.points=d[k].points;if(d[k].emoji)s.emoji=d[k].emoji}});            refreshAll();sLocal();buildLogin();if(isStudent&&myId!==null)setupStudentUI();
             setSync('online');
         }
     });
