@@ -1207,14 +1207,8 @@
         </div>
         <div class="grp-student-banner student-only hidden" id="grpStudentBanner" data-gc="0"></div>
         <div class="gw-student-section student-only hidden" id="gwStudentSection" data-gc="0"></div>
-        <div class="react-bar student-only-flex" id="reactBar">
-            <span class="react-bar-l">React</span>
-        </div>
-        <div class="whiteboard">
-            <div class="wb-l">Class Total Points</div>
-            <div class="wb-t" id="totalPts">0</div>
-        </div>
         <div class="desk-l" id="deskTopLabel">— Front Row —</div>
+        
         <div class="seating" id="seating"></div>
     </div>
 
@@ -1852,8 +1846,12 @@ function refreshAll(){
     });
     updTotal();updCrown();updateMyPts();
 }
-function updTotal(){var t=0;students.forEach(function(s){t+=s.points});document.getElementById('totalPts').textContent=t}
-function updCrown(){var mx=-Infinity;students.forEach(function(s){if(s.points>mx)mx=s.points});document.querySelectorAll('[data-cr]').forEach(function(el){var ci2=parseInt(el.dataset.cr);el.style.display=(mx>0&&students[ci2]&&students[ci2].points===mx)?'block':'none'})}
+function updTotal(){
+    var t=0;
+    students.forEach(function(s){t+=s.points});
+    var totalEl=document.getElementById('totalPts');
+    if(totalEl)totalEl.textContent=t;
+}function updCrown(){var mx=-Infinity;students.forEach(function(s){if(s.points>mx)mx=s.points});document.querySelectorAll('[data-cr]').forEach(function(el){var ci2=parseInt(el.dataset.cr);el.style.display=(mx>0&&students[ci2]&&students[ci2].points===mx)?'block':'none'})}
 function changePts(idx,delta){students[idx].points+=delta;updCard(idx,delta);updTotal();updCrown();updateMyPts();saveData()}
 function updCard(idx,delta){
     var p=document.querySelector('[data-pt="'+idx+'"]');var c=document.querySelector('.sc[data-id="'+idx+'"]');var s=students[idx];
@@ -2643,8 +2641,8 @@ function buildReactBtns(container){
         container.appendChild(b);
     });
 }
-buildReactBtns(document.getElementById('reactBar'));
-
+var reactBarEl=document.getElementById('reactBar');
+if(reactBarEl)buildReactBtns(reactBarEl);
 function showReaction(em){
     var el=document.createElement('div');el.className='fr';el.textContent=em;
     el.style.left=(5+Math.random()*85)+'%';var dur=2+Math.random()*1.5;el.style.animationDuration=dur+'s';
