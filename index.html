@@ -463,6 +463,10 @@
         .m-close{width:100%;padding:13px;border:none;border-radius:12px;font-family:'Nunito',sans-serif;font-size:15px;font-weight:800;cursor:pointer;background:var(--acc);color:#fff}
         .m-sec-btn{width:100%;padding:13px;border:none;border-radius:12px;font-family:'Nunito',sans-serif;font-size:15px;font-weight:800;cursor:pointer;background:var(--bgc);color:var(--t2);border:1.5px solid var(--brd);margin-top:8px}
 
+        .emoji-pick-btn{border:none;background:var(--bg2);border-radius:12px;font-size:28px;padding:10px 0;cursor:pointer;transition:transform .12s ease, box-shadow .12s ease, background .12s ease}
+        .emoji-pick-btn:hover{transform:translateY(-1px);box-shadow:var(--sh);background:var(--bgc)}
+        .emoji-pick-btn:active{transform:scale(.92)}
+
         .ne-input{font-family:'Fredoka',sans-serif;font-size:18px;font-weight:600;background:var(--bg2);border:2px solid var(--brd);border-radius:12px;padding:10px 14px;color:var(--t1);width:100%;outline:none;margin-bottom:10px}
         .ne-input:focus{border-color:var(--acc)}
         .ne-textarea{width:100%;min-height:80px;background:var(--bg2);border:2px solid var(--brd);border-radius:12px;padding:10px 14px;font-family:'Nunito',sans-serif;font-size:15px;color:var(--t1);outline:none;resize:vertical;margin-bottom:10px;line-height:1.5}
@@ -775,371 +779,102 @@
         @media(max-width:600px){.dt-grid{grid-template-columns:1fr}.dt-form-row{grid-template-columns:1fr}.dt-card-actions{opacity:1}}
         @media(max-width:768px){.header{padding:8px 12px}.app-t{font-size:18px}.sc{padding:8px 5px 6px;border-radius:12px}.sp{font-size:26px}.se{font-size:20px}.sn{font-size:11px}.pb{width:38px;height:32px;font-size:17px}.whiteboard{margin:8px 10px 4px;padding:10px 14px}.wb-t{font-size:28px}.seating{padding:4px 6px 6px}}
         @media(max-width:520px){.sc{width:calc(33.33% - 6px)}.seat-row{flex-wrap:wrap}.sp{font-size:24px}.pb{width:36px;height:30px;font-size:16px}}
-@media(min-width:1024px){
-    .seating{max-width:1180px;margin:0 auto}
-    .whiteboard{max-width:1160px;margin-left:auto;margin-right:auto}
-    .progress-strip{max-width:1160px;margin-left:auto;margin-right:auto}
-    .my-card-wrap{max-width:1160px;margin-left:auto;margin-right:auto}
-}       /* ===== IPAD PRO 12.9 BOARD FIT PATCH ===== */
-    @media screen and (min-width: 1024px) and (max-width: 1400px) and (pointer: coarse) {
-
-        /* tighter overall board spacing */
-        .header{
-            padding:6px 12px;
+        @media(min-width:1024px){
+            .seating{max-width:1180px;margin:0 auto}
+            .whiteboard{max-width:1160px;margin-left:auto;margin-right:auto}
+            .progress-strip{max-width:1160px;margin-left:auto;margin-right:auto}
+            .my-card-wrap{max-width:1160px;margin-left:auto;margin-right:auto}
         }
 
-        .app-ico{
-            width:34px;
-            height:34px;
-            font-size:16px;
-            border-radius:10px;
+        /* ===== IPAD PRO 12.9 BOARD FIT PATCH ===== */
+        @media screen and (min-width: 1024px) and (max-width: 1400px) and (pointer: coarse) {
+            .header{padding:6px 12px}
+            .app-ico{width:34px;height:34px;font-size:16px;border-radius:10px}
+            .app-t{font-size:17px;line-height:1}
+            .app-s{font-size:10px}
+            .hb{width:34px;height:34px;font-size:13px;border-radius:9px}
+            .progress-strip{margin:6px 10px;padding:8px 12px;border-radius:12px}
+            .my-card-wrap{margin:6px 10px;padding:10px 12px;border-radius:14px}
+            .my-card-top{margin-bottom:8px}
+            .mc-emoji{font-size:30px}
+            .mc-name{font-size:16px}
+            .mc-pts{font-size:26px}
+            .status-btns{gap:6px}
+            .st-btn{padding:8px 4px;font-size:11px;border-radius:10px}
+            .st-btn i{font-size:14px}
+            .cw-section{margin:6px 10px;padding:10px 12px;border-radius:14px}
+            .whiteboard{margin:6px 10px 4px;padding:8px 12px;border-radius:12px}
+            .wb-l{font-size:10px;letter-spacing:1px}
+            .wb-t{font-size:24px;line-height:1.05}
+            .desk-l{margin:2px 0 1px;font-size:8px;letter-spacing:2px;opacity:.35}
+            .seating{padding:2px 8px 4px}
+            .seat-row{gap:6px;margin-bottom:6px}
+            .sc{border-radius:12px;padding:6px 4px 5px;box-shadow:0 3px 10px rgba(44,24,16,.07)}
+            .ca{left:8px;right:8px;height:2px}
+            .st-ind{width:10px;height:10px;top:4px;left:4px}
+            .crown{font-size:12px;top:-5px;right:4px}
+            .se{font-size:18px;margin-bottom:0}
+            .sn{font-size:10px;line-height:1.1;padding:0 1px}
+            .sp{font-size:22px;margin:2px 0 4px}
+            .cbtns{gap:4px}
+            .pb{width:34px;height:28px;font-size:15px;border-radius:8px}
+            .react-bar{margin:6px 10px;padding:8px 10px;border-radius:12px}
+            .rb{width:34px;height:34px;font-size:18px}
+            .tc{padding-bottom:76px}
+            .tab-bar{padding:4px 8px 12px;padding-bottom:max(12px, env(safe-area-inset-bottom))}
+            .tab-btn{padding:4px 2px;gap:2px;font-size:9px}
+            .tab-btn i{font-size:16px}
+            .tab-btn .badge{top:0}
         }
 
-        .app-t{
-            font-size:17px;
-            line-height:1;
+        /* ===== IPAD: REDUCE ROW LABEL HEIGHT ===== */
+        @media screen and (min-width: 1024px) and (max-width: 1400px) and (pointer: coarse) {
+            .seating .desk-l{display:none}
+            #deskTopLabel{display:block;margin:4px 0 2px;font-size:9px;letter-spacing:2px;opacity:.4}
         }
 
-        .app-s{
-            font-size:10px;
+        /* ===== IPAD: BALANCED SEAT PLAN FIT ===== */
+        @media screen and (min-width: 1024px) and (max-width: 1400px) and (pointer: coarse) {
+            .seating{max-width:1180px;padding:4px 8px 6px}
+            .seat-row{flex-wrap:nowrap;gap:7px;margin-bottom:7px}
+            .seat-row .sc{min-height:auto;max-width:none;padding:7px 4px 6px;border-radius:13px}
+            .sc .sn{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;font-size:10px;line-height:1.1}
+            .se{font-size:18px;margin-bottom:0}
+            .sp{font-size:23px;margin:2px 0 4px}
+            .pb{width:34px;height:28px;font-size:15px;border-radius:8px}
         }
 
-        .hb{
-            width:34px;
-            height:34px;
-            font-size:13px;
-            border-radius:9px;
+        /* ===== IPAD: BOARD TAB HEIGHT EFFICIENCY ===== */
+        @media screen and (min-width: 1024px) and (max-width: 1400px) and (pointer: coarse) {
+            #tabBoard{padding-bottom:72px}
+            #tabBoard .progress-strip.teacher-only{margin-bottom:4px}
+            #tabBoard .cw-section.teacher-only,
+            #tabBoard .cw-section.student-only,
+            #tabBoard .my-card-wrap,
+            #tabBoard .grp-student-banner,
+            #tabBoard .gw-student-section,
+            #tabBoard .react-bar{margin-top:6px;margin-bottom:6px}
+            #tabBoard .whiteboard{margin-top:6px;margin-bottom:4px}
         }
 
-        .progress-strip{
-            margin:6px 10px;
-            padding:8px 12px;
-            border-radius:12px;
+        /* ===== PORTRAIT TABLET SMALL WARNING STRIP SPACE SAVER ===== */
+        @media screen and (min-width: 768px) and (max-width: 1024px) and (pointer: coarse) {
+            .seat-row{gap:5px}
+            .sc{padding:6px 4px 5px}
+            .sn{font-size:10px}
+            .sp{font-size:22px}
+            .pb{width:32px;height:28px;font-size:14px}
         }
 
-        .my-card-wrap{
-            margin:6px 10px;
-            padding:10px 12px;
-            border-radius:14px;
+        /* ===== IPAD LANDSCAPE: JUST-FIT SEAT PLAN ===== */
+        @media screen and (orientation: landscape) and (min-width: 1024px) and (max-width: 1400px) and (pointer: coarse) {
+            .seat-row{gap:7px;margin-bottom:7px}
+            .sc{padding:7px 4px 6px;border-radius:13px}
+            .se{font-size:18px}
+            .sn{font-size:10px}
+            .sp{font-size:23px;margin:2px 0 4px}
+            .pb{width:34px;height:28px;font-size:15px}
         }
-
-        .my-card-top{
-            margin-bottom:8px;
-        }
-
-        .mc-emoji{
-            font-size:30px;
-        }
-
-        .mc-name{
-            font-size:16px;
-        }
-
-        .mc-pts{
-            font-size:26px;
-        }
-
-        .status-btns{
-            gap:6px;
-        }
-
-        .st-btn{
-            padding:8px 4px;
-            font-size:11px;
-            border-radius:10px;
-        }
-
-        .st-btn i{
-            font-size:14px;
-        }
-
-        .cw-section{
-            margin:6px 10px;
-            padding:10px 12px;
-            border-radius:14px;
-        }
-
-        .whiteboard{
-            margin:6px 10px 4px;
-            padding:8px 12px;
-            border-radius:12px;
-        }
-
-        .wb-l{
-            font-size:10px;
-            letter-spacing:1px;
-        }
-
-        .wb-t{
-            font-size:24px;
-            line-height:1.05;
-        }
-
-        .desk-l{
-            margin:2px 0 1px;
-            font-size:8px;
-            letter-spacing:2px;
-            opacity:.35;
-        }
-
-        .seating{
-            padding:2px 8px 4px;
-        }
-
-        .seat-row{
-            gap:6px;
-            margin-bottom:6px;
-        }
-
-        .sc{
-            border-radius:12px;
-            padding:6px 4px 5px;
-            box-shadow:0 3px 10px rgba(44,24,16,.07);
-        }
-
-        .ca{
-            left:8px;
-            right:8px;
-            height:2px;
-        }
-
-        .st-ind{
-            width:10px;
-            height:10px;
-            top:4px;
-            left:4px;
-        }
-
-        .crown{
-            font-size:12px;
-            top:-5px;
-            right:4px;
-        }
-
-        .se{
-            font-size:18px;
-            margin-bottom:0;
-        }
-
-        .sn{
-            font-size:10px;
-            line-height:1.1;
-            padding:0 1px;
-        }
-
-        .sp{
-            font-size:22px;
-            margin:2px 0 4px;
-        }
-
-        .cbtns{
-            gap:4px;
-        }
-
-        .pb{
-            width:34px;
-            height:28px;
-            font-size:15px;
-            border-radius:8px;
-        }
-
-        .react-bar{
-            margin:6px 10px;
-            padding:8px 10px;
-            border-radius:12px;
-        }
-
-        .rb{
-            width:34px;
-            height:34px;
-            font-size:18px;
-        }
-
-        .tc{
-            padding-bottom:76px;
-        }
-
-        .tab-bar{
-            padding:4px 8px 12px;
-            padding-bottom:max(12px, env(safe-area-inset-bottom));
-        }
-
-        .tab-btn{
-            padding:4px 2px;
-            gap:2px;
-            font-size:9px;
-        }
-
-        .tab-btn i{
-            font-size:16px;
-        }
-
-        .tab-btn .badge{
-            top:0;
-        }
-    }
-
-    /* ===== IPAD: REDUCE ROW LABEL HEIGHT ===== */
-    @media screen and (min-width: 1024px) and (max-width: 1400px) and (pointer: coarse) {
-        .seating .desk-l{
-            display:none;
-        }
-
-        #deskTopLabel{
-            display:block;
-            margin:4px 0 2px;
-            font-size:9px;
-            letter-spacing:2px;
-            opacity:.4;
-        }
-    }
-
-  /* ===== IPAD: BALANCED SEAT PLAN FIT ===== */
-@media screen and (min-width: 1024px) and (max-width: 1400px) and (pointer: coarse) {
-    .seating{
-        max-width:1180px;
-        padding:4px 8px 6px;
-    }
-
-    .seat-row{
-        flex-wrap:nowrap;
-        gap:7px;
-        margin-bottom:7px;
-    }
-
-    .seat-row .sc{
-        min-height:auto;
-        max-width:none;
-        padding:7px 4px 6px;
-        border-radius:13px;
-    }
-
-    .sc .sn{
-        white-space:nowrap;
-        overflow:hidden;
-        text-overflow:ellipsis;
-        max-width:100%;
-        font-size:10px;
-        line-height:1.1;
-    }
-
-    .se{
-        font-size:18px;
-        margin-bottom:0;
-    }
-
-    .sp{
-        font-size:23px;
-        margin:2px 0 4px;
-    }
-
-    .pb{
-        width:34px;
-        height:28px;
-        font-size:15px;
-        border-radius:8px;
-    }
-}
-
-    /* ===== IPAD: BOARD TAB HEIGHT EFFICIENCY ===== */
-    @media screen and (min-width: 1024px) and (max-width: 1400px) and (pointer: coarse) {
-        #tabBoard{
-            padding-bottom:72px;
-        }
-
-        #tabBoard .progress-strip.teacher-only{
-            margin-bottom:4px;
-        }
-
-        #tabBoard .cw-section.teacher-only,
-        #tabBoard .cw-section.student-only,
-        #tabBoard .my-card-wrap,
-        #tabBoard .grp-student-banner,
-        #tabBoard .gw-student-section,
-        #tabBoard .react-bar{
-            margin-top:6px;
-            margin-bottom:6px;
-        }
-
-        #tabBoard .whiteboard{
-            margin-top:6px;
-            margin-bottom:4px;
-        }
-    }
-
-    /* ===== PORTRAIT TABLET SMALL WARNING STRIP SPACE SAVER ===== */
-    @media screen and (min-width: 768px) and (max-width: 1024px) and (pointer: coarse) {
-        .seat-row{
-            gap:5px;
-        }
-
-        .sc{
-            padding:6px 4px 5px;
-        }
-
-        .sn{
-            font-size:10px;
-        }
-
-        .sp{
-            font-size:22px;
-        }
-
-        .pb{
-            width:32px;
-            height:28px;
-            font-size:14px;
-        }
-    }
-
-  /* ===== IPAD LANDSCAPE: JUST-FIT SEAT PLAN ===== */
-@media screen and (orientation: landscape) and (min-width: 1024px) and (max-width: 1400px) and (pointer: coarse) {
-    .seat-row{
-        gap:7px;
-        margin-bottom:7px;
-    }
-
-    .sc{
-        padding:7px 4px 6px;
-        border-radius:13px;
-    }
-
-    .se{
-        font-size:18px;
-    }
-
-    .sn{
-        font-size:10px;
-    }
-
-    .sp{
-        font-size:23px;
-        margin:2px 0 4px;
-    }
-
-    .pb{
-        width:34px;
-        height:28px;
-        font-size:15px;
-    }
-}
-.emoji-pick-btn{
-    border:none;
-    background:var(--bg2);
-    border-radius:12px;
-    font-size:28px;
-    padding:10px 0;
-    cursor:pointer;
-    transition:transform .12s ease, box-shadow .12s ease, background .12s ease;
-}
-.emoji-pick-btn:hover{
-    transform:translateY(-1px);
-    box-shadow:var(--sh);
-    background:var(--bgc);
-}
-.emoji-pick-btn:active{
-    transform:scale(.92);
-}
     </style>
 </head>
 <body>
@@ -1252,7 +987,6 @@
         <div class="grp-student-banner student-only hidden" id="grpStudentBanner" data-gc="0"></div>
         <div class="gw-student-section student-only hidden" id="gwStudentSection" data-gc="0"></div>
         <div class="desk-l" id="deskTopLabel">— Front Row —</div>
-        
         <div class="seating" id="seating"></div>
     </div>
 
@@ -1351,7 +1085,8 @@
     </nav>
 </div>
 
-<div class="modal-bg teacher-only" id="detailModal"><div class="modal-box"><div class="m-head"><div class="m-emoji" id="mEmoji"></div><input class="m-input" id="mName" type="text" maxlength="40" placeholder="Student name"></div><div class="m-pts" id="mPts">0</div><div class="m-grid"><button class="m-btn mn" data-d="-5">−5</button><button class="m-btn mn" data-d="-2">−2</button><button class="m-btn mn" data-d="-1">−1</button><button class="m-btn mp" data-d="1">+1</button><button class="m-btn mp" data-d="2">+2</button><button class="m-btn mp" data-d="5">+5</button></div><button class="m-sec-btn" id="mChangeEmoji"><i class="fas fa-face-smile"></i> Change Icon</button><button class="m-close" id="mClose">Done</button></div></div><div class="confirm-bg" id="confirmDlg"><div class="confirm-box"><div class="ci">🔄</div><p>Reset all points to zero?</p><div class="cb"><button class="cbtn cc" id="cCancel">Cancel</button><button class="cbtn cd" id="cConfirm">Reset All</button></div></div></div>
+<div class="modal-bg teacher-only" id="detailModal"><div class="modal-box"><div class="m-head"><div class="m-emoji" id="mEmoji"></div><input class="m-input" id="mName" type="text" maxlength="40" placeholder="Student name"></div><div class="m-pts" id="mPts">0</div><div class="m-grid"><button class="m-btn mn" data-d="-5">−5</button><button class="m-btn mn" data-d="-2">−2</button><button class="m-btn mn" data-d="-1">−1</button><button class="m-btn mp" data-d="1">+1</button><button class="m-btn mp" data-d="2">+2</button><button class="m-btn mp" data-d="5">+5</button></div><button class="m-sec-btn" id="mChangeEmoji"><i class="fas fa-face-smile"></i> Change Icon</button><button class="m-close" id="mClose">Done</button></div></div>
+
 <div class="modal-bg teacher-only" id="emojiModal">
     <div class="modal-box">
         <div style="font-family:'Fredoka',sans-serif;font-size:20px;font-weight:700;text-align:center;margin-bottom:12px">😀 Change Student Icon</div>
@@ -1359,6 +1094,8 @@
         <button class="m-sec-btn" id="emojiCancel">Cancel</button>
     </div>
 </div>
+
+<div class="confirm-bg" id="confirmDlg"><div class="confirm-box"><div class="ci">🔄</div><p>Reset all points to zero?</p><div class="cb"><button class="cbtn cc" id="cCancel">Cancel</button><button class="cbtn cd" id="cConfirm">Reset All</button></div></div></div>
 <div class="lb-bg" id="lbOv"><div class="lb-pan"><div class="lb-ti">🏆 Leaderboard</div><div id="lbList"></div><button class="lb-cl" id="lbCl">Close</button></div></div>
 <div class="rand-ov" id="randOv">
     <div class="spinner-wrap">
@@ -1592,7 +1329,8 @@ function makeStudentsForClass(){
             emoji:EMOJIS[i%EMOJIS.length],
             color:COLORS[i%COLORS.length],
             status:'',
-            password:(CURRENT_CLASS.studentPasswords&&CURRENT_CLASS.studentPasswords[i])?CURRENT_CLASS.studentPasswords[i]:''
+            password:(CURRENT_CLASS.studentPasswords&&CURRENT_CLASS.studentPasswords[i])?CURRENT_CLASS.studentPasswords[i]:'',
+            customEmoji:false
         });
     }
 }
@@ -1714,7 +1452,9 @@ function resetAppStateForClass(){
 }
 
 /* ===== STORAGE ===== */
-function lLocal(){try{var r=storage.getItem(skey('students'));if(!r)return;var d=JSON.parse(r);if(!Array.isArray(d))return;d.forEach(function(r2){var s=students.find(function(x){return x.id===r2.id});if(s){if(r2.name)s.name=r2.name;if(typeof r2.points==='number')s.points=r2.points;if(r2.emoji)s.emoji=r2.emoji}})}catch(e){}}
+function sLocal(){try{var d=students.map(function(s){return{id:s.id,name:s.name,points:s.points,emoji:s.emoji,customEmoji:!!s.customEmoji}});storage.setItem(skey('students'),JSON.stringify(d))}catch(e){}}
+function lLocal(){try{var r=storage.getItem(skey('students'));if(!r)return;var d=JSON.parse(r);if(!Array.isArray(d))return;d.forEach(function(r2){var s=students.find(function(x){return x.id===r2.id});if(s){if(r2.name)s.name=r2.name;if(typeof r2.points==='number')s.points=r2.points;if(r2.emoji)s.emoji=r2.emoji;s.customEmoji=!!r2.customEmoji}})}catch(e){}}
+
 /* ===== FIREBASE HELPERS ===== */
 function fbPut(path,data){return fetch(FB+path+'.json',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)}).catch(function(){})}
 function fbPost(path,data){return fetch(FB+path+'.json',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)}).catch(function(){})}
@@ -1725,7 +1465,15 @@ var syncDot=document.getElementById('syncDot');
 function setSync(s){syncDot.className='sync-d '+s}
 
 var saveTimer=null;
-function saveData(){sLocal();clearTimeout(saveTimer);saveTimer=setTimeout(function(){var d={};students.forEach(function(s){d[s.id]={name:s.name,points:s.points,emoji:s.emoji}});
+function saveData(){
+    sLocal();
+    clearTimeout(saveTimer);
+    saveTimer=setTimeout(function(){
+        var d={};
+        students.forEach(function(s){d[s.id]={name:s.name,points:s.points,emoji:s.emoji,customEmoji:!!s.customEmoji}});
+        fbPut(P,d).then(function(){setSync('online')}).catch(function(){setSync('offline')})
+    },400)
+}
 
 /* ===== TOAST ===== */
 function toast(m,err){var el=document.getElementById('toast');el.textContent=m;el.classList.toggle('err',!!err);el.classList.add('vis');clearTimeout(toast._t);toast._t=setTimeout(function(){el.classList.remove('vis','err')},2200)}
@@ -1896,13 +1644,13 @@ function refreshAll(){
     });
     updTotal();updCrown();updateMyPts();
 }
-}
 function updTotal(){
     var t=0;
     students.forEach(function(s){t+=s.points});
     var totalEl=document.getElementById('totalPts');
     if(totalEl)totalEl.textContent=t;
-}function updCrown(){var mx=-Infinity;students.forEach(function(s){if(s.points>mx)mx=s.points});document.querySelectorAll('[data-cr]').forEach(function(el){var ci2=parseInt(el.dataset.cr);el.style.display=(mx>0&&students[ci2]&&students[ci2].points===mx)?'block':'none'})}
+}
+function updCrown(){var mx=-Infinity;students.forEach(function(s){if(s.points>mx)mx=s.points});document.querySelectorAll('[data-cr]').forEach(function(el){var ci2=parseInt(el.dataset.cr);el.style.display=(mx>0&&students[ci2]&&students[ci2].points===mx)?'block':'none'})}
 function changePts(idx,delta){students[idx].points+=delta;updCard(idx,delta);updTotal();updCrown();updateMyPts();saveData()}
 function updCard(idx,delta){
     var p=document.querySelector('[data-pt="'+idx+'"]');var c=document.querySelector('.sc[data-id="'+idx+'"]');var s=students[idx];
@@ -1929,6 +1677,7 @@ function closeDetail(){if(activeId!==null){var n=document.getElementById('mName'
 document.getElementById('mClose').addEventListener('click',closeDetail);
 detailM.addEventListener('click',function(e){if(e.target===detailM)closeDetail()});
 document.querySelectorAll('.m-btn').forEach(function(b){b.addEventListener('click',function(){if(activeId===null)return;changePts(activeId,parseInt(b.dataset.d));updMPts()})});
+
 /* ===== TEACHER CHANGE STUDENT ICON ===== */
 var emojiModal=document.getElementById('emojiModal');
 var emojiGrid=document.getElementById('emojiGrid');
@@ -1943,10 +1692,19 @@ function openEmojiPicker(){
         btn.textContent=em;
         btn.addEventListener('click',function(){
             students[activeId].emoji=em;
+            students[activeId].customEmoji=true;
             var mEmoji=document.getElementById('mEmoji');
             if(mEmoji)mEmoji.textContent=em;
             refreshAll();
             buildLogin();
+            buildSeating();
+            refreshAll();
+            renderCwTeacher();
+            renderCwStudent();
+            renderCwHistory();
+            renderTchrMarked();
+            renderStudentGw();
+            renderStudentGrpBanner();
             if(isStudent&&myId!==null)setupStudentUI();
             saveData();
             emojiModal.classList.remove('show');
@@ -1964,6 +1722,7 @@ document.getElementById('emojiCancel').addEventListener('click',function(){
 emojiModal.addEventListener('click',function(e){
     if(e.target===emojiModal)emojiModal.classList.remove('show');
 });
+
 /* ===== RESET ===== */
 var confD=document.getElementById('confirmDlg');
 document.getElementById('btnReset').addEventListener('click',function(){confD.classList.add('show')});
@@ -2124,7 +1883,7 @@ document.getElementById('shareCl').addEventListener('click',function(){shareOv.c
 shareOv.addEventListener('click',function(e){if(e.target===shareOv)shareOv.classList.remove('show')});
 
 /* ===== KEYBOARD ===== */
-document.addEventListener('keydown',function(e){if(e.key==='Escape'){if(cwViewerOpen){closeCwViewer();return}closeDetail();confD.classList.remove('show');lbOv.classList.remove('show');randOv.classList.remove('show');shareOv.classList.remove('show');document.getElementById('noteModal').classList.remove('show');document.getElementById('imgViewer').classList.remove('show')}});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){if(cwViewerOpen){closeCwViewer();return}closeDetail();confD.classList.remove('show');lbOv.classList.remove('show');randOv.classList.remove('show');shareOv.classList.remove('show');document.getElementById('noteModal').classList.remove('show');document.getElementById('imgViewer').classList.remove('show');emojiModal.classList.remove('show')}});
 
 /* ===== STATUS SYSTEM ===== */
 document.getElementById('statusBtns').addEventListener('click',function(e){
@@ -4932,13 +4691,22 @@ function pollData(){
     fbGet(P).then(function(d){
         if(!d||typeof d!=='object')return;
         var changed=false;
-        Object.keys(d).forEach(function(k){var id=parseInt(k);if(isNaN(id))return;var s=students.find(function(x){return x.id===id});
-if(s&&d[k]){
-    if(d[k].name&&d[k].name!==s.name){s.name=d[k].name;changed=true}
-    if(d[k].emoji&&d[k].emoji!==s.emoji){s.emoji=d[k].emoji;changed=true}
-    if(typeof d[k].points==='number'&&d[k].points!==s.points){var delta=d[k].points-s.points;s.points=d[k].points;updCard(id,delta);changed=true}
-}        });
-        if(changed){students.forEach(function(s){var n=document.querySelector('[data-nm="'+s.id+'"]');if(n)n.textContent=s.name});updTotal();updCrown();updateMyPts();sLocal();buildLogin()}
+        Object.keys(d).forEach(function(k){
+            var id=parseInt(k);if(isNaN(id))return;
+            var s=students.find(function(x){return x.id===id});
+            if(s&&d[k]){
+                if(d[k].name&&d[k].name!==s.name){s.name=d[k].name;changed=true}
+                if(d[k].emoji&&d[k].emoji!==s.emoji){s.emoji=d[k].emoji;changed=true}
+                if(typeof d[k].customEmoji!=='undefined'&&!!d[k].customEmoji!==!!s.customEmoji){s.customEmoji=!!d[k].customEmoji;changed=true}
+                if(typeof d[k].points==='number'&&d[k].points!==s.points){var delta=d[k].points-s.points;s.points=d[k].points;updCard(id,delta);changed=true}
+            }
+        });
+        if(changed){
+            students.forEach(function(s){var n=document.querySelector('[data-nm="'+s.id+'"]');if(n)n.textContent=s.name});
+            refreshAll();sLocal();buildLogin();
+            if(isStudent&&myId!==null)setupStudentUI();
+            renderCwTeacher();renderCwStudent();renderCwHistory();renderTchrMarked();renderStudentGw();renderStudentGrpBanner();
+        }
         setSync('online');
     }).catch(function(){setSync('offline')});
 }
@@ -5147,7 +4915,17 @@ function bootPulls(){
 
     fbGet(P).then(function(d){
         if(d&&typeof d==='object'){
-Object.keys(d).forEach(function(k){var id=parseInt(k);if(isNaN(id))return;var s=students.find(function(x){return x.id===id});if(s&&d[k]){if(d[k].name)s.name=d[k].name;if(typeof d[k].points==='number')s.points=d[k].points;if(d[k].emoji)s.emoji=d[k].emoji}});            refreshAll();sLocal();buildLogin();if(isStudent&&myId!==null)setupStudentUI();
+            Object.keys(d).forEach(function(k){
+                var id=parseInt(k);if(isNaN(id))return;
+                var s=students.find(function(x){return x.id===id});
+                if(s&&d[k]){
+                    if(d[k].name)s.name=d[k].name;
+                    if(typeof d[k].points==='number')s.points=d[k].points;
+                    if(d[k].emoji)s.emoji=d[k].emoji;
+                    s.customEmoji=!!d[k].customEmoji;
+                }
+            });
+            refreshAll();sLocal();buildLogin();if(isStudent&&myId!==null)setupStudentUI();
             setSync('online');
         }
     });
