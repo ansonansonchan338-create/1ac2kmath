@@ -1106,7 +1106,7 @@
     <button class="spinner-btn" id="spinnerBtn">🎰 SPIN</button>
 </div>
 <div class="share-bg teacher-only" id="shareOv"><div class="share-mod"><div style="font-size:42px">📲</div><div style="font-family:'Fredoka',sans-serif;font-size:20px;font-weight:700;margin:6px 0 2px">Share with Students</div><div style="font-size:13px;color:var(--t2);margin-bottom:12px;font-weight:600">Students scan QR or open the link</div><div class="share-qr" id="shareQR"></div><div class="share-url" id="shareURL"></div><button class="m-close" id="shareCopy" style="margin-bottom:8px"><i class="fas fa-copy"></i> Copy Link</button><button class="m-sec-btn" id="shareCl">Close</button></div></div>
-<div class="modal-bg" id="noteModal"><div class="modal-box"><div style="font-family:'Fredoka',sans-serif;font-size:20px;font-weight:700;text-align:center;margin-bottom:14px">📎 Upload Resource</div><input class="ne-input" id="neTitle" placeholder="Title" maxlength="100"><textarea class="ne-textarea" id="neContent" placeholder="Description (optional)"></textarea><div class="file-zone" id="fileZone"><i class="fas fa-cloud-upload-alt"></i><div class="fz-t">Tap to upload file</div><div class="fz-h">PDF, images, documents (max 5MB)</div></div><div class="file-prev" id="filePrev" style="display:none"><i class="fp-icon fas fa-file"></i><div style="flex:1"><div class="fp-info" id="fpName"></div><div class="fp-size" id="fpSize"></div></div><button class="fp-rm" id="fpRemove"><i class="fas fa-times"></i></button></div><button class="m-close" id="neSave">Save</button><button class="m-sec-btn" id="neCancel">Cancel</button></div></div>
+<div class="modal-bg" id="noteModal"><div class="modal-box"><div style="font-family:'Fredoka',sans-serif;font-size:20px;font-weight:700;text-align:center;margin-bottom:14px">📎 Upload Resource</div><input class="ne-input" id="neTitle" placeholder="Title" maxlength="100"><textarea class="ne-textarea" id="neContent" placeholder="Description (optional)"></textarea><div class="file-zone" id="fileZone"><i class="fas fa-cloud-upload-alt"></i><div class="fz-t">Tap to upload file</div><div class="fz-h">PDF, images, documents (max 20MB)</div></div><div class="file-prev" id="filePrev" style="display:none"><i class="fp-icon fas fa-file"></i><div style="flex:1"><div class="fp-info" id="fpName"></div><div class="fp-size" id="fpSize"></div></div><button class="fp-rm" id="fpRemove"><i class="fas fa-times"></i></button></div><button class="m-close" id="neSave">Save</button><button class="m-sec-btn" id="neCancel">Cancel</button></div></div>
 
 <div class="img-viewer" id="imgViewer"><img id="imgViewerImg" alt="Full size"></div>
 
@@ -1959,7 +1959,7 @@ chatInput.addEventListener('input',function(){this.style.height='42px';this.styl
 document.getElementById('chatAttach').addEventListener('click',function(){chatFileInput.click()});
 chatFileInput.addEventListener('change',function(){
     var file=chatFileInput.files[0];if(!file)return;
-    if(file.size>3*1024*1024){toast('⚠️ Max file size is 3MB',1);chatFileInput.value='';return}
+    if(file.size>10*1024*1024){toast('⚠️ Max file size is 10MB',1);chatFileInput.value='';return}
     pendingChatFile=file;
     document.getElementById('cfpName').textContent=file.name;
     document.getElementById('chatFilePrev').style.display='flex';
@@ -2379,7 +2379,7 @@ document.getElementById('neCancel').addEventListener('click',function(){noteModa
 document.getElementById('fileZone').addEventListener('click',function(){noteFileInput.click()});
 noteFileInput.addEventListener('change',function(){
     var file=noteFileInput.files[0];if(!file)return;
-    if(file.size>5*1024*1024){toast('⚠️ Max file size is 5MB',1);noteFileInput.value='';return}
+    if(file.size>20*1024*1024){toast('⚠️ Max file size is 20MB',1);noteFileInput.value='';return}
     pendingNoteFile=file;
     document.getElementById('fpName').textContent=file.name;
     document.getElementById('fpSize').textContent=formatSize(file.size);
