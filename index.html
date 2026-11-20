@@ -2185,15 +2185,18 @@ chatMsgsEl.addEventListener('click',function(e){
     var mk=delBtn.getAttribute('data-mk');
     var fid=delBtn.getAttribute('data-fid');
     var enc=encodeURIComponent(CC);
-    fbDel('/forum/'+enc+'/'+mk);
-    if(fid)fbDel('/forum-files/'+enc+'/'+fid);
-    fbDel('/msg-reactions/'+enc+'/'+mk);
-    fbDel('/msg-replies/'+enc+'/'+mk);
-    delete msgReactions[mk];
-    delete msgReplies[mk];
-    chatMsgsData=chatMsgsData.filter(function(m){return m._k!==mk});
-    renderChat();
-    toast('🗑️ Message deleted');
+
+    showCwConfirm('Delete this message?',function(){
+        fbDel('/forum/'+enc+'/'+mk);
+        if(fid)fbDel('/forum-files/'+enc+'/'+fid);
+        fbDel('/msg-reactions/'+enc+'/'+mk);
+        fbDel('/msg-replies/'+enc+'/'+mk);
+        delete msgReactions[mk];
+        delete msgReplies[mk];
+        chatMsgsData=chatMsgsData.filter(function(m){return m._k!==mk});
+        renderChat();
+        toast('🗑️ Message deleted');
+    });
 });
 
 /* ===== CHAT ACTIONS: Reactions + Replies ===== */
@@ -2327,10 +2330,12 @@ function expandReplies(mk){
 
 function deleteReply(mk,rk){
     var enc=encodeURIComponent(CC);
-    fbDel('/msg-replies/'+enc+'/'+mk+'/'+rk);
-    if(msgReplies[mk])delete msgReplies[mk][rk];
-    renderChat();
-    toast('Reply deleted');
+    showCwConfirm('Delete this reply?',function(){
+        fbDel('/msg-replies/'+enc+'/'+mk+'/'+rk);
+        if(msgReplies[mk])delete msgReplies[mk][rk];
+        renderChat();
+        toast('🗑️ Reply deleted');
+    });
 }
 
 function pollMsgReactions(){
@@ -2458,16 +2463,18 @@ function renderNotes(){
         });
     });
 
-    el.querySelectorAll('.del-note').forEach(function(btn){
-        btn.addEventListener('click',function(e){
-            e.stopPropagation();
-            var nk=btn.dataset.nk;
+   el.querySelectorAll('.del-note').forEach(function(btn){
+    btn.addEventListener('click',function(e){
+        e.stopPropagation();
+        var nk=btn.dataset.nk;
+        showCwConfirm('Delete this resource?',function(){
             fbDel('/notes/'+encodeURIComponent(CC)+'/'+nk);
             fbDel('/notefiles/'+encodeURIComponent(CC)+'/'+nk);
             btn.closest('.note-card').remove();
             toast('🗑️ Note deleted');
         });
     });
+});
 
     el.querySelectorAll('.nc-img-prev[data-note-id]').forEach(function(prev){
         var nk=prev.dataset.noteId;
